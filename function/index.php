@@ -99,6 +99,20 @@ $varial_funcao = function($param_variavel){
 
 $varial_funcao("Teste");
 
+//Função recursiva
+echo  "<br><br>Função recursiva <br>";
+
+function factorial($n) {
+    if ($n == 0) {
+        return 1;
+    } else {
+        return $n * factorial($n - 1);
+    }
+}
+
+// Call the function with an argument
+echo factorial(5); // Output: 120
+
 
 
 
