@@ -10,6 +10,10 @@ session_start();
 //session_destroy(); //Excluí totalmente  a sessão
 
 echo $_SESSION['nome'];
+echo "<br /><br />";
+
+//Exibindo todos os dados da super-global session
+var_dump($_SESSION);
 
 ?>
 <!DOCTYPE html>

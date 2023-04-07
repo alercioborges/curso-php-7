@@ -8,6 +8,9 @@ echo "Variavel de sessão <br /><br />";
 session_start();
 
 $_SESSION['nome'] = "Alercio";
+$_SESSION['email'] = "alercio#email.com";
+$_SESSION['data_nascimento'] = "21-04-1989";
+
 
 ?>
 <!DOCTYPE html>
@@ -21,5 +24,6 @@ $_SESSION['nome'] = "Alercio";
 	<div>
 		<a href="session.php">Ir para a página de sessão</a>
 	</div>
+	<br><br>
 </body>
 </html>
