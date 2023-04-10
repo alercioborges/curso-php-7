@@ -8,6 +8,15 @@ interface Veiculo {
     
 }
 
+//Classe abstrata (abstract) servem somente para serem extendidadas por outra classe
+//Não é possivel instanciar uma classe do tipo abstrata
+//Diferente da interface, uma classe abstrata pode implementar métodos
+//Só é possivel fazer um 'extends' nas classes filho---
+//--mas é possivel uma classe implementar varias interfaces
+//Não obriga as classes que estenda a classe abstrata a implemetar os métodos
+//É uma forma de organização do código
+
+
 abstract class Automovel implements Veiculo {
 
     public function acelerar($velocidade){
