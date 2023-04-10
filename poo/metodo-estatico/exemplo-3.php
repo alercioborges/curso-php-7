@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 //Metodo estatico serve para organizar a estrutura da classe
 //É um metodo que pode ser chamado dentro da propria classe em que ele é criado (organização)
@@ -38,11 +38,11 @@ class Documento {
         if(empty($cpf)) {
             return false;
         }
-     
+
         $cpf = preg_match('/[0-9]/', $cpf)?$cpf:0;
-    
+
         $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
-         
+
         
         if (strlen($cpf) != 11) {
             echo "length";
@@ -60,24 +60,23 @@ class Documento {
             $cpf == '88888888888' || 
             $cpf == '99999999999') {
             return false;
-    
-         } else {   
-             
-            for ($t = 9; $t < 11; $t++) {
-                 
-                for ($d = 0, $c = 0; $c < $t; $c++) {
-                    $d += $cpf{$c} * (($t + 1) - $c);
-                }
-                $d = ((10 * $d) % 11) % 10;
-                if ($cpf{$c} != $d) {
-                    return false;
-                }
+
+    } else {   
+
+        for ($t = 9; $t < 11; $t++) {
+
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf[$c] * (($t + 1) - $c);
             }
-     
-            return true;
+            $d = ((10 * $d) % 11) % 10;
+            if ( $cpf[$c] != $d ) {
+                return false;
+            }
         }
 
+        return true;
     }
+}
 
 }
 
