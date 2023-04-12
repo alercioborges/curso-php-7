@@ -103,21 +103,102 @@ $varial_funcao("Teste");
 echo  "<br><br>Função recursiva <br>";
 
 function factorial($n) {
-    if ($n == 0) {
-        return 1;
-    } else {
-        return $n * factorial($n - 1);
-    }
+	if ($n == 0) {
+		return 1;
+	} else {
+		return $n * factorial($n - 1);
+	}
 }
 
 // Call the function with an argument
 echo factorial(5); // Output: 120
 
+/**************************************************************************************/
+
+//Outro exemplo de função recursiva
+echo  "<br><br>Outro exemplo de função recursiva <br>";
 
 
+$hierarquia = array(
 
+	array(
+		'nome_cargo'=>'CEO',
+		'subordinados'=>array(
+            //Inicio: Diretor Comercial
+			array(
+				'nome_cargo'=>'Diretor Comercial',
+				'subordinados'=>array(
+                    //Inicio: Gerente de Vendas
+					array(
+						'nome_cargo'=>'Gerente de Vendas'
+					)
+                    //Termino: Gerente de Vendas    
+				)
+			),
+            //Termino: Diretor Comercial
+            //Inicio: Diretor Financeiro
+			array(
+				'nome_cargo'=>'Diretor Financeiro',
+				'subordinados'=>array(
+                    //Inicio: Gerente de Contas a Pagar
+					array(
+						'nome_cargo'=>'Gerente de Contas a Pagar',
+						'subordinados'=>array(
+                            //Inicio: Supervisor de Pagamentos
+							array(
+								'nome_cargo'=>'Supervisor de Pagamentos'
+							)
+                            //Termino: Supervisor de Pagamentos
+						)
+					),
+                    //Termino: Gerente de Contas a Pagar
+                    //Inicio: Gerente de Compras
+					array(
+						'nome_cargo'=>'Gerente de Compras',
+						'subordinados'=>array(
+                            //Inicio: Supervisor de Suprimentos
+							array(
+								'nome_cargo'=>'Supervisor de Suprimentos'
+							)
+                            //Termino: Supervisor de Suprimentos
+						)
 
+					)
+                    //Termino: Gerente de Compras
+				)
+			)
+            //Termino: Diretor Financeiro
+		)
+	)
 
+);
 
+function exibe($cargos){
+
+	$html = '<ul>';
+
+	foreach ($cargos as $cargo) {
+
+		$html .= "<li>";
+
+		$html .= $cargo[ 'nome_cargo' ];
+
+		if (isset($cargo['subordinados']) && count($cargo['subordinados']) > 0) {
+
+			$html .= exibe($cargo['subordinados']);
+
+		}
+
+		$html .= "</li>";
+
+	}
+
+	$html .= "</ul>";
+
+	return $html;
+
+}
+
+echo exibe($hierarquia);
 
 ?>
