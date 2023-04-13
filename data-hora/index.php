@@ -32,9 +32,15 @@ $ummes = strtotime("+1 month"); echo date("d/m/Y H:i:s", $ummes)."<br>";
 $umano = strtotime("+1 year"); echo date("d/m/Y H:i:s", $umano)."<br>";
 $proxquinta = strtotime("next Thursday"); echo date("d/m/Y H:i:s", $proxquinta)."<br>";
 $ultsegunda = strtotime("last Monday"); echo date("d/m/Y H:i:s", $ultsegunda)."<br>";
-$prazo = strtotime("+1 week 2 days 4 hours 2 seconds"); echo date("d/m/Y H:i:s", $prazo)."<br>";
+$prazo = strtotime("+1 week 2 days 4 hours 2 seconds"); echo date("d/m/Y H:i:s", $prazo)."<br><br>";
 
+//Função 'setlocale'
+echo "Função setlocale <br>";
 
- 
+//Definindo o idioma de ixibição dos textos de data--
+//--para porrtugues no Linux e no windows
+setlocale(LC_ALL, "pt_BR", "pt_BR.utf-8", "portuguese");
+
+echo strftime("%A - %B - %C"); //Exibindo as informações das datas 
 
 ?>
