@@ -8,9 +8,6 @@ class Carro extends Veiculo{
 	private $modelo;
 	private $ano;
 
-		private $a;
-
-
 	public function setPlaca($placaCarro){
 		$this->placa = $placaCarro;
 	}
@@ -33,11 +30,7 @@ class Carro extends Veiculo{
 
 	public function getAno(){
 		return $this->ano;
-	}
-
-	public function setA(Veiculo $veiculo){
-		$this->a = $veiculo;
-	}
+	}	
 
 }
 
