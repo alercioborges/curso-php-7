@@ -12,7 +12,8 @@ class Sql extends Connection {
     }
 
     private function setParams($statment, $parameters = array()) {
-
+        //Adiciona no método "setParam" (abaixo) os valores e--
+        //--indices do array recebidas pelo parametro
         foreach ($parameters as $key => $value) {
 
             $this->setParam($key, $value);
@@ -46,6 +47,14 @@ class Sql extends Connection {
         $stmt = $this->setQuery($rawQuery, $params);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
+     public function insert($rawQuery, $params = []):array {
+
+        $stmt = $this->setQuery($rawQuery, $params);
+        $msg = "<br><br>Usuário cadastrado com sucesso! <br><br>";
+        return $msg;
 
     }
 
