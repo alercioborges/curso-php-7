@@ -2,7 +2,6 @@
 
 require_once("config.php");
 
-
 class Sql extends Connection {
 
     //Quando instancias a clasee Sql, ira criar uma conexao c/ o BD automaticamente
@@ -16,7 +15,7 @@ class Sql extends Connection {
         //--indices do array recebidas pelo parametro
         foreach ($parameters as $key => $value) {
 
-            $this->setParam($key, $value);
+            $this->setParam($statment, $key, $value);
 
         }
 
@@ -48,15 +47,7 @@ class Sql extends Connection {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    }
-
-     public function insert($rawQuery, $params = []):array {
-
-        $stmt = $this->setQuery($rawQuery, $params);
-        $msg = "<br><br>Usuário cadastrado com sucesso! <br><br>";
-        return $msg;
-
-    }
+    }     
 
 }
 
