@@ -29,14 +29,37 @@ echo json_encode($list);
 */
 
 /*
-$search = Usuario::searchUserByUsername("mari");
+$search = Usuario::searchUserByUsername("stdalercio");
 echo json_encode($search);
 */
 
+/*
 $login = new Usuario();
 $login->login("marinaruy", "gsdfghgdsfhh");
 
 echo $login;
+*/
+
+
+//INSERINDO NOVO USÚARIO
+$student = new Usuario();
+
+$student->setUsername("stdalerciosilva");
+$student->setEmail("stdalercioborges@email.com.br");
+$student->setFirstname("Alercio");
+$student->setUsername("stdalercio");
+$student->setLastname("Silva");
+$student->setPass("qwert");
+
+$student->insert();
+
+$search = Usuario::searchUserByEmail($student->getEmail());
+echo json_encode($search);
+
+
+
+
+
 
 
 ?>
