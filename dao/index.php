@@ -40,21 +40,26 @@ $login->login("marinaruy", "gsdfghgdsfhh");
 echo $login;
 */
 
-
+/*
 //INSERINDO NOVO USÚARIO
 $student = new Usuario();
 
-$student->setUsername("stdalerciosilva");
-$student->setEmail("stdalercioborges@email.com.br");
+$student->setUsername("absqggg5");
+$student->setEmail("abs@email.comg");
 $student->setFirstname("Alercio");
-$student->setUsername("stdalercio");
-$student->setLastname("Silva");
+$student->setLastname("stdalercio");
 $student->setPass("qwert");
 
 $student->insert();
 
 $search = Usuario::searchUserByEmail($student->getEmail());
 echo json_encode($search);
+*/
+
+
+
+$checkUser = Usuario::checkUserExists("absqggg5f", "abs@email.comg");
+print_r($checkUser);
 
 
 

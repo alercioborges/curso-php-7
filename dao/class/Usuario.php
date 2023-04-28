@@ -189,31 +189,62 @@ class Usuario {
 
 	}
 
-	public function insert(){
+	public function insert(){		
 
 		$sql = new Sql();
 
-		$results = $sql->select("CALL sp_user_insert(:USERNAME, :EMAIL, :FIRSTNAME, :LASTNAME, :PASS)", array(
-			":USERNAME" => $this->getUsername(),
-			":EMAIL" => $this->getEmail(),
-			":FIRSTNAME" => $this->getFirstname(),
-			":LASTNAME" => $this->getLastname(),
-			":PASS" => $this->getPass()
-		));
+		$checkUser = Usuario::checkUserExists($this->getUsername(), $this->getEmail());
 
-		if (count($results) > 0) {
-			$this->setData($results[0]);
+		if ($checkUser[0]['CHECK'] > 0) {
+			echo "Nome de usuário e/ou e-mail já cadastrado<br><br>";
+		} else {
+
+			$results = $sql->select("CALL sp_user_insert(:USERNAME, :EMAIL, :FIRSTNAME, :LASTNAME, :PASS)", array(
+				":USERNAME" => $this->getUsername(),
+				":EMAIL" => $this->getEmail(),
+				":FIRSTNAME" => $this->getFirstname(),
+				":LASTNAME" => $this->getLastname(),
+				":PASS" => $this->getPass()
+			));
+
+			if (count($results) > 0) {
+				$this->setData($results[0]);
+
+			}
+
+			echo 'Usuário cadastrado com sucesso!<br><br>';
 		}
 	}
 
-	public function checkUserExists($username, $email){
+	public static function checkUserExists($username, $email){
 
 		$sql = new Sql();
 
-		$results = $sql->select("SELECT * FROM tb_user WHERE username = :USERNAME OR email = :EMAIL");
+		$check_username = $sql->select("SELECT COUNT(*) AS 'CHECKUSERNAME' FROM tb_user WHERE username = '{$username}'");
+		$check_email = $sql->select("SELECT COUNT(*) AS 'CHECKEMAIL' FROM tb_user WHERE email = '{$email}'");
 
-		
+		if ($check_username[0]['CHECKUSERNAME'] > 0) {
+			$array_check_username = array(
+				'message' => "Nome de usuário já existente",
+				'status' => false
+			);
+			return $array_check_username;
 
+		} else if ($check_email[0]['CHECKEMAIL'] > 0) {
+			$array_check_email = array(
+				'message' => "E-mail já cadastrado",
+				'status' => false
+			);
+			return $array_check_email;
+
+		} else {
+			$array_check_confirm = array(
+				'message' => "Usuário Cadastrado com sucesso!",
+				'status' => true
+			);
+			return $array_check_confirm;
+			
+		}	
 
 	}
 }
