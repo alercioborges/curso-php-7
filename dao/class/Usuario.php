@@ -97,8 +97,8 @@ class Usuario {
 			$this->setFirstname($row['firstname']);
 			$this->setLastname($row['lastname']);
 			$this->setPass($row['pass']);
-			$this->setCreated(new DateTime($row['created']));
-			$this->setEdited(new DateTime($row['edited']));
+			$this->setCreated(new DateTimeImmutable($row['created']));
+			$this->setEdited(new DateTimeImmutable($row['edited']));
 
 		} else {
 			echo "Não há usuário cadastrado com o ID informado";
@@ -189,16 +189,16 @@ class Usuario {
 
 	}
 
-	public function insert(){		
+	public function insert(){
 
 		$sql = new Sql();
 
 		$checkUser = Usuario::checkUserExists($this->getUsername(), $this->getEmail());
 
-		if ($checkUser[0]['CHECK'] > 0) {
-			echo "Nome de usuário e/ou e-mail já cadastrado<br><br>";
-		} else {
+		if($checkUser['status'] == false){
+			echo $checkUser['message'] . "<br><br>";
 
+		} else{
 			$results = $sql->select("CALL sp_user_insert(:USERNAME, :EMAIL, :FIRSTNAME, :LASTNAME, :PASS)", array(
 				":USERNAME" => $this->getUsername(),
 				":EMAIL" => $this->getEmail(),
@@ -212,8 +212,42 @@ class Usuario {
 
 			}
 
-			echo 'Usuário cadastrado com sucesso!<br><br>';
+			echo $checkUser['message'] . "<br><br>";
+
 		}
+
+	}
+
+	public function update($username, $email, $firstname, $lastname, $pass){
+
+		$sql = new Sql();
+
+		//Subistituido os dados do usuario pelos passado por parametro
+		$this->setUsername($username);
+		$this->setEmail($email);
+		$this->setFirstname($firstname);
+		$this->setLastname($lastname);
+		$this->setPass($pass);
+
+		$checkUser = Usuario::checkUserExists($this->getUsername(), $this->getEmail());
+
+		if($checkUser['status'] == false){
+			echo $checkUser['message'] . "<br><br>";
+
+		} else{
+			$sql->setQuery("UPDATE tb_user SET username = :USERNAME, email = :EMAIL, firstname = :FIRSTNAME, lastname = :LASTNAME, pass = :PASS, edited = NOW() WHERE id = :ID", array(
+				':USERNAME' => $this->getUsername(),
+				':EMAIL' => $this->getEmail(),
+				':FIRSTNAME' => $this->getFirstname(),
+				':LASTNAME' => $this->getLastname(),
+				':PASS' => $this->getPass(),
+				':ID' => $this->getId()
+			));
+
+			echo "Cadastro de usuário alterado com sucesso!<br><br>";
+
+		}
+
 	}
 
 	public static function checkUserExists($username, $email){

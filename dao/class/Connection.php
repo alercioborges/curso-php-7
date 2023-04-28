@@ -24,13 +24,13 @@ class Connection extends PDO {
         Try{
             $this->conn = new PDO("{$dsn}:dbname={$dbname};host={$host}", $dbuser, $dbpass);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            echo "Conexão com o banco de dados realizada com sucesso! <br><br>";
+            
         }
         catch(PDOException $e) {
-            echo "Erro de conexão com o banco de dados: ".$e->getMessage();
-        }
+         echo "Erro de conexão com o banco de dados: ".$e->getMessage();
+     }
 
-    }
+ }
 
 }
 

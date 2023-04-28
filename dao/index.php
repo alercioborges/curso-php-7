@@ -44,22 +44,44 @@ echo $login;
 //INSERINDO NOVO USÚARIO
 $student = new Usuario();
 
-$student->setUsername("absqggg5");
-$student->setEmail("abs@email.comg");
+$student->setUsername("absqggg5gggggghhgg");
+$student->setEmail("abs@email.comggggghhgg");
 $student->setFirstname("Alercio");
 $student->setLastname("stdalercio");
 $student->setPass("qwert");
 
 $student->insert();
 
-$search = Usuario::searchUserByEmail($student->getEmail());
-echo json_encode($search);
+echo $student;
+*/
+
+/*
+//Teste do método 'checkUserExists'--
+//--que verifica se e-mail ou username já esta cadastrado
+$checkUser = Usuario::checkUserExists("absqggg5f", "abs@email.comg");
+print_r($checkUser);
+*/
+
+/*
+//Editando usuário já cadastrado
+$user_edited = new Usuario();
+
+//Carregando os dados do usuoario cadastrado no objeto
+$user_edited->loadById(111);
+
+//Inserindo os dados do usuoario à serem alterados
+$user_edited->update(
+			"ssAlercioggggh",
+			"ssalercio@ssemail.comhhhh",
+			"ssAlercio",
+			"ssBorges",
+			"gsdfgsdfg"
+		);
+
+echo $user_edited;
 */
 
 
-
-$checkUser = Usuario::checkUserExists("absqggg5f", "abs@email.comg");
-print_r($checkUser);
 
 
 
