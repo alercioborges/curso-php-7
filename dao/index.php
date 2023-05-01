@@ -83,10 +83,14 @@ echo $user_edited;
 
 
 
+//Excluíndo usuário
+$user_delete = new Usuario();
 
+//Carregando os dados do usuoario cadastrado no objeto
+$user_delete->loadById(104);
 
+$user_delete->delete();
 
-
-
+echo $user_delete;
 
 ?>

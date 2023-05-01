@@ -101,7 +101,8 @@ class Usuario {
 			$this->setEdited(new DateTimeImmutable($row['edited']));
 
 		} else {
-			echo "Não há usuário cadastrado com o ID informado";
+			echo "Não há usuário cadastrado com o ID informado<br><br>";
+			exit();
 		}
 	}
 
@@ -280,6 +281,36 @@ class Usuario {
 			
 		}	
 
+	}
+
+	public function delete(){
+
+		$sql = new Sql();
+
+		$sql->setQuery("DELETE FROM tb_user WHERE id = :ID", array(
+			':ID' => $this->getId()
+		));
+
+		$check_deleted = $sql->select("SELECT COUNT(*) AS 'CHECKDELETE' FROM tb_user WHERE id = {$this->getId()}");
+
+		if($check_deleted[0]['CHECKDELETE'] > 0) {
+			echo "Erro ao tentar deletar usuário<br><br>";
+
+		} else {
+
+		//Limpando os dados do usuário da memória
+			$this->setId(0);
+			$this->setUsername("");
+			$this->setEmail("");
+			$this->setFirstname("");
+			$this->setLastname("");
+			$this->setPass("");
+			$this->setCreated(new DateTime(""));
+			$this->setEdited(new DateTime(""));
+
+			echo "Usuário excluído com sucesso<br><br>";
+
+		}
 	}
 }
 
