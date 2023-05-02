@@ -21,7 +21,8 @@ echo json_encode(array(
 		'message' => $e->getMessage(), //msg de erro
 		'line' => $e->getLine(), //Linha em q apareceu o erro
 		'file' => $e->getFile(), //em qual arquivo deu erro
-		'code' => $e->getCode() //código do erro passadp por param.
+		'code' => $e->getCode(), //código do erro passadp por param.
+		'trace' => $e->getTrace() //Obtém o rastreamento de pilha
 
 	));	
 
@@ -55,6 +56,45 @@ try {
 echo "<br>Bloco 'finally' executado<br><br>";
 
 }
+
+echo "<br><br>";
+
+function setIdade($idade){
+
+	if (!is_int($idade)) {
+		throw new Exception("Dado de idade incorreta", 15);
+		
+	}
+
+	echo "A idade é: {$idade} <br>";
+}
+
+try {
+	setIdade(14);
+	setIdade("onze");
+
+	
+} catch (Exception $e) {
+	echo $e->getMessage(); 
+	
+}
+
+echo "<br><br>";
+
+function setProfissao($profissao){
+
+	if (!is_string($profissao)) {
+		throw new Exception("Não inseriu uuma String", 155);
+		
+	}
+
+	echo "A profissão é: {$profissao} <br>";
+}
+
+setProfissao("Médico");
+setProfissao(54);
+
+
 
 
 ?>
