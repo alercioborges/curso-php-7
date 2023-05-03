@@ -1,8 +1,10 @@
 <?php
 
+
+//Renderizando imagem 
 $filename = "logo.png";
 
-$base64 = base64_encode(file_get_contents($filename));
+$base64 = base64_encode(file_get_contents($filename)); //Lê o conteudo do arquivo
 
 $fileinfo = new finfo(FILEINFO_MIME_TYPE);
 

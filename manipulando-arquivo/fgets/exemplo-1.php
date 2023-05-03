@@ -1,16 +1,17 @@
 <?php
 
-$filename = "usuarios.csv";
+$filename = "usuarios.csv"; //Caminho/nome do arquivo
 
-if (file_exists($filename)) {
+if (file_exists($filename)) { //Verig. se o arquivo está na pasta
 
-    $file = fopen($filename, "r");
+    $file = fopen($filename, "r"); //abrindo e e lendo o arquivo
 
-    $headers = explode(",", fgets($file));
+    //Função que lê o arquivo 'fgets'
+    $headers = explode(",", fgets($file)); //Separando em um array via ','
 
     $data = array();
 
-    while ($row = fgets($file)) {
+    while ($row = fgets($file)) { //Percorrendo o arquivo
 
         $rowData = explode(",", $row);
         $linha = array();
@@ -25,9 +26,9 @@ if (file_exists($filename)) {
 
     }
 
-    fclose($file);
+    fclose($file); //Fechando o arquivo na memória
 
-    echo json_encode($data);
+    echo json_encode($data); //Tranf. o array em json
 
 }
 
