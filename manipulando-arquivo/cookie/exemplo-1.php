@@ -4,12 +4,15 @@
 
 $data = array(
 
-    "empresa"=>"Hcode Treinamentos"
+    "empresa" => "Hcode Treinamentos"
 
 );
 
-setcookie("NOME_DO_COOKIE", json_encode($data), time() + 3600);
+//Função que cria cookies 'setcookie'
+setcookie("NOME_DO_COOKIE", json_encode($data), time() + 3600); //tempo em timestamp (segundos)
+            //obrigatório definir tempo de dutação do cookie
+            //caso contratio, ao fechar o navegador, o coohie é deletado
 
-echo "OK";
+echo "OK, cookie gerado";
 
 ?>
