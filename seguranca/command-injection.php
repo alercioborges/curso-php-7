@@ -1,6 +1,6 @@
 <?php
 
-if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+if ($_SERVER["REQUEST_METHOD"] === 'POST') { //Verif. o tipo do metodo de envio do dado (POST, GET...)
 
     //Fução para evitar o cammand injection 'escapeshellcmd'--
     //--quando se utiliza funções de sistema como a função 'system' 
