@@ -1,6 +1,6 @@
 <?php
 
-class Cadastro {
+class Cadastro { //A classe tem o mesmo nome do arquivo (p\ o autoloader)
 
     private $nome;
     private $email;
