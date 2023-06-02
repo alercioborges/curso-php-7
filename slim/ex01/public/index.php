@@ -15,7 +15,7 @@ $app->get('/', function (Request $request, Response $response, $args) {
     return $response;
 });
 
-$app->get('/ola/', function (Request $request, Response $response, $args) {
+$app->get('/ola', function (Request $request, Response $response, $args) {
     $response->getBody()->write('<br><br>Hello world!<br><br>');   
     return $response;
 });
