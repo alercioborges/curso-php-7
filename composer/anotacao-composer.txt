@@ -1,0 +1,6 @@
+//Comando para realizar o download e instalação das dependencias do arquivo 'composer.json'
+composer update
+
+
+//Comando para atualizar o composer de alterações de arquivos e pastas
+composer dump-autoload
