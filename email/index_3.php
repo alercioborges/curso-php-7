@@ -16,7 +16,7 @@ $mail->Port       = 587;
 $mail->SMTPSecure = 'tls';
 $mail->SMTPAuth   = true;
 $mail->Username = 'alercioborges@hotmail.com';
-$mail->Password = 'Aecolri1989';
+$mail->Password = '';
 $mail->SetFrom('alercioborges@hotmail.com', 'Alercio Borges');
 $mail->addAddress('alercio.borges@gmail.com', 'Alercio Silva');
 //$mail->SMTPDebug  = 3;
