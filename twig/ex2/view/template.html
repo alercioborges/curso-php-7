@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{TITULO}}</title>
+</head>
+<body>
+
+	{% if nota <= 5 %}
+		<h3>Reprovado</h3>
+	{% else %}
+		<h3>Aprovado</h3>
+	{% endif %}
+
+	<br><br>
+
+	{% for item in lista %}
+		{{item}}
+	{% endfor %}
+
+	<br><br>
+
+	<h3>Numero de itens na é: {{lista | length}}</h3>
+
+
+</body>
+</html>

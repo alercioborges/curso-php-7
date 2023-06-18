@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{TITULO}}</title>
+</head>
+<body>
+	<h1>Teste Twig</h1>
+	<h3>Meu nome é: {{NOME}}</h3>
+	<h3>Meu nome é: {{NOME | upper}}</h3>
+	<h3>Meu e-mail é: {{EMAIL}}</h3>
+
+	{% set TEXTO = "Inserindo diretamente no template" %}
+	<h3>{{TEXTO}}</h3>
+</body>
+</html>
