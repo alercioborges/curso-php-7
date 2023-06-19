@@ -14,18 +14,27 @@
 -->
 <h1>USUARIOS</h1>
 
-<table border="1">	
-    {% for data in userlist %}
+<table border="1">
     <tr>
-        <td>{{data.id|e}}</td>
-        <td>{{data.username}}</td>
-        <td>{{data.firstname}}</td>
-        <td>{{data.lastname}}</td>
+        <td>ID</td>
+        <td>USERNAME</td>
+        <td>NOME</td>
+        <td>SOBRENOME</td>
+        <td>EXCLUÍDO</td>
     </tr>
-    {% endfor %}  	
+        <!--"|filter(v => v.deleted == 0) -" filtro para não exibir--
+        dados de usuários com dado '1' do campo 'deleted'-->
+        {% for data in userlist|filter(v => v.deleted == 0) -%}
+        <tr>
+            <td>{{data.id|e}}</td>
+            <td>{{data.username}}</td>
+            <td>{{data.firstname}}</td>
+            <td>{{data.lastname}}</td>
+            <td>{{data.deleted}}</td>
+        </tr>
+        {% endfor %}
+      	
  </table>
-
-
 
 </body>
 </html>
