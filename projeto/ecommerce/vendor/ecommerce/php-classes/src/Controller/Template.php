@@ -22,7 +22,7 @@ class Template {
 			'debug' => $debug
 		]);
 
-		$this->loader = new \Twig\Loader\FilesystemLoader('view');
+		$this->loader = new \Twig\Loader\FilesystemLoader($folderLoader);
 
 		$this->twig->addExtension(new \Twig\Extension\DebugExtension());
 

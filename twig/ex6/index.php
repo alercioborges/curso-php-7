@@ -1,6 +1,6 @@
 <?php
 
-require_once 'model/Template.php';
+require_once 'controller/Template.php';
 
 $template = new Template("view", "view/cache", false, true);
 
