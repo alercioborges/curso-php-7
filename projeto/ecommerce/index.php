@@ -20,7 +20,7 @@ $app->get('/', function() {
 
 $app->get('/admin', function() {
 
-	$template = new Ecommerce\Controller\Template("vendor/ecommerce/php-classes/src/View", "vendor/ecommerce/php-classes/src/View/cache", false, true);
+	$template = new Ecommerce\Controller\Template("../vendor/ecommerce/php-classes/src/View", "vendor/ecommerce/php-classes/src/View/cache", false, true);
 
 	$template->setTemplate("template.html");
 
