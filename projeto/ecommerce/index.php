@@ -7,7 +7,7 @@ $app = new \Slim\Slim();
 $app->config('debug', true);
 
 $app->get('/', function() {
-    
+
 	$sql = new Ecommerce\DB\Sql();
 
 	$result = $sql->select("SELECT * FROM tb_users");
@@ -18,6 +18,10 @@ $app->get('/', function() {
 
 });
 
+$app->get('/admin', function() {
+	echo "admin";
+});
+
 $app->run();
 
- ?>
+?>
