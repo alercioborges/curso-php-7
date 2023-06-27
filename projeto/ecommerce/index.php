@@ -19,7 +19,12 @@ $app->get('/', function() {
 });
 
 $app->get('/admin', function() {
-	echo "admin";
+
+	$template = new Ecommerce\Controller\Template("vendor/ecommerce/php-classes/src/View", "vendor/ecommerce/php-classes/src/View/cache", false, true);
+
+	$template->setTemplate("template.html");
+
+	
 });
 
 $app->run();
