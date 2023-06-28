@@ -7,8 +7,8 @@ class Template {
 
 	private $twig;
 	private $loader;	
-	private $template; 
-
+	private $template;
+	
 	public function __construct(
 		String $folderLoader,
 		string $folderCache,

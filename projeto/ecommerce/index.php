@@ -6,7 +6,7 @@ $app = new \Slim\Slim();
 
 $app->config('debug', true);
 
-$template = new Ecommerce\Controller\Template("vendor/ecommerce/php-classes/src/View", "vendor/ecommerce/php-classes/src/View/cache", false, true);
+$pathView = "vendor/ecommerce/php-classes/src/View";
 
 $app->get('/', function() {
 
@@ -20,10 +20,11 @@ $app->get('/', function() {
 
 });
 
-$app->get('/admin', function() {	
+$app->get('/admin', function() {
+
+	$template = new Ecommerce\Controller\TemplateIndex(false, true);
 
 	$template->setTemplate("template.html");
-
 	
 });
 

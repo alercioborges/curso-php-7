@@ -3,7 +3,7 @@
         'name' => 'alercio/ecommerce',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'c6bc9d78fa3fcba75b1e3a01cd7080162ee6b8c3',
+        'reference' => 'cb58c895a3e13ceda9cebdde67cd8211de5e33ad',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'alercio/ecommerce' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'c6bc9d78fa3fcba75b1e3a01cd7080162ee6b8c3',
+            'reference' => 'cb58c895a3e13ceda9cebdde67cd8211de5e33ad',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
