@@ -8,6 +8,14 @@ $app->config('debug', true);
 
 $app->get('/', function() {
 
+	$template = new Ecommerce\Controller\TemplateIndex(false, true);
+
+	$template->setTemplate("index.html");
+
+});
+
+$app->get('/teste', function() {
+
 	$sql = new Ecommerce\DB\Sql();
 
 	$result = $sql->select("SELECT * FROM tb_users");
@@ -16,14 +24,6 @@ $app->get('/', function() {
 
 	$results;
 
-});
-
-$app->get('/admin', function() {
-
-	$template = new Ecommerce\Controller\TemplateIndex(false, true);
-
-	$template->setTemplate("index.html");
-	
 });
 
 $app->run();
