@@ -6,8 +6,6 @@ $app = new \Slim\Slim();
 
 $app->config('debug', true);
 
-$pathView = "vendor/ecommerce/php-classes/src/View";
-
 $app->get('/', function() {
 
 	$sql = new Ecommerce\DB\Sql();
@@ -24,7 +22,7 @@ $app->get('/admin', function() {
 
 	$template = new Ecommerce\Controller\TemplateIndex(false, true);
 
-	$template->setTemplate("template.html");
+	$template->setTemplate("index.html");
 	
 });
 
