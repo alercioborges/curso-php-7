@@ -8,9 +8,35 @@ $app->config('debug', true);
 
 $app->get('/', function() {
 
-	$template = new Ecommerce\Controller\TemplateIndex(false, true);
+	$template = new Ecommerce\Controller\TemplatePage("view", false, true);
 
 	$template->setTemplate("index.html");
+
+});
+
+$app->get('/admin', function() {
+
+	$template = new Ecommerce\Controller\TemplatePage("view/admin" ,false, true);
+
+	$template->setTemplate("index.html");
+
+});
+
+$app->get('/admin/login', function() {
+
+	$template = new Ecommerce\Controller\TemplatePage("view/admin" ,false, true);
+
+	$template->setTemplate("login.html");
+
+});
+
+$app->post('/admin/login', function() {
+
+	\Ecommerce\Model\User::login($_POST['$login'], $_POST['$oassword']);
+
+	header("Locatiom /admin");
+
+	exit;
 
 });
 
