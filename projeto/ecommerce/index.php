@@ -8,7 +8,7 @@ $app->config('debug', true);
 
 $app->get('/', function() {
 
-	$template = new Ecommerce\Controller\TemplatePage("view", false, true);
+	$template = new Ecommerce\Controller\TemplatePage("view/site", false, true);
 
 	$template->setTemplate("index.html");
 
@@ -32,11 +32,14 @@ $app->get('/admin/login', function() {
 
 $app->post('/admin/login', function() {
 
-	\Ecommerce\Model\User::login($_POST['$login'], $_POST['$oassword']);
+	//\Ecommerce\Model\User::login($_POST['$login'], $_POST['$password']);
 
-	header("Locatiom /admin");
+	//header("Locatiom /admin");
 
-	exit;
+	//exit;
+
+	var_dump($_POST['password']);
+	var_dump($_POST['login	']);
 
 });
 
