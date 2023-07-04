@@ -14,13 +14,29 @@ class Model{
 		//Atribui o compo do metodo (getNome = Nome)
 		$fieldName = substr($nameMethod, 3, strlen($nameMethod));
 
-		var_dump($method, $fieldName);
-		exit;
+		switch ($method) {
+			case 'get':
+			return $this->values[$fieldName];
+			break;
 
-
-
+			case 'set':
+			$this->values[$fieldName] = $args;
+			break;
+		}
 
 	}
+
+	public function setData(array $data){
+
+		foreach ($data as $key => $value) {
+			$this->{"set".$key}($value); //atributo criado dinamicamente (permitido usar 'this' p/ atrib. dinamicos)
+		}
+	}
+
+	public function getValues(){
+			return $this->values;
+	}
+
 }
 
 ?>

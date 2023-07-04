@@ -32,14 +32,11 @@ $app->get('/admin/login', function() {
 
 $app->post('/admin/login', function() {
 
-	//\Ecommerce\Model\User::login($_POST['$login'], $_POST['$password']);
+	\Ecommerce\Model\User::login($_POST['login'], $_POST['password']);
 
-	//header("Locatiom /admin");
+	header("Location: ../admin");
 
-	//exit;
-
-	var_dump($_POST['password']);
-	var_dump($_POST['login	']);
+	exit;
 
 });
 
