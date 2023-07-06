@@ -1,5 +1,7 @@
 <?php 
 
+session_start();
+
 require_once("vendor/autoload.php");
 
 $app = new \Slim\Slim();
@@ -16,8 +18,10 @@ $app->get('/', function() {
 
 $app->get('/admin', function() {
 
-	$template = new Ecommerce\Controller\TemplatePage("view/admin" ,false, true);
+	\Ecommerce\Model\User::verifyLogin();
 
+	$template = new \Ecommerce\Controller\TemplatePage("view/admin" ,false, true);
+	
 	$template->setTemplate("index.html");
 
 });
@@ -35,6 +39,16 @@ $app->post('/admin/login', function() {
 	\Ecommerce\Model\User::login($_POST['login'], $_POST['password']);
 
 	header("Location: ../admin");
+
+	exit;
+
+});
+
+$app->get('/admin/logout', function() {
+
+	\Ecommerce\Model\User::logout();
+
+	header("Location: ../admin/login");
 
 	exit;
 

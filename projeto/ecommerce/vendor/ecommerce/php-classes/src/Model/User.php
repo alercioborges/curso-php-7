@@ -42,6 +42,28 @@ class User extends Model{
 			throw new \Exception("Nome de usuário ou senha errados.");
 		}
 	}
+
+	public static function verifyLogin($idAdmin = true) {
+
+		if (
+			!isset($_SESSION[User::SESSION])
+			||
+			!$_SESSION[User::SESSION]
+			||
+			!(int)$_SESSION[User::SESSION]["iduser"] > 0
+			||
+			(bool)$_SESSION[User::SESSION]["inadmin"] !== $idAdmin
+		) {
+			header('Location: ./admin/login');
+			exit;
+
+		}
+	}
+
+	public static function logout() {
+		$_SESSION[User::SESSION] = NULL;
+	}
+
 }
 
 ?>
