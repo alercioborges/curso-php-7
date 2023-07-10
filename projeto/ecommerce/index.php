@@ -3,6 +3,7 @@
 session_start();
 
 require_once("vendor/autoload.php");
+require_once("config.php");
 
 $app = new \Slim\Slim();
 
@@ -20,7 +21,7 @@ $app->get('/admin', function() {
 
 	\Ecommerce\Model\User::verifyLogin();
 
-	$template = new \Ecommerce\Controller\TemplatePage("view/admin" ,false, true);
+	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
 	
 	$template->setTemplate("index.html");
 
@@ -28,7 +29,7 @@ $app->get('/admin', function() {
 
 $app->get('/admin/login', function() {
 
-	$template = new Ecommerce\Controller\TemplatePage("view/admin" ,false, true);
+	$template = new Ecommerce\Controller\TemplatePage("view/admin", false, true);
 
 	$template->setTemplate("login.html");
 
@@ -51,6 +52,16 @@ $app->get('/admin/logout', function() {
 	header("Location: ../admin/login");
 
 	exit;
+
+});
+
+$app->get('/admin/users', function() {
+
+	\Ecommerce\Model\User::verifyLogin();
+
+	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
+	
+	$template->setTemplate("users.html");
 
 });
 

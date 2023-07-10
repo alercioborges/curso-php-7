@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+	
+	{% set dir = dir is defined ? dir : '../view/admin/' %}
+	{% block css_all %}{{ dir }}{% endblock %}
+	{% block css_adminlte %}{{ dir }}{% endblock %}
+
+
+{% block content %}
+<h1>{{ dir }}</h1>
+{% endblock %}
+
+
+
+
+
