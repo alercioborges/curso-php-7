@@ -2,9 +2,9 @@
 
 namespace Ecommerce\Model;
 
-use \Ecommerce\DB\Sql; // A primeira "\" refere-se "A partir da raiz"
-
 use \Ecommerce\Model;
+use \Ecommerce\Config;
+use \Ecommerce\DB\Sql;
 
 class User extends Model{
 
@@ -54,9 +54,9 @@ class User extends Model{
 			||
 			(bool)$_SESSION[User::SESSION]["inadmin"] !== $idAdmin
 		) {
-			header('Location: ./admin/login');
+			$CFG = new Config();
+			header("Location: {$CFG->getWwwroot()}/admin/login");
 			exit;
-
 		}
 	}
 
