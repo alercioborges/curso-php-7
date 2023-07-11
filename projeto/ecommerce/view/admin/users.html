@@ -1,12 +1,19 @@
 {% extends "base.html" %}
-	
-	{% set dir = dir is defined ? dir : '../view/admin/' %}
-	{% block css_all %}{{ dir }}{% endblock %}
-	{% block css_adminlte %}{{ dir }}{% endblock %}
 
+{% set dir = '../view/admin/' %}
+
+{% block title %}Lista de usuários{% endblock %}
 
 {% block content %}
-<h1>{{ dir }}</h1>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+	<!-- Content Header (Page header) -->
+	<div class="content-header">
+		
+	</div>
+	<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
 {% endblock %}
 
 
