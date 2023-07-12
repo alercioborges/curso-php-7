@@ -59,8 +59,13 @@ $app->get('/admin/users', function() {
 	\Ecommerce\Model\User::verifyLogin();
 
 	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
+
+	$template_data = array(
+		'NAME' => "Alercio Silva",
+		'WWWROOT' => \Ecommerce\Config::getWwwroot()
+	);
 	
-	$template->setTemplate("users.html");
+	$template->setTemplate("users.html", $template_data);
 
 });
 

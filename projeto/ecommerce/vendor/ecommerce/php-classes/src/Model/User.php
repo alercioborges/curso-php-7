@@ -3,7 +3,6 @@
 namespace Ecommerce\Model;
 
 use \Ecommerce\Model;
-use \Ecommerce\Config;
 use \Ecommerce\DB\Sql;
 
 class User extends Model{
@@ -54,8 +53,7 @@ class User extends Model{
 			||
 			(bool)$_SESSION[User::SESSION]["inadmin"] !== $idAdmin
 		) {
-			$CFG = new Config();
-			header("Location: {$CFG->getWwwroot()}/admin/login");
+			header("Location: " . \Ecommerce\Config::getWwwroot() . "/admin/login");
 			exit;
 		}
 	}

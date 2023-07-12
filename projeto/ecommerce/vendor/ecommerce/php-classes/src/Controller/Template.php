@@ -28,11 +28,11 @@ class Template {
 
 	}
 
-	public function setTemplate($file) {
+	public function setTemplate(String $file, array $tamplate_data = []) {
 
 		$this->template = $this->twig->load($file);
 
-		$this->template->display();
+		$this->template->display($tamplate_data);
 
 	}
 
