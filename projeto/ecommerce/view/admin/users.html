@@ -56,41 +56,35 @@
 										<td>
 											<a href="{{WWWROOT}}/admin/users/{{data.ID}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Editar</a>
 
-											<a href="{{WWWROOT}}/admin/users/{{data.ID}}/delete" onclick="return confirm('Deseja realmente excluir este registro?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+											<!-- Início Modal de exclusão de usuário -->
+											<!-- Início link excluir Modal -->
+											<a href="#" data-toggle="modal" data-target="#confirm-delete-userid-{{data.ID}}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+											<!-- Fim link excluir Modal -->
+											<!-- Início da janela do Modal -->
+											<div class="modal fade" id="confirm-delete-userid-{{data.ID}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															Exclusão de usuário
+														</div>
+														<div class="modal-body">
+															Deseja realmente excluir o usuario...?
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
+															<a href="{{WWWROOT}}/admin/users/{{data.ID}}/delete" class="btn btn-danger btn-ok">Delete</a>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- Fim da da janela do Modal -->
+											<!-- Fim do modal de exclusão de usuário -->
 										</td>
 									</tr>
 									{% endfor %}
 								</tbody>
 							</table>
-
-							<!-- Início Modal de exclusão de usuário -->
-							<!-- Início botão excluir Modal -->
-							<button class="btn btn-danger btn-xs" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i> Excluir
-							</button>
-							<!-- Fim botão excluir Modal -->
-
-
-							
-							<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											...
-										</div>
-										<div class="modal-body">
-											...
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-											<a href="{{WWWROOT}}/admin/users/2/delete" class="btn btn-danger btn-ok">Delete</a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Fim do modal de exclusão de usuário -->
-
-						</div>
-						<!-- /.box-body -->
+						</div><!-- /.box-body -->						
 					</div>
 				</div>
 			</div>
