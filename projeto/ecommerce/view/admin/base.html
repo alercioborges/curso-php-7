@@ -234,8 +234,8 @@
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
     <div class="p-3">
-      <h5>Nome do usuário</h5>
-      <a href="./admin/logout" class="nav-link">
+      <h5>{% block name %}Nome do usuário{% endblock %}</h5>
+      <a href="{% block dirlogout %}{{WWWROOT}}/admin/logout{% endblock %}" class="nav-link">
         <p><i class="nav-icon fas fa-sign-out-alt"></i> Sair</p>
       </a>      
     </simple>

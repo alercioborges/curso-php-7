@@ -21,8 +21,13 @@ $app->get('/admin', function() {
 	\Ecommerce\Model\User::verifyLogin();
 
 	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
+
+	$template_data = array(
+		'NAME' => "Alercio Silva",
+		'WWWROOT' => \Ecommerce\Config::getWwwroot()
+	);
 	
-	$template->setTemplate("index.html");
+	$template->setTemplate("index.html", $template_data);
 
 });
 
@@ -60,13 +65,29 @@ $app->get('/admin/users', function() {
 
 	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
 
+	$userList = array(
+		array('ID'=>1, 'NOME'=>'Alercio Silva', 'EMAIL'=>'alercio@email.com', 'LOGIN'=>'admin', 'ADMIN'=>'SIM'),
+		array('ID'=>2, 'NOME'=>'Marina Barbosa', 'EMAIL'=>'marina@email.com', 'LOGIN'=>'marina', 'ADMIN'=>'NÃO')
+	);
+
 	$template_data = array(
 		'NAME' => "Alercio Silva",
-		'WWWROOT' => \Ecommerce\Config::getWwwroot()
+		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
+		'USERLIST' => $userList
 	);
 	
 	$template->setTemplate("users.html", $template_data);
 
+});
+
+$app->get('/admin/users/:userid', function($userid) {
+
+	echo "O ID do usuário é: {$userid}";
+});
+
+$app->get('/admin/users/:userid/delete', function($userid) {
+
+	echo "O ID do usuário que será deletado é: {$userid}";
 });
 
 $app->get('/teste', function() {

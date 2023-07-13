@@ -4,6 +4,8 @@
 
 {% block title %}Lista de usuários{% endblock %}
 
+{% block name %}{{NAME}}{% endblock %}
+
 {% block content %}
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -44,21 +46,49 @@
 									</tr>
 								</thead>
 								<tbody>
-									{loop="$users"}
+									{% for data in USERLIST %}
 									<tr>
-										<td>{$value.iduser}</td>
-										<td>{$value.desperson}</td>
-										<td>{$value.desemail}</td>
-										<td>{$value.deslogin}</td/>
-										<td>{if="$value.inadmin == 1"}Sim{else}Não{/if}</td>
+										<td>{{data.ID}}</td>
+										<td>{{data.NOME}}</td>
+										<td>{{data.EMAIL}}</td>
+										<td>{{data.LOGIN}}</td>
+										<td>{{data.ADMIN}}</td>
 										<td>
-											<a href="/admin/users/{$value.iduser}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Editar</a>
-											<a href="/admin/users/{$value.iduser}/delete" onclick="return confirm('Deseja realmente excluir este registro?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+											<a href="{{WWWROOT}}/admin/users/{{data.ID}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Editar</a>
+
+											<a href="{{WWWROOT}}/admin/users/{{data.ID}}/delete" onclick="return confirm('Deseja realmente excluir este registro?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
 										</td>
 									</tr>
-									{/loop}
+									{% endfor %}
 								</tbody>
 							</table>
+
+							<!-- Início Modal de exclusão de usuário -->
+							<!-- Início botão excluir Modal -->
+							<button class="btn btn-danger btn-xs" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i> Excluir
+							</button>
+							<!-- Fim botão excluir Modal -->
+
+
+							
+							<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											...
+										</div>
+										<div class="modal-body">
+											...
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+											<a href="{{WWWROOT}}/admin/users/2/delete" class="btn btn-danger btn-ok">Delete</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Fim do modal de exclusão de usuário -->
+
 						</div>
 						<!-- /.box-body -->
 					</div>
