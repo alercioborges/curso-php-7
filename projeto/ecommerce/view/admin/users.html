@@ -2,19 +2,17 @@
 
 {% set dir = '../view/admin/' %}
 
-{% block title %}Lista de usuários{% endblock %}
+{% block title %}Lista de usuário{% endblock %}
 
-{% block name %}{{NAME}}{% endblock %}
+{% block list_user_active %}active{% endblock %}
 
 {% block content %}
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-	<!-- Content Header (Page header) -->
-	<div class="content-header">
+<div class="content-wrapper"><!-- Content Wrapper. Contains page content -->
+	<div class="content-header"><!-- Content Header (Page header) -->
 
 		<section class="content-header">
 			<h1>
-				Lista de Usuários
+				Lista de usuários
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -30,7 +28,7 @@
 					<div class="box box-primary">
 						
 						<div class="box-header">
-							<a href="/admin/users/create" class="btn btn-success">Cadastrar Usuário</a>
+							<a href="{{ WWWROOT }}/admin/users/create" class="btn btn-success">Cadastrar Usuário</a>
 						</div>
 
 						<div class="box-body no-padding">
@@ -46,33 +44,33 @@
 									</tr>
 								</thead>
 								<tbody>
-									{% for data in USERLIST %}
+									{% for data in USERS %}
 									<tr>
-										<td>{{data.ID}}</td>
-										<td>{{data.NOME}}</td>
-										<td>{{data.EMAIL}}</td>
-										<td>{{data.LOGIN}}</td>
-										<td>{{data.ADMIN}}</td>
+										<td>{{data.iduser}}</td>
+										<td>{{data.desperson}}</td>
+										<td>{{data.desemail}}</td>
+										<td>{{data.deslogin}}</td>
+										<td>{% if data.inadmin == 1 %}SIM{% else %}NÂO{% endif %}</td>
 										<td>
-											<a href="{{WWWROOT}}/admin/users/{{data.ID}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Editar</a>
+											<a href="{{WWWROOT}}/admin/users/{{data.iduser}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Editar</a>
 
 											<!-- Início Modal de exclusão de usuário -->
 											<!-- Início link excluir Modal -->
-											<a href="#" data-toggle="modal" data-target="#confirm-delete-userid-{{data.ID}}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+											<a href="#" data-toggle="modal" data-target="#confirm-delete-iduser-{{data.iduser}}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
 											<!-- Fim link excluir Modal -->
 											<!-- Início da janela do Modal -->
-											<div class="modal fade" id="confirm-delete-userid-{{data.ID}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+											<div class="modal fade" id="confirm-delete-iduser-{{data.iduser}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 												<div class="modal-dialog">
 													<div class="modal-content">
 														<div class="modal-header">
 															Exclusão de usuário
 														</div>
 														<div class="modal-body">
-															Deseja realmente excluir o usuário de nome {{data.NOME}} e de e-mail {{data.EMAIL}} ?
+															Deseja realmente excluir o usuário de nome {{data.desperson}} e de e-mail {{data.desemail}} ?
 														</div>
 														<div class="modal-footer">
 															<button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
-															<a href="{{WWWROOT}}/admin/users/{{data.ID}}/delete" class="btn btn-danger btn-ok">Delete</a>
+															<a href="{{WWWROOT}}/admin/users/{{data.iduser}}/delete" class="btn btn-danger btn-ok">Delete</a>
 														</div>
 													</div>
 												</div>
@@ -83,12 +81,13 @@
 									</tr>
 									{% endfor %}
 								</tbody>
-							</table>
+							</table>							
 						</div><!-- /.box-body -->						
 					</div>
 				</div>
 			</div>
 		</section>
+
 	</div><!-- /.content -->
 </div><!-- /.content-wrapper -->
 {% endblock %}

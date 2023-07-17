@@ -59,48 +59,75 @@ $app->get('/admin/logout', function() {
 
 });
 
+$app->post('/admin/users/create', function() {
+
+	\Ecommerce\Model\User::verifyLogin();
+
+	$user = new \Ecommerce\Model\User();
+
+	$user->setData($_POST);
+
+	echo "<pre>"; var_dump($user); echo "</pre>";
+
+});
+
+$app->get('/admin/users/create', function() {
+
+	\Ecommerce\Model\User::verifyLogin();
+
+	$template_data = array(
+		'WWWROOT' => \Ecommerce\Config::getWwwroot()
+	);
+
+	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
+	$template->setTemplate("users-create.html", $template_data);
+
+});
+
 $app->get('/admin/users', function() {
 
 	\Ecommerce\Model\User::verifyLogin();
 
-	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
-
-	$userList = array(
-		array('ID'=>1, 'NOME'=>'Alercio Silva', 'EMAIL'=>'alercio@email.com', 'LOGIN'=>'admin', 'ADMIN'=>'SIM'),
-		array('ID'=>2, 'NOME'=>'Marina Barbosa', 'EMAIL'=>'marina@email.com', 'LOGIN'=>'marina', 'ADMIN'=>'NÃO')
-	);
+	$users = \Ecommerce\Model\User::listAll();
 
 	$template_data = array(
-		'NAME' => "Alercio Silva",
 		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
-		'USERLIST' => $userList
+		'USERS' => $users
 	);
-	
+
+	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
 	$template->setTemplate("users.html", $template_data);
 
 });
 
-$app->get('/admin/users/:userid', function($userid) {
+$app->get('/admin/users/:iduser/delete', function($iduser) {
 
-	echo "O ID do usuário é: {$userid}";
-});
+	\Ecommerce\Model\User::verifyLogin();
 
-$app->get('/admin/users/:userid/delete', function($userid) {
-
-	echo "O ID do usuário que será deletado é: {$userid}";
-});
-
-$app->get('/teste', function() {
-
-	$sql = new Ecommerce\DB\Sql();
-
-	$result = $sql->select("SELECT * FROM tb_users");
-
-	echo json_encode($result);
-
-	$results;
+	echo "O ID do usuário que será deletado é: {$iduser}";
 
 });
+
+$app->get('/admin/users/:iduser', function($iduser) {
+
+	\Ecommerce\Model\User::verifyLogin();
+
+	$user = \Ecommerce\Model\User::getUserById($iduser);
+
+	$template_data = array(
+		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
+		'IDUSER' => $iduser,
+		'USER' => $user
+	);
+
+	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
+	$template->setTemplate("users-update.html", $template_data);
+
+});
+
+
+
+
 
 $app->run();
 
