@@ -78,10 +78,26 @@ class User extends Model{
 
 	}
 
-	public function save() {
+	public function createUser() {
 
+		$deslogin = $_POST['deslogin'];
+		$desemail = $_POST['desemail'];
+		$desperson = $_POST['desperson'];
+		$despassword = $_POST['despassword'];
+		$nrphone = $_POST['nrphone'];
+		$inadmin = $_POST['inadmin'];
+
+		$sql = new Sql();
 		
-			
+		$stmt = $sql->exeProc("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
+			":desperson" => $desperson,
+			":deslogin" => $deslogin,
+			":despassword" => $despassword,
+			":desemail" => $desemail,
+			":nrphone" => $nrphone,
+			":inadmin" => $inadmin
+		));		
+
 	}
 
 }

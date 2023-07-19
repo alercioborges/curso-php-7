@@ -65,9 +65,13 @@ $app->post('/admin/users/create', function() {
 
 	$user = new \Ecommerce\Model\User();
 
-	$user->setData($_POST);
+	$_POST["inadmin"] = (isset($_POST["inadmin"]))?1:0;
 
-	echo "<pre>"; var_dump($user); echo "</pre>";
+	$user->createUser();
+
+	header("Location: ../../admin/users");
+
+	exit;
 
 });
 

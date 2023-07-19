@@ -64,6 +64,31 @@ class Sql {
 
 	}
 
+	public function exeProc($callProc, $params = array())
+	{
+		$stmt = $this->conn->prepare($callProc);
+
+		$this->setParams($stmt, $params);
+
+		$stmt->execute();
+		
+		/*
+		$stmt->bindParam(":deslogin", $deslogin);
+		$stmt->bindParam(":desemail", $desemail);
+		$stmt->bindParam(":desperson", $desperson);
+		$stmt->bindParam(":despassword", $despassword);
+		$stmt->bindParam(":nrphone", $$nrphone );
+		$stmt->bindParam(":inadmin", $inadmin);
+		
+		$stmt->execute();
+
+		return $stmt;
+
+		return $stmt;
+		*/
+
+	}
+
 }
 
- ?>
+?>
