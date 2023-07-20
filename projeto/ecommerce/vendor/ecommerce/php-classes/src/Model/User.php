@@ -81,8 +81,8 @@ class User extends Model{
 	public function createUser() {
 
 		$deslogin = $_POST['deslogin'];
-		$desemail = $_POST['desemail'];
-		$desperson = $_POST['desperson'];
+		$desemail = strtolower($_POST['desemail']);
+		$desperson = strtoupper($_POST['desperson']);
 		$despassword = $_POST['despassword'];
 		$nrphone = $_POST['nrphone'];
 		$inadmin = $_POST['inadmin'];
