@@ -13,7 +13,7 @@ class User extends Model{
 
 		$sql = new SQL();
 
-		$result = $sql->select("SELECT * FROM tb_users WHERE deslogin = :LOGIN", array(':LOGIN' => $login));
+		$result = $sql->select("SELECT * FROM tb_users u INNER JOIN tb_persons p USING(idperson) WHERE u.deslogin = :LOGIN", array(':LOGIN' => $login));
 
 		if (count($result) == 0) {
 		 	//Necessário '\' no "Exception" para referenciar qu é a classe principal
@@ -96,9 +96,40 @@ class User extends Model{
 			":desemail" => $desemail,
 			":nrphone" => $nrphone,
 			":inadmin" => $inadmin
-		));		
+		));
+	}
+
+	public function get($iduser){
+
+		$sql = new Sql();
+
+		$results = $sql->select("SELECT * FROM tb_users u INNER JOIN tb_persons p USING(idperson) WHERE u.iduser = :iduser", array(':iduser' => $iduser));
+
+		$this->setData($results[0]);
 
 	}
+
+	public function update($iduser){
+
+		$deslogin = $_POST['deslogin'];
+		$desemail = strtolower($_POST['desemail']);
+		$desperson = strtoupper($_POST['desperson']);
+		$nrphone = $_POST['nrphone'];
+		$inadmin = $_POST['inadmin'];
+
+		$sql = new Sql();
+		
+		$stmt = $sql->exeProc("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :desemail, :nrphone, :inadmin)", array(
+			":iduser" => $iduser,
+			":desperson" => $desperson,
+			":deslogin" => $deslogin,
+			":desemail" => $desemail,
+			":nrphone" => $nrphone,
+			":inadmin" => $inadmin
+		));
+
+	}
+
 
 }
 

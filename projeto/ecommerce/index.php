@@ -24,7 +24,8 @@ $app->get('/admin', function() {
 
 	$template_data = array(
 		'NAME' => "Alercio Silva",
-		'WWWROOT' => \Ecommerce\Config::getWwwroot()
+		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
+		'NAME_USER' => $_SESSION["User"]["desperson"][0]
 	);
 	
 	$template->setTemplate("index.html", $template_data);
@@ -80,7 +81,8 @@ $app->get('/admin/users/create', function() {
 	\Ecommerce\Model\User::verifyLogin();
 
 	$template_data = array(
-		'WWWROOT' => \Ecommerce\Config::getWwwroot()
+		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
+		'NAME_USER' => $_SESSION["User"]["desperson"][0]
 	);
 
 	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
@@ -96,6 +98,7 @@ $app->get('/admin/users', function() {
 
 	$template_data = array(
 		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
+		'NAME_USER' => $_SESSION["User"]["desperson"][0],
 		'USERS' => $users
 	);
 
@@ -121,6 +124,7 @@ $app->get('/admin/users/:iduser', function($iduser) {
 	$template_data = array(
 		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
 		'IDUSER' => $iduser,
+		'NAME_USER' => $_SESSION["User"]["desperson"][0],
 		'USER' => $user
 	);
 
@@ -129,9 +133,24 @@ $app->get('/admin/users/:iduser', function($iduser) {
 
 });
 
+$app->post('/admin/users/:iduser', function($iduser) {
 
+	\Ecommerce\Model\User::verifyLogin();
 
+	$user = new \Ecommerce\Model\User();
 
+	$_POST["inadmin"] = (isset($_POST["inadmin"]))?1:0;
+
+	$user->get((int)$iduser);
+
+	$user->setData($_POST);
+
+	$user->update($iduser);
+
+	header("Location: ../../admin/users");
+	exit;
+
+});
 
 $app->run();
 

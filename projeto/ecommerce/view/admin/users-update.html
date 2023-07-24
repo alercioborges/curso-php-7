@@ -34,23 +34,23 @@
           {% for data in USER %}
           {% if data.iduser == IDUSER %}          
 
-          <form role="form" action="/admin/users/{$user.iduser}" method="post">
+          <form role="form" action="{{WWWROOT}}/admin/users/{{data.iduser}}" method="POST">
             <div class="box-body">
               <div class="form-group">
                 <label for="desperson">Nome</label>
-                <input type="text" class="form-control" id="desperson" name="desperson" placeholder="Digite o nome" value="{{data.desperson}}">
+                <input type="text" class="form-control" id="desperson" style="text-transform:uppercase" name="desperson" placeholder="Digite o nome" minlength="3" maxlength="30" pattern="^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+" required value="{{data.desperson}}">
               </div>
               <div class="form-group">
                 <label for="deslogin">Login</label>
-                <input type="text" class="form-control" id="deslogin" name="deslogin" placeholder="Digite o login"  value="{{data.deslogin}}">
+                <input type="text" class="form-control" id="deslogin" name="deslogin" placeholder="Digite o login" minlength="3" maxlength="30" pattern="^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ@.0-9]+" required value="{{data.deslogin}}">
               </div>
               <div class="form-group">
                 <label for="nrphone">Telefone</label>
-                <input type="tel" class="form-control" id="nrphone" name="nrphone" placeholder="Digite o telefone"  value="{{data.nrphone}}">
+                <input type="tel" class="form-control" id="nrphone" name="nrphone" placeholder="Digite o telefone" required value="{{data.nrphone}}">
               </div>
               <div class="form-group">
                 <label for="desemail">E-mail</label>
-                <input type="email" class="form-control" id="desemail" name="desemail" placeholder="Digite o e-mail" value="{{data.desemail}}">
+                <input type="email" class="form-control" style="text-transform:lowercase" id="desemail" name="desemail" placeholder="Digite o e-mail" required value="{{data.desemail}}">
               </div>
               <div class="checkbox">
                 <label>
