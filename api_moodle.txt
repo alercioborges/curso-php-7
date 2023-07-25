@@ -1,0 +1,7 @@
+{site}/webservice/rest/server.php?wstoken={token}&moodlewsrestformat=json&wsfunction=core_completion_get_activities_completion_status&courseid=2&userid=2
+
+
+
+
+https://directweb.eduead.com.br/moodle40/webservice/rest/server.php?wstoken=9c944f93fcbe694c01f80758a0bce50a&moodlewsrestformat=json&wsfunction=core_completion_get_course_completion_status&courseid=2&userid=2
+
