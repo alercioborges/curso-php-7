@@ -111,7 +111,14 @@ $app->get('/admin/users/:iduser/delete', function($iduser) {
 
 	\Ecommerce\Model\User::verifyLogin();
 
-	echo "O ID do usuário que será deletado é: {$iduser}";
+	$user = new \Ecommerce\Model\User();
+
+	$user->get((int)$iduser);
+
+	$user->delete($iduser);
+
+	header("Location: ../../../admin/users");
+	exit;
 
 });
 

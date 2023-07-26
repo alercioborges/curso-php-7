@@ -89,7 +89,7 @@ class User extends Model{
 
 		$sql = new Sql();
 		
-		$stmt = $sql->exeProc("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
+		$stmt = $sql->query("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
 			":desperson" => $desperson,
 			":deslogin" => $deslogin,
 			":despassword" => $despassword,
@@ -119,7 +119,7 @@ class User extends Model{
 
 		$sql = new Sql();
 		
-		$stmt = $sql->exeProc("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :desemail, :nrphone, :inadmin)", array(
+		$stmt = $sql->query("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :desemail, :nrphone, :inadmin)", array(
 			":iduser" => $iduser,
 			":desperson" => $desperson,
 			":deslogin" => $deslogin,
@@ -127,6 +127,14 @@ class User extends Model{
 			":nrphone" => $nrphone,
 			":inadmin" => $inadmin
 		));
+
+	}
+
+	public function delete($iduser){
+
+		$sql = new Sql();
+
+		$sql->query("CALL sp_users_delete(:iduser)", array(':iduser' => $iduser));
 
 	}
 
