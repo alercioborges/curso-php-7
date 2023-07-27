@@ -138,6 +138,60 @@ class User extends Model{
 
 	}
 
+	public static function getForgot($email) {
+
+		$sql = new Sql();
+
+		$results = $sql->select("SELECT * FROM tb_persons p INNER JOIN tb_users u USING(idperson) WHERE p.desemail = :email", array(':email' => $email));
+
+		if (count($results) == 0) {
+			echo "email zuado 01";
+			exit;			
+		}
+
+		else {
+
+			$data = $results[0];
+
+			$results2 = $sql->select("CALL sp_userspasswordsrecoveries_create(:iduser, :desip)", array(
+				':iduser' => $data["iduser"],
+				':desip' => $_SERVER['REMOTE_ADDR']
+			));
+
+			if (count($results2) == 0) {
+				echo "email zuado 02";
+				exit;
+			}
+
+			else {
+
+				$dataRecovery = $results2[0];
+				$secret_key = 'as987f9df6gsdf876gsdh568fgh';
+				$key = hash('sha256', $secret_key);
+				$secret_iv = '9adf875sg9h85sgh898sfg78809g';
+				$iv = substr(hash('sha256', $secret_iv), 0, 16);
+
+				$pass = base64_encode(openssl_encrypt(
+					$dataRecovery['idrecovery'],
+					'AES-256-CBC',
+					$key,
+					OPENSSL_RAW_DATA,
+					$iv
+				)
+			); 
+				echo "<pre>"; print_r($dataRecovery); echo "</pre>";
+				echo "<pre>"; print_r($pass); echo "</pre>";
+				$output = openssl_decrypt(base64_decode($dataRecovery['idrecovery']), 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
+
+				echo "<pre>"; print_r($output); echo "</pre>";
+				 //https://gist.github.com/joashp/a1ae9cb30fa533f4ad94
+
+			}
+
+		}
+
+	}
+
 
 }
 

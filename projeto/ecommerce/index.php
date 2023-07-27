@@ -159,6 +159,19 @@ $app->post('/admin/users/:iduser', function($iduser) {
 
 });
 
+$app->get('/admin/forgot', function() {
+
+	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
+	$template->setTemplate("forgot-password.html");
+
+});
+
+$app->post('/admin/forgot', function() {
+
+	$user = \Ecommerce\Model\User::getForgot($_POST['email']);
+
+});
+
 $app->run();
 
 ?>
