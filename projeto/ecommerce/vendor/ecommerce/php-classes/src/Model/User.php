@@ -171,20 +171,34 @@ class User extends Model{
 				$secret_iv = '9adf875sg9h85sgh898sfg78809g';
 				$iv = substr(hash('sha256', $secret_iv), 0, 16);
 
-				$pass = base64_encode(openssl_encrypt(
+				$code = base64_encode(openssl_encrypt(
 					$dataRecovery['idrecovery'],
 					'AES-256-CBC',
 					$key,
 					OPENSSL_RAW_DATA,
 					$iv
-				)
-			); 
-				echo "<pre>"; print_r($dataRecovery); echo "</pre>";
-				echo "<pre>"; print_r($pass); echo "</pre>";
-				$output = openssl_decrypt(base64_decode($dataRecovery['idrecovery']), 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
+				));
 
-				echo "<pre>"; print_r($output); echo "</pre>";
-				 //https://gist.github.com/joashp/a1ae9cb30fa533f4ad94
+				echo "<pre>"; print_r($dataRecovery); echo "</pre>";
+				echo "<pre>"; print_r($code); echo "</pre>";
+				//https://gist.github.com/joashp/a1ae9cb30fa533f4ad94
+
+				$link = \Ecommerce\Config::getWwwroot() . "/admin/forgot/reset?code={$code}";
+
+				$mailer = new \Ecommerce\Mailer(
+					$data['desemail'],
+					$data['desperson'],
+					"Redefinição de senha",
+					'forgot.html',
+					array(
+						'NAME' => $data['desperson'],
+						'LINK' => $link
+					)
+				);
+
+				$mailer->send();
+
+				return $data;
 
 			}
 
