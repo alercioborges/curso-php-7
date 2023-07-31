@@ -7,19 +7,27 @@ require_once("vendor/autoload.php");
 use \PHPMailer\PHPMailer\PHPMailer;
 use \PHPMailer\PHPMailer\SMTP;
 use \PHPMailer\PHPMailer\Exception;
+use \Ecommerce\Controller\TemplatePage;
 
 class Mailer
 {
 
 	private $mail;
 
-	function __construct($toAddress, $toName, $subject, $tamplate, $tamplateDara = [])
+	function __construct($toAddress, $toName, $subject, $pathLayout, $fileLayout, $layoutDara = [], $layoutImage = [])
 	{
+
+		$loader = new \Twig\Loader\FilesystemLoader($pathLayout);
+		$twig = new \Twig\Environment($loader, [
+			'cache' => false,
+			'debug' => true
+		]);
+
+		$layout_email = $twig->render($fileLayout, $layoutDara);
 
 
 		//Classe 'PHPMailer' está no escopo pricipal, necessário usa da '\'
 		$this->mail = new PHPMailer(true); 
-
 
 		$this->mail->SMTPDebug = SMTP::DEBUG_SERVER;
 		$this->mail->isSMTP();
@@ -36,9 +44,14 @@ class Mailer
 
 		$this->mail->isHTML(true);
 		$this->mail->Subject = $subject;
-		$this->mail->Body    = "<h1>Body</h1>";
-		$this->mail->AltBody = 'This is the body in plain text for non-HTML mail clients';		
+		$this->mail->msgHTML($layout_email);
+
+		foreach ($layoutImage as $key => $value) {
+			$this->mail->AddEmbeddedImage($key, $value);
+		}
+
 	}
+
 
 	public function send()
 	{		
@@ -47,7 +60,7 @@ class Mailer
 
 		} catch (\Exception $e) {
 			return "Erro ao enviar mensagem: {$this->mail->ErrorInfo}";
-			
+
 		}		
 	}
 }

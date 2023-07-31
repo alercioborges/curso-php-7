@@ -170,6 +170,16 @@ $app->post('/admin/forgot', function() {
 
 	$user = \Ecommerce\Model\User::getForgot($_POST['email']);
 
+	header("Location ../admin");
+	exit;
+
+});
+
+$app->get('/admin/forgot/mesage', function() {
+
+	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
+	$template->setTemplate("forgot-password-mesage.html");
+	
 });
 
 $app->run();

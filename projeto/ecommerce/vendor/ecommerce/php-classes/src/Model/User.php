@@ -145,8 +145,8 @@ class User extends Model{
 		$results = $sql->select("SELECT * FROM tb_persons p INNER JOIN tb_users u USING(idperson) WHERE p.desemail = :email", array(':email' => $email));
 
 		if (count($results) == 0) {
-			echo "email zuado 01";
-			exit;			
+			echo "e-mail não cadastrado";
+			exit;						
 		}
 
 		else {
@@ -181,18 +181,32 @@ class User extends Model{
 
 				echo "<pre>"; print_r($dataRecovery); echo "</pre>";
 				echo "<pre>"; print_r($code); echo "</pre>";
+				echo "<pre>"; print_r($data); echo "</pre>";
 				//https://gist.github.com/joashp/a1ae9cb30fa533f4ad94
 
 				$link = \Ecommerce\Config::getWwwroot() . "/admin/forgot/reset?code={$code}";
 
+				echo $link . "<br><br>";
+
 				$mailer = new \Ecommerce\Mailer(
 					$data['desemail'],
 					$data['desperson'],
-					"Redefinição de senha",
+					'Redefinição de senha',
+					'view'.DIRECTORY_SEPARATOR.'admin'.DIRECTORY_SEPARATOR.'email',
 					'forgot.html',
 					array(
-						'NAME' => $data['desperson'],
+						'NAME_USER' => $data['desperson'],
 						'LINK' => $link
+					),
+					array(
+						'view/admin/email/images/image-0.png' => 'image-0',
+						'view/admin/email/images/image-1.png' => 'image-1',
+						'view/admin/email/images/image-3.png' => 'image-2',
+						'view/admin/email/images/image-3.png' => 'image-3',
+						'view/admin/email/images/image-4.png' => 'image-4',		
+						'view/admin/email/images/image-6.png' => 'image-6',
+						'view/admin/email/images/image-7.png' => 'image-7',
+						'view/admin/email/images/image-8.png' => 'image-8'
 					)
 				);
 
