@@ -20,7 +20,7 @@ class Mailer
 		$loader = new \Twig\Loader\FilesystemLoader($pathLayout);
 		$twig = new \Twig\Environment($loader, [
 			'cache' => false,
-			'debug' => true
+			'debug' => false
 		]);
 
 		$layout_email = $twig->render($fileLayout, $layoutDara);
@@ -29,7 +29,7 @@ class Mailer
 		//Classe 'PHPMailer' está no escopo pricipal, necessário usa da '\'
 		$this->mail = new PHPMailer(true); 
 
-		$this->mail->SMTPDebug = SMTP::DEBUG_SERVER;
+		//$this->mail->SMTPDebug = SMTP::DEBUG_SERVER;
 		$this->mail->isSMTP();
 		$this->mail->Host       = 'smtp.office365.com';
 		$this->mail->SMTPAuth   = true;

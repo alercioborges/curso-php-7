@@ -145,8 +145,7 @@ class User extends Model{
 		$results = $sql->select("SELECT * FROM tb_persons p INNER JOIN tb_users u USING(idperson) WHERE p.desemail = :email", array(':email' => $email));
 
 		if (count($results) == 0) {
-			echo "e-mail não cadastrado";
-			exit;						
+			exit;					
 		}
 
 		else {
@@ -159,7 +158,6 @@ class User extends Model{
 			));
 
 			if (count($results2) == 0) {
-				echo "email zuado 02";
 				exit;
 			}
 
@@ -179,14 +177,7 @@ class User extends Model{
 					$iv
 				));
 
-				echo "<pre>"; print_r($dataRecovery); echo "</pre>";
-				echo "<pre>"; print_r($code); echo "</pre>";
-				echo "<pre>"; print_r($data); echo "</pre>";
-				//https://gist.github.com/joashp/a1ae9cb30fa533f4ad94
-
 				$link = \Ecommerce\Config::getWwwroot() . "/admin/forgot/reset?code={$code}";
-
-				echo $link . "<br><br>";
 
 				$mailer = new \Ecommerce\Mailer(
 					$data['desemail'],
@@ -201,7 +192,7 @@ class User extends Model{
 					array(
 						'view/admin/email/images/image-0.png' => 'image-0',
 						'view/admin/email/images/image-1.png' => 'image-1',
-						'view/admin/email/images/image-3.png' => 'image-2',
+						'view/admin/email/images/image-2.png' => 'image-2',
 						'view/admin/email/images/image-3.png' => 'image-3',
 						'view/admin/email/images/image-4.png' => 'image-4',		
 						'view/admin/email/images/image-6.png' => 'image-6',
@@ -214,12 +205,9 @@ class User extends Model{
 
 				return $data;
 
-			}
-
+			}			
 		}
-
 	}
-
 
 }
 
