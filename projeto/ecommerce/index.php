@@ -175,6 +175,35 @@ $app->post('/admin/forgot', function() {
 
 });
 
+$app->get('/admin/forgot/reset', function() {
+
+	//$user = new \Ecommerce\Model\User::validForgotDecrypt($_GET['code']);
+
+	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
+	$template->setTemplate("recover-password.html");
+
+});
+
+$app->post('/admin/forgot/reset', function() {
+
+	$user = new \Ecommerce\Model\User;
+
+	$user->get((int)28);
+
+	if ($_POST['password1'] != $_POST['password2']) {
+		throw new \Exception("A senha precisa ser igual nos dois campos");
+		
+	} else{
+
+		$user->setPassword($_POST['password1']);
+
+	}
+
+
+});
+
+
+
 $app->run();
 
 ?>

@@ -87,16 +87,24 @@ class User extends Model{
 		$nrphone = $_POST['nrphone'];
 		$inadmin = $_POST['inadmin'];
 
-		$sql = new Sql();
-		
-		$stmt = $sql->query("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
-			":desperson" => $desperson,
-			":deslogin" => $deslogin,
-			":despassword" => $despassword,
-			":desemail" => $desemail,
-			":nrphone" => $nrphone,
-			":inadmin" => $inadmin
-		));
+		$checkUserExists = User::checkUserExists($deslogin , $desemail);
+
+		if ($checkUserExists['status'] == false) {
+			throw new \Exception($checkUserExists['message']);			
+		} else {
+
+			$sql = new Sql();
+
+			$stmt = $sql->query("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
+				":desperson" => $desperson,
+				":deslogin" => $deslogin,
+				":despassword" => $despassword,
+				":desemail" => $desemail,
+				":nrphone" => $nrphone,
+				":inadmin" => $inadmin
+			));
+		}
+
 	}
 
 	public function get($iduser){
@@ -117,16 +125,24 @@ class User extends Model{
 		$nrphone = $_POST['nrphone'];
 		$inadmin = $_POST['inadmin'];
 
-		$sql = new Sql();
-		
-		$stmt = $sql->query("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :desemail, :nrphone, :inadmin)", array(
-			":iduser" => $iduser,
-			":desperson" => $desperson,
-			":deslogin" => $deslogin,
-			":desemail" => $desemail,
-			":nrphone" => $nrphone,
-			":inadmin" => $inadmin
-		));
+		$checkUserExists = User::checkUserExists($deslogin , $desemail);
+
+		if ($checkUserExists['status'] == false) {
+			throw new \Exception($checkUserExists['message']);			
+		} else {
+
+			$sql = new Sql();
+			
+			$stmt = $sql->query("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :desemail, :nrphone, :inadmin)", array(
+				":iduser" => $iduser,
+				":desperson" => $desperson,
+				":deslogin" => $deslogin,
+				":desemail" => $desemail,
+				":nrphone" => $nrphone,
+				":inadmin" => $inadmin
+			));
+
+		}
 
 	}
 
@@ -135,6 +151,38 @@ class User extends Model{
 		$sql = new Sql();
 
 		$sql->query("CALL sp_users_delete(:iduser)", array(':iduser' => $iduser));
+
+	}
+
+	public static function checkUserExists($login, $email){
+
+		$sql = new Sql();
+
+		$check_login = $sql->select("SELECT COUNT(*) AS 'CHECKLOGIN' FROM tb_users WHERE deslogin = '{$login}'");
+		$check_email = $sql->select("SELECT COUNT(*) AS 'CHECKEMAIL' FROM tb_persons WHERE desemail = '{$email}'");
+
+		if ($check_login[0]['CHECKLOGIN'] > 0) {
+			$array_check_login = array(
+				'message' => "Nome de usuário já existente",
+				'status' => false
+			);
+			return $array_check_login;
+
+		} else if ($check_email[0]['CHECKEMAIL'] > 0) {
+			$array_check_email = array(
+				'message' => "E-mail já cadastrado",
+				'status' => false
+			);
+			return $array_check_email;
+
+		} else {
+			$array_check_confirm = array(
+				'message' => "Usuário Cadastrado com sucesso!",
+				'status' => true
+			);
+			return $array_check_confirm;
+			
+		}	
 
 	}
 
@@ -207,6 +255,18 @@ class User extends Model{
 
 			}			
 		}
+	}
+
+	public static function validForgotDecrypt($code)
+	{
+
+
+
+	}
+
+	public function setPassword($password)
+	{
+		echo "dei certo";
 	}
 
 }
