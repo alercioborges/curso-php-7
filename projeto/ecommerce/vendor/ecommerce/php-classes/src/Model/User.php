@@ -125,10 +125,10 @@ class User extends Model{
 		$nrphone = $_POST['nrphone'];
 		$inadmin = $_POST['inadmin'];
 
-		$checkUserExists = User::checkUserExists($deslogin , $desemail);
+		$checkUpdateData = checkUpdateUserExists($deslogin, $desemail, $iduser);
 
-		if ($checkUserExists['status'] == false) {
-			throw new \Exception($checkUserExists['message']);			
+		if ($checkUpdateData['status'] == false) {
+			throw new \Exception($checkUpdateData['message']);			
 		} else {
 
 			$sql = new Sql();
@@ -154,7 +154,7 @@ class User extends Model{
 
 	}
 
-	public static function checkUserExists($login, $email){
+	public static function checkUserExists($login, $email) {
 
 		$sql = new Sql();
 
@@ -185,6 +185,40 @@ class User extends Model{
 		}	
 
 	}
+
+	public static function checkUpdateUserExists($login, $email, $iduser) {
+
+		$sql = new Sql();
+
+		$check_login = $sql->select("SELECT COUNT(*) AS 'CHECKLOGIN' FROM tb_users WHERE deslogin = '{$login}' AND iduser != {$iduser}");
+
+		$check_email = $sql->select("SELECT COUNT(*) AS 'CHECKEMAIL' FROM tb_persons WHERE desemail = '{$email}' AND iduser != {$iduser}");
+
+		if ($check_login[0]['CHECKLOGIN'] > 0) {
+			$array_check_login = array(
+				'message' => "Nome de usuário já existente",
+				'status' => false
+			);
+			return $array_check_login;
+
+		} else if ($check_email[0]['CHECKEMAIL'] > 0) {
+			$array_check_email = array(
+				'message' => "E-mail já cadastrado",
+				'status' => false
+			);
+			return $array_check_email;
+
+		} else {
+			$array_check_confirm = array(
+				'message' => "Usuário Cadastrado com sucesso!",
+				'status' => true
+			);
+			return $array_check_confirm;
+			
+		}	
+
+	}
+
 
 	public static function getForgot($email) {
 
