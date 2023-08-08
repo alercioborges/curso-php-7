@@ -125,7 +125,7 @@ class User extends Model{
 		$nrphone = $_POST['nrphone'];
 		$inadmin = $_POST['inadmin'];
 
-		$checkUpdateData = checkUpdateUserExists($deslogin, $desemail, $iduser);
+		$checkUpdateData = User::checkUpdateUserExists($deslogin, $desemail, $iduser);
 
 		if ($checkUpdateData['status'] == false) {
 			throw new \Exception($checkUpdateData['message']);			
@@ -192,7 +192,7 @@ class User extends Model{
 
 		$check_login = $sql->select("SELECT COUNT(*) AS 'CHECKLOGIN' FROM tb_users WHERE deslogin = '{$login}' AND iduser != {$iduser}");
 
-		$check_email = $sql->select("SELECT COUNT(*) AS 'CHECKEMAIL' FROM tb_persons WHERE desemail = '{$email}' AND iduser != {$iduser}");
+		$check_email = $sql->select("SELECT COUNT(*) AS 'CHECKEMAIL' FROM tb_persons p INNER JOIN tb_users u USING(idperson) WHERE p.desemail = '{$email}' AND u.iduser != {$iduser}");
 
 		if ($check_login[0]['CHECKLOGIN'] > 0) {
 			$array_check_login = array(
