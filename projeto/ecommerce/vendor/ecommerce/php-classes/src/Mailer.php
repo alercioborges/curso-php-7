@@ -25,8 +25,6 @@ class Mailer
 
 		$layout_email = $twig->render($fileLayout, $layoutDara);
 
-
-		//Classe 'PHPMailer' está no escopo pricipal, necessário usa da '\'
 		$this->mail = new PHPMailer(true); 
 
 		//$this->mail->SMTPDebug = SMTP::DEBUG_SERVER;

@@ -11,7 +11,6 @@ $app->config('debug', true);
 $app->get('/', function() {
 
 	$template = new Ecommerce\Controller\TemplatePage("view/site", false, true);
-
 	$template->setTemplate("index.html");
 
 });
@@ -23,7 +22,6 @@ $app->get('/admin', function() {
 	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
 
 	$template_data = array(
-		'NAME' => "Alercio Silva",
 		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
 		'NAME_USER' => $_SESSION["User"]["desperson"][0]
 	);
@@ -35,7 +33,6 @@ $app->get('/admin', function() {
 $app->get('/admin/login', function() {
 
 	$template = new Ecommerce\Controller\TemplatePage("view/admin", false, true);
-
 	$template->setTemplate("login.html");
 
 });
@@ -43,9 +40,7 @@ $app->get('/admin/login', function() {
 $app->post('/admin/login', function() {
 
 	\Ecommerce\Model\User::login($_POST['login'], $_POST['password']);
-
 	header("Location: ../admin");
-
 	exit;
 
 });
@@ -53,9 +48,7 @@ $app->post('/admin/login', function() {
 $app->get('/admin/logout', function() {
 
 	\Ecommerce\Model\User::logout();
-
 	header("Location: ../admin/login");
-
 	exit;
 
 });
@@ -71,7 +64,6 @@ $app->post('/admin/users/create', function() {
 	$user->createUser();
 
 	header("Location: ../../admin/users");
-
 	exit;
 
 });
@@ -186,19 +178,11 @@ $app->get('/admin/forgot/reset', function() {
 
 $app->post('/admin/forgot/reset', function() {
 
+	$password = \Ecommerce\Model\User::validPassword($_POST['password1'], $_POST['password2']);
+
 	$user = new \Ecommerce\Model\User;
 
-	$user->get((int)28);
-
-	if ($_POST['password1'] != $_POST['password2']) {
-		throw new \Exception("A senha precisa ser igual nos dois campos");
-		
-	} else{
-
-		$user->setPassword($_POST['password1']);
-
-	}
-
+	$user->get((int)28);	
 
 });
 

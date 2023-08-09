@@ -8,6 +8,8 @@ use \Ecommerce\DB\Sql;
 class User extends Model{
 
 	const SESSION = "User";
+	const SECRET_KEY = 'as987f9df6gsdf87';
+	const SECRET_IV = '9adf875sg9h85sgh';
 
 	public static function login($login, $password){
 
@@ -246,17 +248,13 @@ class User extends Model{
 			else {
 
 				$dataRecovery = $results2[0];
-				$secret_key = 'as987f9df6gsdf876gsdh568fgh';
-				$key = hash('sha256', $secret_key);
-				$secret_iv = '9adf875sg9h85sgh898sfg78809g';
-				$iv = substr(hash('sha256', $secret_iv), 0, 16);
 
 				$code = base64_encode(openssl_encrypt(
 					$dataRecovery['idrecovery'],
 					'AES-256-CBC',
-					$key,
+					User::SECRET_KEY,
 					OPENSSL_RAW_DATA,
-					$iv
+					User::SECRET_IV
 				));
 
 				$link = \Ecommerce\Config::getWwwroot() . "/admin/forgot/reset?code={$code}";
@@ -291,12 +289,34 @@ class User extends Model{
 		}
 	}
 
-	public static function validForgotDecrypt($code)
+	public static function validPassword($password1, $password2)
 	{
 
+		if ($password1 != $password2) {
+			throw new \Exception("A senha precisa ser igual nos dois campos");
 
+		} else{
+
+			return $password1;
+
+		}
 
 	}
+
+
+
+	public static function validForgotDecrypt($code)
+	{
+		$output = openssl_decrypt(base64_decode(
+			$code,
+			'AES-256-CBC',
+			SECRET_KEY,
+			OPENSSL_RAW_DATA,
+			SECRET_IV
+		));
+
+	}
+
 
 	public function setPassword($password)
 	{
