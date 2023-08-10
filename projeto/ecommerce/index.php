@@ -169,24 +169,42 @@ $app->post('/admin/forgot', function() {
 
 $app->get('/admin/forgot/reset', function() {
 
-	//$user = new \Ecommerce\Model\User::validForgotDecrypt($_GET['code']);
+	$user = \Ecommerce\Model\User::validForgotDecrypt($_GET['code']);
 
 	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
-	$template->setTemplate("recover-password.html");
+	
+	$template_data = array(
+		'CODE' => $_GET['code']
+	);
+
+	$template->setTemplate("recover-password.html", $template_data);
 
 });
 
 $app->post('/admin/forgot/reset', function() {
 
-	$password = \Ecommerce\Model\User::validPassword($_POST['password1'], $_POST['password2']);
+	$forgot = \Ecommerce\Model\User::validForgotDecrypt($_POST['code']);
+
+	$password = \Ecommerce\Model\User::validPassword(
+		$_POST['password1'],
+		$_POST['password2']
+	);
+
+	\Ecommerce\Model\User::setForgotUsed($forgot['idrecovery']);
 
 	$user = new \Ecommerce\Model\User;
 
-	$user->get((int)28);	
+	$user->get((int)$forgot['iduser']);
 
+	$password = password_hash($password, PASSWORD_DEFAULT, ['coast' => 12]);
+
+	$user->setPassword($password, $forgot['iduser']);
+
+	\Ecommerce\Model\User::login($forgot['deslogin'], $_POST['password1']);
+	header("Location: ../../admin");
+	exit;
+	
 });
-
-
 
 $app->run();
 
