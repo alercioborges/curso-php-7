@@ -19,8 +19,7 @@ class User extends Model{
 
 		if (count($result) == 0) {
 		 	//Necessário '\' no "Exception" para referenciar qu é a classe principal
-			throw new \Exception("Nome de usuário ou senha errados.");			
-
+			throw new \Exception("Nome de usuário ou senha errados.");
 		}
 
 		$data = $result[0];
@@ -97,10 +96,12 @@ class User extends Model{
 
 			$sql = new Sql();
 
+			$password = password_hash($despassword, PASSWORD_DEFAULT, ['coast' => 12]);
+
 			$stmt = $sql->query("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
 				":desperson" => $desperson,
 				":deslogin" => $deslogin,
-				":despassword" => $despassword,
+				":despassword" => $password,
 				":desemail" => $desemail,
 				":nrphone" => $nrphone,
 				":inadmin" => $inadmin
@@ -151,6 +152,8 @@ class User extends Model{
 	public function delete($iduser){
 
 		$sql = new Sql();
+
+		$sql->query("DELETE FROM tb_userspasswordsrecoveries WHERE iduser = :iduser", array(':iduser' => $iduser));
 
 		$sql->query("CALL sp_users_delete(:iduser)", array(':iduser' => $iduser));
 
@@ -317,12 +320,9 @@ class User extends Model{
 
 		$sql = new Sql();
 
-		$results = $sql->select("SELECT * FROM tb_userspasswordsrecoveries a INNER JOIN tb_users b USING(iduser) INNER JOIN tb_persons c USING(idperson) WHERE a.idrecovery = :idrecovery AND a.dtrecovery IS NULL AND DATE_ADD(a.dtregister, INTERVAL 1 HOUR) >= NOW()", array(
+		$results = $sql->select("SELECT *, a.dtregister AS LAST_REGISTER FROM tb_userspasswordsrecoveries a INNER JOIN tb_users b USING(iduser) INNER JOIN tb_persons c USING(idperson) WHERE a.idrecovery = :idrecovery AND a.dtrecovery IS NULL AND DATE_ADD(a.dtregister, INTERVAL 1 HOUR) >= NOW()", array(
 			":idrecovery"=>$idrecovery
 		));
-
-		//echo "<pre>"; print_r($results); echo "</pre>"; exit();
-
 		
 
 		if (count($results) == 0) {
@@ -333,18 +333,16 @@ class User extends Model{
 		$results2 = $sql->select("SELECT MAX(a.dtregister) AS LAST_LINK FROM tb_userspasswordsrecoveries a INNER JOIN tb_users b USING(iduser) INNER JOIN tb_persons c USING(idperson) WHERE b.iduser = :iduser AND a.dtrecovery IS NULL AND DATE_ADD(a.dtregister, INTERVAL 1 HOUR) >= NOW()", array(
 			':iduser' => $results[0]['iduser']));
 
-		//echo "<pre>"; print_r($results2[0]['LAST_LINK']); echo "</pre>";
-		//echo "<pre>"; print_r($results[0]['dtregister']); echo "</pre>"; exit;
+		$results3 = $sql->select("SELECT MAX(a.idrecovery ) AS LAST_IDRECOVERY FROM tb_userspasswordsrecoveries a INNER JOIN tb_users b USING(iduser) INNER JOIN tb_persons c USING(idperson) WHERE b.iduser = :iduser AND DATE_ADD(a.dtregister, INTERVAL 1 HOUR) >= NOW()", array(
+			':iduser' => $results[0]['iduser']));
 
-		if ($results2[0]['LAST_LINK'] != $results[0]['dtregister']){
-			throw new \Exception("Foi gerado um link de redefinição de senha mais recentes que este");
-
-						
+		if ($results[0]['LAST_REGISTER'] == $results2[0]['LAST_LINK'] && $results[0]['idrecovery'] == $results3[0]['LAST_IDRECOVERY']){
+			return $results[0];						
 
 		} else {
-			return $results[0];
-		}
-		
+			throw new \Exception("Foi gerado um link de redefinição de senha mais recentes que este");
+			
+		}	
 		
 	}
 

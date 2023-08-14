@@ -31,7 +31,7 @@ $app->get('/admin', function() {
 });
 
 $app->get('/admin/login', function() {
-
+	
 	$template = new Ecommerce\Controller\TemplatePage("view/admin", false, true);
 	$template->setTemplate("login.html");
 
