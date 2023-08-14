@@ -14,6 +14,33 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+-- Copiando estrutura para procedure db_ecommerce.sp_categories_save
+DELIMITER //
+CREATE PROCEDURE `sp_categories_save`(
+pidcategory INT,
+pdescategory VARCHAR(64)
+)
+BEGIN
+	
+	IF pidcategory > 0 THEN
+		
+		UPDATE tb_categories
+        SET descategory = pdescategory
+        WHERE idcategory = pidcategory;
+        
+    ELSE
+		
+		INSERT INTO tb_categories (descategory) VALUES(pdescategory);
+        
+        SET pidcategory = LAST_INSERT_ID();
+        
+    END IF;
+    
+    SELECT * FROM tb_categories WHERE idcategory = pidcategory;
+    
+END//
+DELIMITER ;
+
 -- Copiando estrutura para procedure db_ecommerce.sp_userspasswordsrecoveries_create
 DELIMITER //
 CREATE PROCEDURE `sp_userspasswordsrecoveries_create`(
@@ -219,17 +246,19 @@ CREATE TABLE IF NOT EXISTS `tb_persons` (
   `nrphone` bigint(20) DEFAULT NULL,
   `dtregister` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`idperson`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Copiando dados para a tabela db_ecommerce.tb_persons: ~4 rows (aproximadamente)
+-- Copiando dados para a tabela db_ecommerce.tb_persons: ~5 rows (aproximadamente)
 INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
 	(1, 'ALERCIO SILVA', 'admin@hotmail.com.br', 2147483647, '2017-03-01 06:00:00');
 INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
 	(7, 'Suporte', 'suporte@hcode.com.br', 1112345678, '2017-03-15 19:10:27');
 INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
-	(28, 'USUARIO DE TESTE', 'alercio@alercio', 11555555555, '2023-07-26 17:37:33');
+	(33, 'ALERCIO DE TESTE', 'alercio.borges@gmail.com', 6454564356, '2023-08-11 14:43:59');
 INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
-	(29, 'SILVA DA SILVA UM', 'silva@silva1', 155555555511, '2023-07-26 17:39:03');
+	(39, 'TESTE DE PASS', 'pass@pass', 75675467, '2023-08-11 20:05:06');
+INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
+	(40, 'UUSER TEST', 'userteste@uesretes.com', 6456435, '2023-08-11 20:16:21');
 
 -- Copiando estrutura para tabela db_ecommerce.tb_products
 CREATE TABLE IF NOT EXISTS `tb_products` (
@@ -276,7 +305,7 @@ CREATE TABLE IF NOT EXISTS `tb_users` (
   PRIMARY KEY (`iduser`),
   KEY `FK_users_persons_idx` (`idperson`),
   CONSTRAINT `fk_users_persons` FOREIGN KEY (`idperson`) REFERENCES `tb_persons` (`idperson`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- Copiando dados para a tabela db_ecommerce.tb_users: ~4 rows (aproximadamente)
 INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmin`, `dtregister`) VALUES
@@ -284,9 +313,11 @@ INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmi
 INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmin`, `dtregister`) VALUES
 	(7, 7, 'suporte', '$2y$12$HFjgUm/mk1RzTy4ZkJaZBe0Mc/BA2hQyoUckvm.lFa6TesjtNpiMe', 1, '2017-03-15 19:10:27');
 INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmin`, `dtregister`) VALUES
-	(28, 28, 'teste', 'qwer', 1, '2023-07-26 17:37:33');
+	(33, 33, 'alercio', '$2y$10$XKzb1KcTNseQ6k6p5Dwlm.jYHWB79IXTaDs0kidWhxy6Qwl9noOoy', 0, '2023-08-11 14:43:59');
 INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmin`, `dtregister`) VALUES
-	(29, 29, 'silva1', 'silva', 1, '2023-07-26 17:39:03');
+	(39, 39, 'pass', '$2y$10$VzVw37.kkUjFp4yFzkRjCOUApM9QF3tIyHMWmOo95OSvm8U4RPlma', 0, '2023-08-11 20:05:06');
+INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmin`, `dtregister`) VALUES
+	(40, 40, 'uuserteste', '$2y$10$A.yy1.ZZOTkNqhVhVBYbjux0065RCt4gTozTOLINkr4pSBw7hmAPy', 0, '2023-08-11 20:16:21');
 
 -- Copiando estrutura para tabela db_ecommerce.tb_userslogs
 CREATE TABLE IF NOT EXISTS `tb_userslogs` (
@@ -315,15 +346,45 @@ CREATE TABLE IF NOT EXISTS `tb_userspasswordsrecoveries` (
   PRIMARY KEY (`idrecovery`),
   KEY `fk_userspasswordsrecoveries_users_idx` (`iduser`),
   CONSTRAINT `fk_userspasswordsrecoveries_users` FOREIGN KEY (`iduser`) REFERENCES `tb_users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Copiando dados para a tabela db_ecommerce.tb_userspasswordsrecoveries: ~3 rows (aproximadamente)
+-- Copiando dados para a tabela db_ecommerce.tb_userspasswordsrecoveries: ~17 rows (aproximadamente)
 INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
 	(1, 7, '127.0.0.1', NULL, '2017-03-15 19:10:59');
 INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
 	(2, 7, '127.0.0.1', '2017-03-15 13:33:45', '2017-03-15 19:11:18');
 INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
 	(3, 7, '127.0.0.1', '2017-03-15 13:37:35', '2017-03-15 19:37:12');
+INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
+	(165, 33, '::1', NULL, '2023-08-11 14:46:36');
+INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
+	(166, 33, '::1', NULL, '2023-08-11 15:00:38');
+INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
+	(167, 33, '::1', NULL, '2023-08-11 15:16:03');
+INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
+	(168, 33, '::1', NULL, '2023-08-11 15:16:56');
+INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
+	(169, 33, '::1', NULL, '2023-08-11 15:17:05');
+INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
+	(170, 33, '::1', NULL, '2023-08-11 15:18:43');
+INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
+	(171, 33, '::1', NULL, '2023-08-11 15:19:37');
+INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
+	(172, 33, '::1', '2023-08-11 12:24:30', '2023-08-11 15:23:46');
+INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
+	(179, 33, '::1', NULL, '2023-08-11 17:43:13');
+INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
+	(180, 33, '::1', NULL, '2023-08-11 17:45:45');
+INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
+	(181, 33, '::1', NULL, '2023-08-11 17:46:51');
+INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
+	(182, 33, '::1', NULL, '2023-08-11 17:51:06');
+INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
+	(183, 33, '::1', '2023-08-11 14:56:23', '2023-08-11 17:55:27');
+INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
+	(184, 33, '::1', NULL, '2023-08-11 18:39:20');
+INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
+	(185, 33, '::1', '2023-08-11 15:41:21', '2023-08-11 18:40:03');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
