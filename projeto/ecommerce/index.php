@@ -4,6 +4,8 @@ session_start();
 
 require_once("vendor/autoload.php");
 
+use \Ecommerce\Model\Category;
+
 $app = new \Slim\Slim();
 
 $app->config('debug', true);
@@ -205,6 +207,35 @@ $app->post('/admin/forgot/reset', function() {
 	exit;
 	
 });
+
+$app->get('/admin/categories', function() {
+
+	$categories = Category::listAll();
+
+	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
+	$template_data = array(
+		'CATEGORIES' => $categories,
+		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
+		'NAME_USER' => $_SESSION["User"]["desperson"][0]
+	);
+
+	$template->setTemplate("categories.html", $template_data);
+
+});
+
+$app->get('/admin/categories/create', function() {
+
+
+	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
+	$template_data = array(
+		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
+		'NAME_USER' => $_SESSION["User"]["desperson"][0]
+	);
+
+	$template->setTemplate("categories-create.html", $template_data);
+
+});
+
 
 $app->run();
 
