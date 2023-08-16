@@ -25,7 +25,7 @@ $app->get('/admin', function() {
 
 	$template_data = array(
 		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
-		'NAME_USER' => $_SESSION["User"]["desperson"][0]
+		'NAME_USER' => $_SESSION["User"]["desperson"]
 	);
 	
 	$template->setTemplate("index.html", $template_data);
@@ -76,7 +76,7 @@ $app->get('/admin/users/create', function() {
 
 	$template_data = array(
 		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
-		'NAME_USER' => $_SESSION["User"]["desperson"][0]
+		'NAME_USER' => $_SESSION["User"]["desperson"]
 	);
 
 	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
@@ -92,7 +92,7 @@ $app->get('/admin/users', function() {
 
 	$template_data = array(
 		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
-		'NAME_USER' => $_SESSION["User"]["desperson"][0],
+		'NAME_USER' => $_SESSION["User"]["desperson"],
 		'USERS' => $users
 	);
 
@@ -125,7 +125,7 @@ $app->get('/admin/users/:iduser', function($iduser) {
 	$template_data = array(
 		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
 		'IDUSER' => $iduser,
-		'NAME_USER' => $_SESSION["User"]["desperson"][0],
+		'NAME_USER' => $_SESSION["User"]["desperson"],
 		'USER' => $user
 	);
 
@@ -216,7 +216,7 @@ $app->get('/admin/categories', function() {
 	$template_data = array(
 		'CATEGORIES' => $categories,
 		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
-		'NAME_USER' => $_SESSION["User"]["desperson"][0]
+		'NAME_USER' => $_SESSION["User"]["desperson"]
 	);
 
 	$template->setTemplate("categories.html", $template_data);
@@ -229,7 +229,7 @@ $app->get('/admin/categories/create', function() {
 	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
 	$template_data = array(
 		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
-		'NAME_USER' => $_SESSION["User"]["desperson"][0]
+		'NAME_USER' => $_SESSION["User"]["desperson"]
 	);
 
 	$template->setTemplate("categories-create.html", $template_data);
@@ -251,6 +251,35 @@ $app->post('/admin/categories/create', function() {
 
 });
 
+$app->get('/admin/categories/:idcategory/delete', function($idcategory) {
+
+	\Ecommerce\Model\User::verifyLogin();
+
+	$category = new Category();
+
+	$category->get((int)$idcategory);
+
+	$category->delete();
+
+	header("Location: ../../../admin/categories");
+	exit;
+
+});
+
+$app->get('/admin/categories/:idcategory', function($idcategory) {
+
+	\Ecommerce\Model\User::verifyLogin();	
+
+	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
+
+	$template_data = array(
+		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
+		'NAME_USER' => $_SESSION["User"]["desperson"]
+	);
+
+	$template->setTemplate("categories-update.html", $template_data);
+
+});
 
 $app->run();
 
