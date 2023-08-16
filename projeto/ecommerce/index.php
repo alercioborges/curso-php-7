@@ -236,6 +236,21 @@ $app->get('/admin/categories/create', function() {
 
 });
 
+$app->post('/admin/categories/create', function() {
+
+	\Ecommerce\Model\User::verifyLogin();
+
+	$category = new Category();
+
+	$category->setData($_POST);
+
+	$category->save();
+
+	header('Location: ../../admin/categories');
+	exit;
+
+});
+
 
 $app->run();
 

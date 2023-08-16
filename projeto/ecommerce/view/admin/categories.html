@@ -34,10 +34,9 @@
 
             {% if CATEGORIES is empty %}
             <div style="margin: 100px; text-align: center;">
-              <h1>NENHUM CATEGORIA CRIADA</h1>
+              <h2>NENHUMA CATEGORIA CRIADA</h2>
             </div>
-            {% else %}
-            {% for data in CATEGORIES %}
+            {% else %}            
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -47,19 +46,41 @@
                 </tr>
               </thead>
               <tbody>
-
+                {% for data in CATEGORIES %}
                 <tr>
                   <td>{{data.idcategory}}</td>
                   <td>{{data.descategory}}</td>
                   <td>
-                    <a href="/admin/categories/{$value.idcategory}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                    <a href="/admin/categories/{$value.idcategory}/delete" onclick="return confirm('Deseja realmente excluir este registro?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+                    <a href="{{WWWROOT}}/admin/categories/{data.}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Editar</a>
+
+                    <!-- Início Modal de exclusão de usuário -->
+                    <!-- Início link excluir Modal -->
+                    <a href="#" data-toggle="modal" data-target="#confirm-delete-iduser-{data.}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+                    <!-- Fim link excluir Modal -->
+                    <!-- Início da janela do Modal -->
+                    <div class="modal fade" id="confirm-delete-iduser-{data.}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            Exclusão de usuário
+                          </div>
+                          <div class="modal-body">
+                            Deseja realmente excluir o usuário de nome {{data.desperson}} e de e-mail {{data.desemail}} ?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
+                            <a href="{{WWWROOT}}/admin/categories/{data.}/delete" class="btn btn-danger btn-ok">Delete</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Fim da da janela do Modal -->
+                    <!-- Fim do modal de exclusão de usuário -->
                   </td>
                 </tr>
-                
+                {% endfor %}
               </tbody>
-            </table>
-            {% endfor %}
+            </table>            
             {% endif %}
           </div><!-- /.box-body -->
         </div>

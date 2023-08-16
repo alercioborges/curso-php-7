@@ -1,40 +1,48 @@
-<?php
+<?php 
 
-namespace Ecommerce; //namespace principal criado pelo autoload do composer
+namespace Ecommerce;
 
-class Model{
+class Model {
 
 	private $values = [];
 
-	public function __call($nameMethod, $args){
+	public function __call($name, $args)
+	{
 
-		//Atribui se o metodo é GET ou SET
-		$method = substr($nameMethod, 0, 3);
+		$method = substr($name, 0, 3);
+		$fieldName = substr($name, 3, strlen($name));
 
-		//Atribui o compo do metodo (getNome = Nome)
-		$fieldName = substr($nameMethod, 3, strlen($nameMethod));
+		switch ($method)
+		{
 
-		switch ($method) {
-			case 'get':
-			return $this->values[$fieldName];
+			case "get":
+			return (isset($this->values[$fieldName])) ? $this->values[$fieldName] : NULL;
 			break;
 
-			case 'set':
-			$this->values[$fieldName] = $args;
+			case "set":
+			$this->values[$fieldName] = $args[0];
 			break;
+
 		}
 
 	}
 
-	public function setData(array $data){
+	public function setData($data = array())
+	{
 
 		foreach ($data as $key => $value) {
-			$this->{"set".$key}($value); //atributo criado dinamicamente (permitido usar 'this' p/ atrib. dinamicos)
+			
+			$this->{"set".$key}($value);
+
 		}
+
 	}
 
-	public function getValues(){
-			return $this->values;
+	public function getValues()
+	{
+
+		return $this->values;
+
 	}
 
 }
