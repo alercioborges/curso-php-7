@@ -268,16 +268,38 @@ $app->get('/admin/categories/:idcategory/delete', function($idcategory) {
 
 $app->get('/admin/categories/:idcategory', function($idcategory) {
 
-	\Ecommerce\Model\User::verifyLogin();	
+	\Ecommerce\Model\User::verifyLogin();
+
+	$category = new Category();
+
+	$category->get((int)$idcategory);
 
 	$template = new \Ecommerce\Controller\TemplatePage("view/admin", false, true);
 
 	$template_data = array(
 		'WWWROOT' => \Ecommerce\Config::getWwwroot(),
-		'NAME_USER' => $_SESSION["User"]["desperson"]
+		'NAME_USER' => $_SESSION["User"]["desperson"],
+		'CATEGORY' => $category->getValues()
 	);
 
 	$template->setTemplate("categories-update.html", $template_data);
+
+});
+
+$app->post('/admin/categories/:idcategory', function($idcategory) {
+
+	\Ecommerce\Model\User::verifyLogin();
+
+	$category = new Category();
+
+	$category->get((int)$idcategory);
+
+	$category->setData($_POST);
+
+	$category->save();
+
+	header("Location: ../../admin/categories");
+	exit;
 
 });
 
