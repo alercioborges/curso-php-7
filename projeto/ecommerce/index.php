@@ -296,7 +296,7 @@ $app->post('/admin/categories/:idcategory', function($idcategory) {
 
 	$category->setData($_POST);
 
-	$category->save();
+	$category->update();
 
 	header("Location: ../../admin/categories");
 	exit;
