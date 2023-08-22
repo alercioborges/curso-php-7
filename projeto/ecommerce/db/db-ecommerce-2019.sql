@@ -199,7 +199,7 @@ pdesperson VARCHAR(64),
 pdeslogin VARCHAR(64), 
 pdespassword VARCHAR(256), 
 pdesemail VARCHAR(128), 
-pnrphone BIGINT, 
+pnrphone VARCHAR(15), 
 pinadmin TINYINT
 )
 BEGIN

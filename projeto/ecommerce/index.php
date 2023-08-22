@@ -41,9 +41,13 @@ $app->get('/admin/login', function() {
 
 $app->post('/admin/login', function() {
 
-	\Ecommerce\Model\User::login($_POST['login'], $_POST['password']);
-	header("Location: ../admin");
-	exit;
+	try {
+		\Ecommerce\Model\User::login($_POST['login'], $_POST['password']);
+		header("Location: ../admin");
+		exit;	
+	} catch (Exception $e) {
+		$msgError = $e->getMessage();
+	}
 
 });
 
@@ -300,6 +304,21 @@ $app->post('/admin/categories/:idcategory', function($idcategory) {
 
 	header("Location: ../../admin/categories");
 	exit;
+
+});
+
+$app->get('/categories/:idcategory', function($idcategory) {
+
+	$category = new Category();
+
+	$category->get((int)$idcategory);
+
+	$template = new Ecommerce\Controller\TemplatePage("view/site", false, true);
+	$template_data = array(
+		'CATEGORY' => $category->getValues(),
+		'PRODUCTS' => []
+	);
+	$template->setTemplate("category.html", $template_data);
 
 });
 

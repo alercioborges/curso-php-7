@@ -1,3 +1,4 @@
+{% set dir = dir is defined ? dir : 'view/site/' %}
 {% block header %}
 <html lang="pt-br">
 <head>
@@ -12,15 +13,15 @@
     <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
     
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="view/site/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ dir }}css/bootstrap.min.css">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="view/site/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ dir }}css/font-awesome.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="view/site/css/owl.carousel.css">
-    <link rel="stylesheet" href="view/site/css/style.css">
-    <link rel="stylesheet" href="view/site/css/responsive.css">
+    <link rel="stylesheet" href="{{ dir }}css/owl.carousel.css">
+    <link rel="stylesheet" href="{{ dir }}css/style.css">
+    <link rel="stylesheet" href="{{ dir }}css/responsive.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -76,7 +77,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="logo">
-                        <h1><a href="#"><img src="view/site/img/logo.png"></a></h1>
+                        <h1><a href="#"><img src="{{ dir }}img/logo.png"></a></h1>
                     </div>
                 </div>
                 
@@ -195,18 +196,18 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
     <!-- jQuery sticky menu -->
-    <script src="view/site/js/owl.carousel.min.js"></script>
-    <script src="view/site/js/jquery.sticky.js"></script>
+    <script src="{{ dir }}js/owl.carousel.min.js"></script>
+    <script src="{{ dir }}js/jquery.sticky.js"></script>
 
     <!-- jQuery easing -->
-    <script src="view/site/js/jquery.easing.1.3.min.js"></script>
+    <script src="{{ dir }}jquery.easing.1.3.min.js"></script>
 
     <!-- Main Script -->
-    <script src="view/site/js/main.js"></script>
+    <script src="{{ dir }}js/main.js"></script>
 
     <!-- Slider -->
-    <script type="text/javascript" src="view/site/js/bxslider.min.js"></script>
-    <script type="text/javascript" src="view/site/js/script.slider.js"></script>
+    <script type="text/javascript" src="{{ dir }}js/bxslider.min.js"></script>
+    <script type="text/javascript" src="{{ dir }}js/script.slider.js"></script>
 </body>
 </html>
 {% endblock %}

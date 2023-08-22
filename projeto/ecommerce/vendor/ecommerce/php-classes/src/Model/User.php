@@ -92,13 +92,13 @@ class User extends Model{
 
 		if ($checkUserExists['status'] == false) {
 			throw new \Exception($checkUserExists['message']);			
-		} else {
+		} else {		
 
 			$sql = new Sql();
 
 			$password = password_hash($despassword, PASSWORD_DEFAULT, ['coast' => 12]);
 
-			$stmt = $sql->query("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
+			$sql->query("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
 				":desperson" => $desperson,
 				":deslogin" => $deslogin,
 				":despassword" => $password,

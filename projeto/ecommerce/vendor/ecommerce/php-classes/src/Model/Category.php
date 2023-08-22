@@ -182,7 +182,7 @@ class Category extends Model
 		foreach ($categories as $row) {
 			array_push($html, '<li><a href="'
 				. \Ecommerce\Config::getWwwroot()
-				. '/category/' . $row['idcategory'] . '">'
+				. '/categories/' . $row['idcategory'] . '">'
 				. $row['descategory']
 				. '</a></li>');
 		}

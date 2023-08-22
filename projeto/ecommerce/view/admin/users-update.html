@@ -46,7 +46,7 @@
               </div>
               <div class="form-group">
                 <label for="nrphone">Telefone</label>
-                <input type="tel" class="form-control" id="nrphone" name="nrphone" placeholder="Digite o telefone" required value="{{data.nrphone}}">
+                <input type="tel" class="form-control" id="nrphone" name="nrphone" placeholder="Digite o telefone" minlength="14" maxlength="15" onkeyup="handlePhone(event)" required value="{{data.nrphone}}">
               </div>
               <div class="form-group">
                 <label for="desemail">E-mail</label>
@@ -71,4 +71,18 @@
 
   </div><!-- /.content -->
 </div><!-- /.content-wrapper -->
+<script>
+  const handlePhone = (event) => {
+    let input = event.target
+    input.value = phoneMask(input.value)
+  }
+
+  const phoneMask = (value) => {
+    if (!value) return ""
+      value = value.replace(/\D/g,'')
+    value = value.replace(/(\d{2})(\d)/,"($1) $2")
+    value = value.replace(/(\d)(\d{4})$/,"$1-$2")
+    return value
+  }
+</script>
 {% endblock %}
