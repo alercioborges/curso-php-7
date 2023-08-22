@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
--- Servidor:                     localhost
+-- Servidor:                     127.0.0.1
 -- Versão do servidor:           10.4.28-MariaDB - mariadb.org binary distribution
 -- OS do Servidor:               Win64
--- HeidiSQL Versão:              12.5.0.6677
+-- HeidiSQL Versão:              12.4.0.6659
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -13,6 +13,11 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+-- Copiando estrutura do banco de dados para db_ecommerce
+CREATE DATABASE IF NOT EXISTS `db_ecommerce` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+USE `db_ecommerce`;
 
 -- Copiando estrutura para procedure db_ecommerce.sp_categories_save
 DELIMITER //
@@ -41,6 +46,47 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Copiando estrutura para procedure db_ecommerce.sp_products_save
+DELIMITER //
+CREATE PROCEDURE `sp_products_save`(
+pidproduct int(11),
+pdesproduct varchar(64),
+pvlprice decimal(10,2),
+pvlwidth decimal(10,2),
+pvlheight decimal(10,2),
+pvllength decimal(10,2),
+pvlweight decimal(10,2),
+pdesurl varchar(128)
+)
+BEGIN
+	
+	IF pidproduct > 0 THEN
+		
+		UPDATE tb_products
+        SET 
+			desproduct = pdesproduct,
+            vlprice = pvlprice,
+            vlwidth = pvlwidth,
+            vlheight = pvlheight,
+            vllength = pvllength,
+            vlweight = pvlweight,
+            desurl = pdesurl
+        WHERE idproduct = pidproduct;
+        
+    ELSE
+		
+		INSERT INTO tb_products (desproduct, vlprice, vlwidth, vlheight, vllength, vlweight, desurl) 
+        VALUES(pdesproduct, pvlprice, pvlwidth, pvlheight, pvllength, pvlweight, pdesurl);
+        
+        SET pidproduct = LAST_INSERT_ID();
+        
+    END IF;
+    
+    SELECT * FROM tb_products WHERE idproduct = pidproduct;
+    
+END//
+DELIMITER ;
+
 -- Copiando estrutura para procedure db_ecommerce.sp_userspasswordsrecoveries_create
 DELIMITER //
 CREATE PROCEDURE `sp_userspasswordsrecoveries_create`(
@@ -65,7 +111,7 @@ CREATE PROCEDURE `sp_usersupdate_save`(
 	IN `pdesperson` VARCHAR(64),
 	IN `pdeslogin` VARCHAR(64),
 	IN `pdesemail` VARCHAR(128),
-	IN `pnrphone` BIGINT,
+	IN `pnrphone` VARCHAR(19),
 	IN `pinadmin` TINYINT
 )
 BEGIN
@@ -116,12 +162,12 @@ DELIMITER ;
 -- Copiando estrutura para procedure db_ecommerce.sp_users_save
 DELIMITER //
 CREATE PROCEDURE `sp_users_save`(
-pdesperson VARCHAR(64), 
-pdeslogin VARCHAR(64), 
-pdespassword VARCHAR(256), 
-pdesemail VARCHAR(128), 
-pnrphone BIGINT, 
-pinadmin TINYINT
+	IN `pdesperson` VARCHAR(64),
+	IN `pdeslogin` VARCHAR(64),
+	IN `pdespassword` VARCHAR(256),
+	IN `pdesemail` VARCHAR(128),
+	IN `pnrphone` VARCHAR(19),
+	IN `pinadmin` TINYINT
 )
 BEGIN
   
@@ -197,9 +243,29 @@ CREATE TABLE IF NOT EXISTS `tb_categories` (
   `descategory` varchar(32) NOT NULL,
   `dtregister` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`idcategory`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Copiando dados para a tabela db_ecommerce.tb_categories: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela db_ecommerce.tb_categories: ~10 rows (aproximadamente)
+INSERT INTO `tb_categories` (`idcategory`, `descategory`, `dtregister`) VALUES
+	(1, 'Vestuário', '2023-08-17 10:43:34');
+INSERT INTO `tb_categories` (`idcategory`, `descategory`, `dtregister`) VALUES
+	(2, 'Eletrônico ', '2023-08-17 10:44:13');
+INSERT INTO `tb_categories` (`idcategory`, `descategory`, `dtregister`) VALUES
+	(3, 'Eletrodoméstico ', '2023-08-17 10:44:34');
+INSERT INTO `tb_categories` (`idcategory`, `descategory`, `dtregister`) VALUES
+	(4, 'Calçados', '2023-08-17 10:44:51');
+INSERT INTO `tb_categories` (`idcategory`, `descategory`, `dtregister`) VALUES
+	(5, 'Alimentício ', '2023-08-17 10:45:15');
+INSERT INTO `tb_categories` (`idcategory`, `descategory`, `dtregister`) VALUES
+	(6, 'Higiene', '2023-08-17 10:46:09');
+INSERT INTO `tb_categories` (`idcategory`, `descategory`, `dtregister`) VALUES
+	(9, 'Brinquedos', '2023-08-17 11:52:22');
+INSERT INTO `tb_categories` (`idcategory`, `descategory`, `dtregister`) VALUES
+	(11, 'Papelaria', '2023-08-17 16:25:03');
+INSERT INTO `tb_categories` (`idcategory`, `descategory`, `dtregister`) VALUES
+	(12, 'Saúde', '2023-08-17 16:27:23');
+INSERT INTO `tb_categories` (`idcategory`, `descategory`, `dtregister`) VALUES
+	(13, 'Variedades', '2023-08-17 17:39:20');
 
 -- Copiando estrutura para tabela db_ecommerce.tb_orders
 CREATE TABLE IF NOT EXISTS `tb_orders` (
@@ -243,22 +309,34 @@ CREATE TABLE IF NOT EXISTS `tb_persons` (
   `idperson` int(11) NOT NULL AUTO_INCREMENT,
   `desperson` varchar(64) NOT NULL,
   `desemail` varchar(128) DEFAULT NULL,
-  `nrphone` bigint(20) DEFAULT NULL,
+  `nrphone` varchar(15) DEFAULT NULL,
   `dtregister` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`idperson`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Copiando dados para a tabela db_ecommerce.tb_persons: ~5 rows (aproximadamente)
+-- Copiando dados para a tabela db_ecommerce.tb_persons: ~11 rows (aproximadamente)
 INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
-	(1, 'ALERCIO SILVA', 'admin@hotmail.com.br', 2147483647, '2017-03-01 06:00:00');
+	(1, 'ALERCIO SILVA', 'admin@hotmail.com.br', '2147483647', '2017-03-01 06:00:00');
 INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
-	(7, 'Suporte', 'suporte@hcode.com.br', 1112345678, '2017-03-15 19:10:27');
+	(7, 'Suporte', 'suporte@hcode.com.br', '1112345678', '2017-03-15 19:10:27');
 INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
-	(33, 'ALERCIO DE TESTE', 'alercio.borges@gmail.com', 6454564356, '2023-08-11 14:43:59');
+	(33, 'ALERCIO DE TESTE', 'alercio.borges@gmail.com', '(12) 34567-8912', '2023-08-11 14:43:59');
 INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
-	(39, 'TESTE DE PASS', 'pass@pass', 75675467, '2023-08-11 20:05:06');
+	(39, 'TESTE DE PASS', 'pass@pass', '75675467', '2023-08-11 20:05:06');
 INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
-	(40, 'UUSER TEST', 'userteste@uesretes.com', 6456435, '2023-08-11 20:16:21');
+	(40, 'UUSER TEST', 'userteste@uesretes.com', '6456435', '2023-08-11 20:16:21');
+INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
+	(41, 'ALUNO DE TESTE', 'aluno@aluno.com', '444444444', '2023-08-17 10:35:49');
+INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
+	(44, 'ESTUDANTE DE TESTE', 'alt@alt.com', '(11) 5528-3442', '2023-08-22 12:12:32');
+INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
+	(45, 'TESTE DE TESTE', 'deteste@deteste.com', '0', '2023-08-22 12:35:52');
+INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
+	(46, 'LEO', 'leo@leo.com', '(11) 5528-3442', '2023-08-22 12:52:46');
+INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
+	(47, 'TIO SAM', 'tio@tio.com.br', '(11) 94231-6737', '2023-08-22 13:25:23');
+INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
+	(48, 'HINATA', 'hinata@email.com', '(11) 94231-6737', '2023-08-22 13:45:12');
 
 -- Copiando estrutura para tabela db_ecommerce.tb_products
 CREATE TABLE IF NOT EXISTS `tb_products` (
@@ -305,9 +383,9 @@ CREATE TABLE IF NOT EXISTS `tb_users` (
   PRIMARY KEY (`iduser`),
   KEY `FK_users_persons_idx` (`idperson`),
   CONSTRAINT `fk_users_persons` FOREIGN KEY (`idperson`) REFERENCES `tb_persons` (`idperson`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Copiando dados para a tabela db_ecommerce.tb_users: ~4 rows (aproximadamente)
+-- Copiando dados para a tabela db_ecommerce.tb_users: ~11 rows (aproximadamente)
 INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmin`, `dtregister`) VALUES
 	(1, 1, 'admin', '$2y$12$YlooCyNvyTji8bPRcrfNfOKnVMmZA9ViM2A3IpFjmrpIbp5ovNmga', 1, '2017-03-13 06:00:00');
 INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmin`, `dtregister`) VALUES
@@ -318,6 +396,18 @@ INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmi
 	(39, 39, 'pass', '$2y$10$VzVw37.kkUjFp4yFzkRjCOUApM9QF3tIyHMWmOo95OSvm8U4RPlma', 0, '2023-08-11 20:05:06');
 INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmin`, `dtregister`) VALUES
 	(40, 40, 'uuserteste', '$2y$10$A.yy1.ZZOTkNqhVhVBYbjux0065RCt4gTozTOLINkr4pSBw7hmAPy', 0, '2023-08-11 20:16:21');
+INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmin`, `dtregister`) VALUES
+	(41, 41, 'aluno', '$2y$10$3ypkxVbGy13XjLPaFB9V9.GjaCsHQlTbD4rWyrWABWagURnZjiPYO', 0, '2023-08-17 10:35:49');
+INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmin`, `dtregister`) VALUES
+	(44, 44, 'estudante', '$2y$10$fbES7LQIXoL3umv7r.WGdu3n6msGSo6zARcovjC5bThdCFYiRK63W', 1, '2023-08-22 12:12:32');
+INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmin`, `dtregister`) VALUES
+	(45, 45, 'deteste', '$2y$10$xmHH.ZsPqqhMYLCafMs2ZeoNUuP19H.aUqSjhHDa05jLkTzu9u.D6', 1, '2023-08-22 12:35:52');
+INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmin`, `dtregister`) VALUES
+	(46, 46, 'leo', '$2y$10$/q/z2SQlw0j0vcatR8atLO1hLR9JPv9oX1lVUpsuuLXZFPuj2vqo2', 1, '2023-08-22 12:52:46');
+INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmin`, `dtregister`) VALUES
+	(47, 47, 'tiosam', '$2y$10$kWyiWyFGqxPeuGfMEbe5OOZ5jSjMvQX97tlUwYX8WfXXkZc9Nqeki', 1, '2023-08-22 13:25:23');
+INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmin`, `dtregister`) VALUES
+	(48, 48, 'hinata', '$2y$10$I5O5S3zu0neUB/6dx4OSOugUxavypR/qnZTv.u5lD2qLygoC/hC0a', 0, '2023-08-22 13:45:12');
 
 -- Copiando estrutura para tabela db_ecommerce.tb_userslogs
 CREATE TABLE IF NOT EXISTS `tb_userslogs` (
@@ -348,7 +438,7 @@ CREATE TABLE IF NOT EXISTS `tb_userspasswordsrecoveries` (
   CONSTRAINT `fk_userspasswordsrecoveries_users` FOREIGN KEY (`iduser`) REFERENCES `tb_users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Copiando dados para a tabela db_ecommerce.tb_userspasswordsrecoveries: ~17 rows (aproximadamente)
+-- Copiando dados para a tabela db_ecommerce.tb_userspasswordsrecoveries: ~18 rows (aproximadamente)
 INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
 	(1, 7, '127.0.0.1', NULL, '2017-03-15 19:10:59');
 INSERT INTO `tb_userspasswordsrecoveries` (`idrecovery`, `iduser`, `desip`, `dtrecovery`, `dtregister`) VALUES
