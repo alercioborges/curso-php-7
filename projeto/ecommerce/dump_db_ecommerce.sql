@@ -243,7 +243,7 @@ CREATE TABLE IF NOT EXISTS `tb_categories` (
   `descategory` varchar(32) NOT NULL,
   `dtregister` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`idcategory`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- Copiando dados para a tabela db_ecommerce.tb_categories: ~10 rows (aproximadamente)
 INSERT INTO `tb_categories` (`idcategory`, `descategory`, `dtregister`) VALUES
@@ -312,7 +312,7 @@ CREATE TABLE IF NOT EXISTS `tb_persons` (
   `nrphone` varchar(15) DEFAULT NULL,
   `dtregister` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`idperson`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- Copiando dados para a tabela db_ecommerce.tb_persons: ~11 rows (aproximadamente)
 INSERT INTO `tb_persons` (`idperson`, `desperson`, `desemail`, `nrphone`, `dtregister`) VALUES
@@ -383,7 +383,7 @@ CREATE TABLE IF NOT EXISTS `tb_users` (
   PRIMARY KEY (`iduser`),
   KEY `FK_users_persons_idx` (`idperson`),
   CONSTRAINT `fk_users_persons` FOREIGN KEY (`idperson`) REFERENCES `tb_persons` (`idperson`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- Copiando dados para a tabela db_ecommerce.tb_users: ~11 rows (aproximadamente)
 INSERT INTO `tb_users` (`iduser`, `idperson`, `deslogin`, `despassword`, `inadmin`, `dtregister`) VALUES
