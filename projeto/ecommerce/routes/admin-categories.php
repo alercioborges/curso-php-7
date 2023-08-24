@@ -101,19 +101,4 @@ $app->post('/admin/categories/:idcategory', function($idcategory) {
 
 });
 
-$app->get('/categories/:idcategory', function($idcategory) {
-
-	$category = new Category();
-
-	$category->get((int)$idcategory);
-
-	$template = new TemplatePage("view/site", false, true);
-	$template_data = array(
-		'CATEGORY' => $category->getValues(),
-		'PRODUCTS' => []
-	);
-	$template->setTemplate("category.html", $template_data);
-
-});
-
 ?>
