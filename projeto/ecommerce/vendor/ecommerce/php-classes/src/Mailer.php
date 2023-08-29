@@ -32,7 +32,7 @@ class Mailer
 		$this->mail->Host       = 'smtp.office365.com';
 		$this->mail->SMTPAuth   = true;
 		$this->mail->Username   = 'alercioborges@hotmail.com';
-		$this->mail->Password   = 'Aecolrims@89';
+		$this->mail->Password   = '******';
 		$this->mail->SMTPSecure = 'tls';
 		$this->mail->Port       = 587;
 

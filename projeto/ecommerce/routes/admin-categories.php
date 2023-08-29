@@ -8,6 +8,8 @@ use Ecommerce\Config;
 
 $app->get('/admin/categories', function() {
 
+	User::verifyLogin();
+
 	$categories = Category::listAll();
 
 	$template = new TemplatePage("view/admin", false, true);
@@ -23,6 +25,7 @@ $app->get('/admin/categories', function() {
 
 $app->get('/admin/categories/create', function() {
 
+	User::verifyLogin();
 
 	$template = new TemplatePage("view/admin", false, true);
 	$template_data = array(

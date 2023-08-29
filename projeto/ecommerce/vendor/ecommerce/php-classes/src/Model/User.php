@@ -11,14 +11,19 @@ class User extends Model{
 	const SECRET_KEY = 'as987f9df6gsdf87';
 	const SECRET_IV = '9adf875sg9h85sgh';
 
-	public static function login($login, $password){
+
+	public static function login($login, $password)
+	{
 
 		$sql = new SQL();
 
 		$result = $sql->select("SELECT * FROM tb_users u INNER JOIN tb_persons p USING(idperson) WHERE u.deslogin = :LOGIN", array(':LOGIN' => $login));
 
+
+
+
+
 		if (count($result) == 0) {
-		 	//Necessário '\' no "Exception" para referenciar qu é a classe principal
 			throw new \Exception("Nome de usuário ou senha errados.");
 		}
 
@@ -40,6 +45,18 @@ class User extends Model{
 		} else {
 
 			throw new \Exception("Nome de usuário ou senha errados.");
+		}
+	}
+
+
+	public static function checkErrorLogin()
+	{
+		if (isset($_SESSION['msg_error'])){
+			if ($_SESSION['msg_error']['count'] === 0) {
+				$_SESSION['msg_error']['count']++;
+			} else {
+				unset($_SESSION['msg_error']);
+			}
 		}
 	}
 

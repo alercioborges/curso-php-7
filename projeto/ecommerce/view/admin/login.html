@@ -24,9 +24,9 @@
       <div class="card-body">
         <p class="login-box-msg">Sign in to start your session</p>
 
-        
-        <span class="alert alert-danger" role="alert">Nome de usuário ou senha incorretos</span>
-        
+        {% if MSG_ERROR != NULL %}
+        <span class="alert alert-danger" role="alert">{{ MSG_ERROR['message'] }}</span>
+        {% endif %}
 
         <form action="login" method="POST">
           <div class="input-group mb-3">

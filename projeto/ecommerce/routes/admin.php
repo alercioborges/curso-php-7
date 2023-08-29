@@ -20,9 +20,12 @@ $app->get('/admin', function() {
 });
 
 $app->get('/admin/login', function() {
+
+	User::checkErrorLogin();
 	
-	$template = new TemplatePage("view/admin", false, true);	
-	$template->setTemplate("login.html");
+	$template = new TemplatePage("view/admin", false, true);
+	$template_data = array('MSG_ERROR' => $_SESSION['msg_error'] ?? NULL);
+	$template->setTemplate("login.html", $template_data);
 
 });
 
@@ -33,7 +36,10 @@ $app->post('/admin/login', function() {
 		header("Location: ../admin");
 		exit;	
 	} catch (Exception $e) {
-		$_SERVER['msg_error'] = $e->getMessage();
+		$_SESSION['msg_error'] = array(
+			'message' => $e->getMessage(),
+			'count' => 0
+		);
 		header("Location: ../admin/login");
 		exit;
 	}

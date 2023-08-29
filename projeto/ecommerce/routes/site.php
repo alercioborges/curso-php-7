@@ -28,22 +28,4 @@ $app->get('/categories/:idcategory', function($idcategory) {
 
 });
 
-$app->get('/products/:idproduct', function($idproduct) {
-
-	$product = new Product();
-
-	$product->get((int)$idproduct);
-
-	$template = new TemplatePage("view/site", false, true);
-	$template_data = array(
-		'CATEGORY' => $product->getValues(),
-		'PRODUCTS' => []
-	);
-	$template->setTemplate("product.html", $template_data);
-
-});
-
-
-
-
 ?>

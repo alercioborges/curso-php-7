@@ -246,7 +246,23 @@
                     Criar nova categoria
                   </p>
                 </a>
-              </li>              
+              </li>
+              <li class="nav-item">
+                <a href="{{WWWROOT}}/admin/products" class="nav-link {% block list_products_active %}{% endblock %}">
+                  <i class="nav-icon fas fa-list-alt"></i>
+                  <p>
+                    Lista de produtos
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{WWWROOT}}/admin/products/create" class="nav-link {% block create_product_active %}{% endblock %}">
+                  <i class="nav-icon fas fa-plus"></i>
+                  <p>
+                    Criar novo produto
+                  </p>
+                </a>
+              </li>
             </ul>
             <!---------------Fim menu produtos----------------------->
           </nav><!-- /.sidebar-menu -->
