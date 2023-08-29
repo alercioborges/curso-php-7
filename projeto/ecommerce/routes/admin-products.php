@@ -39,6 +39,27 @@ $app->get('/admin/products/create', function() {
 
 });
 
+$app->post('/admin/products/create', function() {
+
+	User::verifyLogin();
+
+	$product = new Product();
+
+	$product->setData($_POST);
+
+	//$product->save();
+
+	echo "<pre>"; print_r($_POST); echo "<pre>";
+
+	echo "<pre>"; print_r($product); echo "<pre>";
+
+
+
+
+
+
+});
+
 
 
 ?>

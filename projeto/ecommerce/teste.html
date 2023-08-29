@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Teste Mascara</title>
+</head>
+<body>
+
+	<!´´ https://www.youtube.com/watch?v=9owiMs_09Fo -->
+	<input type="text" name="cpf" min="14" max="14" id="cpf">
+	<br><br>
+	<input type="text" name="phone" id="phone">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
+	<script>
+		new Cleave('#cpf', {
+			delimiters: ['.', '.', '-'],
+			blocks: [3, 3, 3, 2],
+			delimiterLazyShow: true,
+			numericOnly: true
+
+		});
+
+		new Cleave('#phone', {
+			delimiters: ['+', ' (', ') ', '-'],
+			blocks: [0, 2, 2, 4, 4],
+			delimiterLazyShow: true,
+			numericOnly: true
+
+		});
+	</script>
+
+</body>
+</html>

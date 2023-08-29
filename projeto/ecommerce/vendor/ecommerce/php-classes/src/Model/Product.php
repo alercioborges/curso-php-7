@@ -164,36 +164,6 @@ class Product extends Model
 		}	
 
 	}
-
-
-
-
-	public static function updateFile()
-	{
-		$product = Product::listAll();
-
-		$html = [];
-
-		$url = $_SERVER['DOCUMENT_ROOT']
-		. \Ecommerce\Config::getDirectory()
-		. "view"
-		. DIRECTORY_SEPARATOR
-		. "site"
-		. DIRECTORY_SEPARATOR
-		. "categories-menu.html";
-
-		foreach ($categories as $row) {
-			array_push($html, '<li><a href="'
-				. \Ecommerce\Config::getWwwroot()
-				. '/categories/' . $row['idcategory'] . '">'
-				. $row['descategory']
-				. '</a></li>');
-		}
-
-		file_put_contents($url, implode('', $html));
-
-	}
-
 }
 
 ?>
