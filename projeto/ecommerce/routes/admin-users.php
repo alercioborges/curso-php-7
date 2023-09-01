@@ -12,10 +12,20 @@ $app->post('/admin/users/create', function() {
 
 	$_POST["inadmin"] = (isset($_POST["inadmin"]))?1:0;
 
-	$user->createUser();
-
-	header("Location: ../../admin/users");
-	exit;
+	try{
+		$user->createUser();
+		header("Location: ../../admin/users");
+		exit;
+	} catch (Exception $e) {
+		$_SESSION['msg_error_create'] = array(
+			'message' => $e->getMessage(),
+			'code_error' => $e->getCode(),
+			'count' => 0
+		);
+		$user::setCacheData($_POST);
+		header("Location: ../../admin/users/create");
+		exit;
+	}
 
 });
 
@@ -23,8 +33,12 @@ $app->get('/admin/users/create', function() {
 
 	User::verifyLogin();
 
+	User::checkErrorSave();
+
 	$template_data = array(
 		'WWWROOT' => Config::getWwwroot(),
+		'MSG_ERROR_CREATE' => $_SESSION['msg_error_create'] ?? NULL,
+		'COOKIE_DATA' => $_COOKIE,
 		'NAME_USER' => $_SESSION["User"]["desperson"]
 	);
 

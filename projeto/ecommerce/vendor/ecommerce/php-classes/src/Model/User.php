@@ -105,10 +105,12 @@ class User extends Model{
 		$nrphone = $_POST['nrphone'];
 		$inadmin = $_POST['inadmin'];
 
+		$this->verifyEmailValid($desemail);
+
 		$checkUserExists = User::checkUserExists($deslogin , $desemail);
 
 		if ($checkUserExists['status'] == false) {
-			throw new \Exception($checkUserExists['message']);			
+			throw new \Exception($checkUserExists['message'], $checkUserExists['code_error']);			
 		} else {		
 
 			$sql = new Sql();
@@ -125,6 +127,13 @@ class User extends Model{
 			));
 		}
 
+	}
+
+	public function verifyEmailValid($email)
+	{
+		if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
+			throw new \Exception("Email invalido.", 3);
+		}
 	}
 
 	public function get($iduser){
@@ -186,6 +195,7 @@ class User extends Model{
 		if ($check_login[0]['CHECKLOGIN'] > 0) {
 			$array_check_login = array(
 				'message' => "Nome de usuário já existente",
+				'code_error' => 1,
 				'status' => false
 			);
 			return $array_check_login;
@@ -193,6 +203,7 @@ class User extends Model{
 		} else if ($check_email[0]['CHECKEMAIL'] > 0) {
 			$array_check_email = array(
 				'message' => "E-mail já cadastrado",
+				'code_error' => 2,
 				'status' => false
 			);
 			return $array_check_email;
@@ -384,6 +395,28 @@ class User extends Model{
 			":idrecovery"=>$idrecovery
 		));
 
+	}
+
+	public static function setCacheData(array $data_form)
+	{	
+		$data[] = $data_form;
+
+		foreach ($data[0] as $key => $value) {
+			setcookie($key, $value, time()+1);
+		}
+
+		return $data;
+	}
+
+	public static function checkErrorSave()
+	{
+		if (isset($_SESSION['msg_error_create'])){
+			if ($_SESSION['msg_error_create']['count'] === 0) {
+				$_SESSION['msg_error_create']['count']++;
+			} else {
+				unset($_SESSION['msg_error_create']);
+			}
+		}
 	}
 
 }

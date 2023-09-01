@@ -30,27 +30,41 @@
             <div class="box-body">
               <div class="form-group">
                 <label for="desperson">Nome</label>
-                <input type="text" class="form-control" id="desperson" style="text-transform:uppercase" name="desperson" placeholder="Digite o nome" minlength="3" maxlength="30" pattern="^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+" required>
+                <input type="text" class="form-control" id="desperson" style="text-transform:uppercase" name="desperson" placeholder="Digite o nome" minlength="3" maxlength="30" pattern="^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+" value="{{ COOKIE_DATA['desperson'] }}" required>
               </div>
               <div class="form-group">
                 <label for="deslogin">Login</label>
-                <input type="text" class="form-control" id="deslogin" name="deslogin" placeholder="Digite o login" minlength="3" maxlength="30" pattern="^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ@.0-9]+" required>
+                <input type="text" class="form-control" id="deslogin" name="deslogin" placeholder="Digite o login" minlength="3" maxlength="30" pattern="^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ@.0-9]+" value="{{ COOKIE_DATA['deslogin'] }}" required>
+
+                {% if  MSG_ERROR_CREATE['code_error'] == 1  %}
+                <span style="margin-top: 5px; color: red;">
+                  <h6><b>{{ MSG_ERROR_CREATE['message'] }}</b></h6>
+                </span>
+                {% endif %}
+
               </div>
               <div class="form-group">
                 <label for="nrphone">Telefone</label>
-                <input type="tel" class="form-control" id="nrphone" name="nrphone" placeholder="Digite o telefone" minlength="14" maxlength="15" onkeyup="handlePhone(event)" required>
+                <input type="tel" class="form-control" id="nrphone" name="nrphone" placeholder="Digite o telefone" minlength="14" maxlength="15" onkeyup="handlePhone(event)" value="{{ COOKIE_DATA['nrphone'] }}" required>
               </div>
               <div class="form-group">
                 <label for="desemail">E-mail</label>
-                <input type="email" class="form-control" style="text-transform:lowercase" id="desemail" name="desemail" placeholder="Digite o e-mail" required>
+                <input type="email" class="form-control" style="text-transform:lowercase" id="desemail" name="desemail" placeholder="Digite o e-mail" value="{{ COOKIE_DATA['desemail'] }}" required>
+
+                {% if  MSG_ERROR_CREATE['code_error'] == 2 or MSG_ERROR_CREATE['code_error'] == 3 %}
+                <span style="margin-top: 5px; color: red;">
+                  <h6><b>{{ MSG_ERROR_CREATE['message'] }}</b></h6>
+                </span>
+                {% endif %}
+
               </div>
               <div class="form-group">
                 <label for="despassword">Senha</label>
-                <input type="password" class="form-control" id="despassword" name="despassword" minlength="3" maxlength="30" placeholder="Digite a senha" required>
+                <input type="password" class="form-control" id="despassword" name="despassword" minlength="3" maxlength="30" placeholder="Digite a senha" value="{{ COOKIE_DATA['despassword'] }}" required>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" name="inadmin" value="1"> Acesso de Administrador
+                  <input type="checkbox" name="inadmin" {% if COOKIE_DATA['inadmin'] == 1 %} checked {% endif %} value="1"> Acesso de Administrador
                 </label>
               </div>
             </div>
@@ -62,7 +76,7 @@
         </div>
       </div>
     </section>
-
+    
   </div><!-- /.content -->
 </div><!-- /.content-wrapper -->
 <script>
