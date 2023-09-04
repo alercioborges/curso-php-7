@@ -5,7 +5,8 @@ namespace Ecommerce\Model;
 use \Ecommerce\Model;
 use \Ecommerce\DB\Sql;
 
-class User extends Model{
+class User extends Model
+{
 
 	const SESSION = "User";
 	const SECRET_KEY = 'as987f9df6gsdf87';
@@ -29,8 +30,8 @@ class User extends Model{
 
 		$data = $result[0];
 
-		//Verifica se o primeiro parametro é igual a hash do segundo
-		 //Função que retorno bool
+			//Verifica se o primeiro parametro é igual a hash do segundo
+			 //Função que retorno bool
 		if (password_verify($password, $data["despassword"]) == true){
 
 			$user = new User();
@@ -60,7 +61,8 @@ class User extends Model{
 		}
 	}
 
-	public static function verifyLogin($idAdmin = true) {
+	public static function verifyLogin($idAdmin = true)
+	{
 
 		if (
 			!isset($_SESSION[User::SESSION])
@@ -76,7 +78,8 @@ class User extends Model{
 		}
 	}
 
-	public static function logout() {
+	public static function logout()
+	{
 		$_SESSION[User::SESSION] = NULL;
 	}
 
@@ -96,7 +99,8 @@ class User extends Model{
 
 	}
 
-	public function createUser() {
+	public function createUser()
+	{
 
 		$deslogin = $_POST['deslogin'];
 		$desemail = strtolower($_POST['desemail']);
@@ -136,7 +140,8 @@ class User extends Model{
 		}
 	}
 
-	public function get($iduser){
+	public function get($iduser)
+	{
 
 		$sql = new Sql();
 
@@ -146,7 +151,8 @@ class User extends Model{
 
 	}
 
-	public function update($iduser){
+	public function update($iduser)
+	{
 
 		$deslogin = $_POST['deslogin'];
 		$desemail = strtolower($_POST['desemail']);
@@ -154,14 +160,16 @@ class User extends Model{
 		$nrphone = $_POST['nrphone'];
 		$inadmin = $_POST['inadmin'];
 
+		$this->verifyEmailValid($desemail);
+
 		$checkUpdateData = User::checkUpdateUserExists($deslogin, $desemail, $iduser);
 
 		if ($checkUpdateData['status'] == false) {
-			throw new \Exception($checkUpdateData['message']);			
+			throw new \Exception($checkUpdateData['message'], $checkUpdateData['code_error']);	
 		} else {
 
 			$sql = new Sql();
-			
+
 			$stmt = $sql->query("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :desemail, :nrphone, :inadmin)", array(
 				":iduser" => $iduser,
 				":desperson" => $desperson,
@@ -175,7 +183,8 @@ class User extends Model{
 
 	}
 
-	public function delete($iduser){
+	public function delete($iduser)
+	{
 
 		$sql = new Sql();
 
@@ -185,7 +194,8 @@ class User extends Model{
 
 	}
 
-	public static function checkUserExists($login, $email) {
+	public static function checkUserExists($login, $email)
+	{
 
 		$sql = new Sql();
 
@@ -214,12 +224,13 @@ class User extends Model{
 				'status' => true
 			);
 			return $array_check_confirm;
-			
+
 		}	
 
 	}
 
-	public static function checkUpdateUserExists($login, $email, $iduser) {
+	public static function checkUpdateUserExists($login, $email, $iduser)
+	{
 
 		$sql = new Sql();
 
@@ -230,6 +241,7 @@ class User extends Model{
 		if ($check_login[0]['CHECKLOGIN'] > 0) {
 			$array_check_login = array(
 				'message' => "Nome de usuário já existente",
+				'code_error' => 1,
 				'status' => false
 			);
 			return $array_check_login;
@@ -237,6 +249,7 @@ class User extends Model{
 		} else if ($check_email[0]['CHECKEMAIL'] > 0) {
 			$array_check_email = array(
 				'message' => "E-mail já cadastrado",
+				'code_error' => 2,
 				'status' => false
 			);
 			return $array_check_email;
@@ -247,13 +260,14 @@ class User extends Model{
 				'status' => true
 			);
 			return $array_check_confirm;
-			
+
 		}	
 
 	}
 
 
-	public static function getForgot($email) {
+	public static function getForgot($email)
+	{
 
 		$sql = new Sql();
 
@@ -351,11 +365,11 @@ class User extends Model{
 		$results = $sql->select("SELECT *, a.dtregister AS LAST_REGISTER FROM tb_userspasswordsrecoveries a INNER JOIN tb_users b USING(iduser) INNER JOIN tb_persons c USING(idperson) WHERE a.idrecovery = :idrecovery AND a.dtrecovery IS NULL AND DATE_ADD(a.dtregister, INTERVAL 1 HOUR) >= NOW()", array(
 			":idrecovery"=>$idrecovery
 		));
-		
+
 
 		if (count($results) == 0) {
 			throw new \Exception("Este link de redefinição de senha expirou");
-			
+
 		} 
 
 		$results2 = $sql->select("SELECT MAX(a.dtregister) AS LAST_LINK FROM tb_userspasswordsrecoveries a INNER JOIN tb_users b USING(iduser) INNER JOIN tb_persons c USING(idperson) WHERE b.iduser = :iduser AND a.dtrecovery IS NULL AND DATE_ADD(a.dtregister, INTERVAL 1 HOUR) >= NOW()", array(
@@ -369,9 +383,9 @@ class User extends Model{
 
 		} else {
 			throw new \Exception("Foi gerado um link de redefinição de senha mais recentes que este");
-			
+
 		}	
-		
+
 	}
 
 

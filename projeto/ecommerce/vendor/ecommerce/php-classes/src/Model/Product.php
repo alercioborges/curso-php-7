@@ -164,6 +164,47 @@ class Product extends Model
 		}	
 
 	}
-}
+
+
+
+	public function checkPhoto()
+	{
+		if (file_exists(
+			$_SERVER['DOCUMENT_ROOT']
+			. \Ecommerce\Config::getDirectory()
+			. "view" . DIRECTORY_SEPARATOR
+			. "site". DIRECTORY_SEPARATOR
+			. "img" . DIRECTORY_SEPARATOR
+			. "products" . DIRECTORY_SEPARATOR
+			$this->getidproduct() . ".jpg" 
+		)) {
+			$url = "view/site/img/products" . $this->getidproduct() . ".jpg";
+		} else{
+			$url = "view/site/img/products/products.jpg";
+		}
+
+		return $this->setdesphoto($url);
+	}
+
+
+
+
+	public function getValues()
+	{
+		$this->checkPhoto();
+
+		$values = parent::getValues();
+
+		return $values;
+	}
+
+
+
+
+	public function setPhoto($file)
+	{
+		
+	}
+
 
 ?>

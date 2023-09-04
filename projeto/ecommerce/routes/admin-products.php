@@ -70,7 +70,6 @@ $app->get('/admin/products/:idproduct/delete', function($idproduct) {
 
 });
 
-
 $app->get('/admin/products/:idproduct', function($idproduct) {
 
 	User::verifyLogin();
@@ -103,11 +102,11 @@ $app->post('/admin/products/:idproduct', function($idproduct) {
 
 	$product->update();
 
+	$product->setPhoto($_FILES['name']);
+
 	header("Location: ../../admin/products");
 	exit;
 
 });
-
-
 
 ?>

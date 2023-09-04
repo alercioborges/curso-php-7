@@ -83,11 +83,15 @@ $app->get('/admin/users/:iduser', function($iduser) {
 
 	User::verifyLogin();
 
+	User::checkErrorSave();
+
 	$user = User::getUserById($iduser);
 
 	$template_data = array(
 		'WWWROOT' => Config::getWwwroot(),
 		'IDUSER' => $iduser,
+		'MSG_ERROR_CREATE' => $_SESSION['msg_error_create'] ?? NULL,
+		'COOKIE_DATA' => $_COOKIE,
 		'NAME_USER' => $_SESSION["User"]["desperson"],
 		'USER' => $user
 	);
@@ -109,10 +113,20 @@ $app->post('/admin/users/:iduser', function($iduser) {
 
 	$user->setData($_POST);
 
-	$user->update($iduser);
-
-	header("Location: ../../admin/users");
-	exit;
+	try{
+		$user->update($iduser);
+		header("Location: ../../admin/users");
+		exit;
+	} catch (Exception $e) {
+		$_SESSION['msg_error_create'] = array(
+			'message' => $e->getMessage(),
+			'code_error' => $e->getCode(),
+			'count' => 0
+		);
+		$user::setCacheData($_POST);
+		header("Location: ../../admin/users/{$iduser}");
+		exit;
+	}
 
 });
 
