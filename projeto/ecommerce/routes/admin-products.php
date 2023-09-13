@@ -74,6 +74,10 @@ $app->get('/admin/products/:idproduct', function($idproduct) {
 
 	User::verifyLogin();
 
+	header('Cache-Control: no-cache, no-store, must-revalidate');
+	header('Pragma: no-cache');
+	header('Expires: 0');
+
 	$product = new Product();
 
 	$product->get((int)$idproduct);
@@ -102,10 +106,10 @@ $app->post('/admin/products/:idproduct', function($idproduct) {
 
 	$product->update();
 
-	$product->setPhoto($_FILES['name']);
+	$product->setPhoto($_FILES['file']);	
 
 	header("Location: ../../admin/products");
-	exit;
+	exit;	
 
 });
 

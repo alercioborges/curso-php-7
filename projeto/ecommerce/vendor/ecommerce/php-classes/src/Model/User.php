@@ -411,16 +411,6 @@ class User extends Model
 
 	}
 
-	public static function setCacheData(array $data_form)
-	{	
-		$data[] = $data_form;
-
-		foreach ($data[0] as $key => $value) {
-			setcookie($key, $value, time()+1);
-		}
-
-		return $data;
-	}
 
 	public static function checkErrorSave()
 	{
