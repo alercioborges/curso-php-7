@@ -26,10 +26,17 @@
         <div class="box box-primary">
 
           <div class="box-header">
-            <a href="/admin/products/create" class="btn btn-success">Cadastrar Produto</a>
+            <a href="../admin/products/create" class="btn btn-success">Cadastrar Produto</a>
           </div>
 
           <div class="box-body no-padding">
+
+            {% if PRODUCTS is empty %}
+            <div style="margin: 100px; text-align: center;">
+              <h2>NENHUM PRODUTO CRIADO</h2>
+            </div>
+            {% else %}  
+
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -44,30 +51,53 @@
                 </tr>
               </thead>
               <tbody>
-                {loop="$products"}
+                {% for data in PRODUCTS %}
                 <tr>
-                  <td>{$value.idproduct}</td>
-                  <td>{$value.desproduct}</td>
-                  <td>{$value.vlprice}</td>
-                  <td>{$value.vlwidth}</td>
-                  <td>{$value.vlheight}</td>
-                  <td>{$value.vllength}</td>
-                  <td>{$value.vlweight}</td>
+                  <td>{{ data.idproduct }}</td>
+                  <td>{{ data.desproduct }}</td>
+                  <td>R$ {{ data.vlprice }}</td>
+                  <td>{{ data.vlwidth }}</td>
+                  <td>{{ data.vlheight }}</td>
+                  <td>{{ data.vllength }}</td>
+                  <td>{{ data.vlweight }}</td>
                   <td>
-                    <a href="/admin/products/{$value.idproduct}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                    <a href="/admin/products/{$value.idproduct}/delete" onclick="return confirm('Deseja realmente excluir este registro?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
-                  </td>
-                </tr>
-                {/loop}
-              </tbody>
-            </table>
-          </div>
-          <!-- /.box-body -->
-        </div>
+                    <a href="{{WWWROOT}}/admin/products/{{data.idproduct}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Editar</a>
+
+                   <!-- Início Modal de exclusão de usuário -->
+                   <!-- Início link excluir Modal -->
+                   <a href="#" data-toggle="modal" data-target="#confirm-delete-idproduct-{{data.idproduct}}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+                   <!-- Fim link excluir Modal -->
+                   <!-- Início da janela do Modal -->
+                   <div class="modal fade" id="confirm-delete-idproduct-{{data.idproduct}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          Exclusão de produto
+                        </div>
+                        <div class="modal-body">
+                          Deseja realmente excluir o produto {{data.desproduct}} ?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
+                          <a href="{{WWWROOT}}/admin/products/{{data.idproduct}}/delete" class="btn btn-danger btn-ok">Delete</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Fim da da janela do Modal -->
+                  <!-- Fim do modal de exclusão de usuário -->
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% endif %}
+        </div><!-- /.box-body -->
       </div>
     </div>
+  </div>
 
-  </section><!-- /.content -->
+</section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 </div>
 {% endblock %}

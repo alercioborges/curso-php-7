@@ -16,6 +16,7 @@ $app->get('/admin/products', function() {
 	$template_data = array(
 		'PRODUCTS' => $products,
 		'WWWROOT' => Config::getWwwroot(),
+		'PRODUCTS' => $products,
 		'NAME_USER' => $_SESSION["User"]["desperson"]
 	);
 
@@ -47,19 +48,69 @@ $app->post('/admin/products/create', function() {
 
 	$product->setData($_POST);
 
-	//$product->save();
+	$product->save();
 
-	echo "<pre>"; print_r($_POST); echo "<pre>";
-
-	echo "<pre>"; print_r($product); echo "<pre>";
-
-
-
-
-
+	header("Location: ../../admin/products");
+	exit;
 
 });
 
+$app->get('/admin/products/:idproduct/delete', function($idproduct) {
 
+	User::verifyLogin();
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$product->delete();
+
+	header("Location: ../../../admin/products");
+	exit;
+
+});
+
+$app->get('/admin/products/:idproduct', function($idproduct) {
+
+	User::verifyLogin();
+
+	header('Cache-Control: no-cache, no-store, must-revalidate');
+	header('Pragma: no-cache');
+	header('Expires: 0');
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$template = new TemplatePage("view/admin", false, true);
+
+	$template_data = array(
+		'WWWROOT' => Config::getWwwroot(),
+		'NAME_USER' => $_SESSION["User"]["desperson"],
+		'PRODUCTS' => $product->getValues()
+	);
+
+	$template->setTemplate("products-update.html", $template_data);
+
+});
+
+$app->post('/admin/products/:idproduct', function($idproduct) {
+
+	User::verifyLogin();
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$product->setData($_POST);
+
+	$product->update();
+
+	$product->setPhoto($_FILES['file']);	
+
+	header("Location: ../../admin/products");
+	exit;	
+
+});
 
 ?>

@@ -164,6 +164,106 @@ class Product extends Model
 		}	
 
 	}
+
+
+
+	public static function setCacheData(array $data_form)
+	{	
+		$data[] = $data_form;
+
+		foreach ($data[0] as $key => $value) {
+			setcookie($key, $value, time()+1);
+		}
+
+		return $data;
+	}
+
+
+
+
+	public function checkPhoto()
+	{
+		if (file_exists(
+			$_SERVER['DOCUMENT_ROOT']
+			. \Ecommerce\Config::getDirectory()
+			. "view" . DIRECTORY_SEPARATOR
+			. "site". DIRECTORY_SEPARATOR
+			. "img" . DIRECTORY_SEPARATOR
+			. "products" . DIRECTORY_SEPARATOR
+			. $this->getidproduct() . ".jpg" 
+		)) {
+			$url = "../../view/site/img/products/" . $this->getidproduct() . ".jpg";
+		} else{
+			$url = "../../view/site/img/products/product.jpg";
+		}
+
+		return $this->setdesphoto($url);
+	}
+
+
+
+
+	public function getValues()
+	{
+		$this->checkPhoto();
+
+		$values = parent::getValues();
+
+		return $values;
+	}
+
+
+
+
+	public function setPhoto($file)
+	{
+		if ($file['error'] !== 4) {
+
+			$extension = explode('.', $file['name']);
+			$extension = end($extension);
+
+			if (
+				$extension !== "jpg"
+				&& $extension !== "jpeg"
+				&& $extension !== "gif"
+				&& $extension !== "png"			
+			) {
+				throw new \Exception("Extensão de arquivo não suportado", 2);
+			}
+
+			switch ($extension) {
+				case 'jpg':
+				case 'jpeg':
+				$image = imagecreatefromjpeg($file["tmp_name"]);
+				break;
+
+				case 'gif':
+				$image = imagecreatefromgif($file["tmp_name"]);
+				break;
+
+				case 'png':
+				$image = imagecreatefrompng($file["tmp_name"]);
+				break;			
+			}
+
+			$dist = $_SERVER['DOCUMENT_ROOT']
+			. \Ecommerce\Config::getDirectory()
+			. "view" . DIRECTORY_SEPARATOR
+			. "site". DIRECTORY_SEPARATOR
+			. "img" . DIRECTORY_SEPARATOR
+			. "products" . DIRECTORY_SEPARATOR
+			. $this->getidproduct() . ".jpg";
+
+			imagejpeg($image, $dist);
+			imagedestroy($image);		
+
+			$this->checkPhoto();
+
+		}
+
+	}
+
 }
+
 
 ?>
