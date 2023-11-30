@@ -110,4 +110,12 @@ $app->post('/admin/forgot/reset', function() {
 	
 });
 
+$app->get('/admin/login/', function () use ($app) {
+    $app->redirect(Config::getWwwroot() . '/admin/login');
+});
+
+$app->get('/admin/', function () use ($app) {
+    $app->redirect(Config::getWwwroot() . '/admin');
+});
+
 ?>

@@ -12,10 +12,27 @@ $app->post('/admin/users/create', function() {
 
 	$_POST["inadmin"] = (isset($_POST["inadmin"]))?1:0;
 
-	$user->createUser();
+	try{
+		$user->createUser();
+		echo "<pre>"; var_dump($_POST); echo "</pre>";
+		//header("Location: ../../admin/users");
+		//exit;
+	} catch (Exception $e) {
+		$_SESSION['msg_error_create'] = array(
+			'message' => $e->getMessage(),
+			'code_error' => $e->getCode(),
+			'count' => 0
+		);
 
-	header("Location: ../../admin/users");
-	exit;
+		$data_form[] = $_POST;
+		
+		foreach ($data_form[0] as $key => $value) {
+			setcookie($key, $value);
+		}
+
+		header("Location: ../../admin/users/create");
+		exit;
+	}
 
 });
 
@@ -25,6 +42,8 @@ $app->get('/admin/users/create', function() {
 
 	$template_data = array(
 		'WWWROOT' => Config::getWwwroot(),
+		'MSG_ERROR_CREATE' => $_SESSION['msg_error_create'] ?? NULL,
+		'COOKIE_DATA' => $_COOKIE,
 		'NAME_USER' => $_SESSION["User"]["desperson"]
 	);
 
