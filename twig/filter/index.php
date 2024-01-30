@@ -1,0 +1,1 @@
+{% for data in USERS|filter(v => v.id != 1) -%}

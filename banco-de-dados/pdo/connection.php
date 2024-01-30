@@ -12,7 +12,7 @@ Try{
 	$con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	echo "Conexão com o banco de dados realizada com sucesso! <br><br>";
 }
-catch(PDOException $e)
+catch(\PDOException $e)
 {
 	echo "Erro de conexão com o banco de dados: ".$e->getMessage();
 }
