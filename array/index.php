@@ -77,6 +77,47 @@ print_r($pessoas[0]);
 echo "<br />";
 echo $pessoas[1]['nome'];
 
+//Array_map
+/*
+A função array_map do PHP aplica uma função de callback a cada elemento de um ou mais arrays, retornando um novo array com os resultados. Ela é útil para transformar ou processar elementos de um array de forma concisa.
+
+Como funciona:
+
+Você define uma função de callback que será aplicada a cada elemento do array.
+Chama array_map, passando a função de callback e o(s) array(s) a serem processados.
+A função retorna um novo array com os resultados da função de callback aplicada a cada elemento.
+*/
+
+$frutas = ['maçã', 'banana', 'laranja'];
+
+$frutas_maiusculas = array_map('strtoupper', $frutas);
+
+print_r($frutas_maiusculas);
+
+/*
+(
+    [0] => MAÇÃ
+    [1] => BANANA
+    [2] => LARANJA
+)
+*/
+$array1 = [1, 2, 3];
+$array2 = [4, 5, 6];
+
+$soma = array_map(function($a, $b) {
+    return $a + $b;
+}, $array1, $array2);
+
+print_r($soma);
+
+/(
+    (
+        [0] => 5
+        [1] => 7
+        [2] => 9
+    )
+    (/
+
 
 
 
