@@ -1,0 +1,48 @@
+Configuração VScode
+
+-- Atalho para janela de configuração
+Ctrl + ,
+
+-- Ativar auto save
+file -> Auto save
+
+-- Quebra de linha
+Edito: word wrap = on
+
+-- Extenções
+1. Rainbow Brackets
+2. Material Icon Theme
+
+-- settings.json
+/*
+    "editor.wordWrap": "on",
+    "files.autoSave": "afterDelay",
+    "editor.fontSize": 18,
+
+    "editor.letterSpacing": 0.1,
+    "editor.lineHeight": 22,
+    "editor.autoIndent": "advanced",
+    "editor.snippetSuggestions": "bottom",
+*/
+
+___________________________________________
+
+PHP
+
+-- Extenções
+
+1. PHP Intelephense
+(Buscar em ext. '@builtin php' e desab. 'PHP Language Features')
+/*
+	"intelephense.format.enable":true,
+    "intelephense.completion.triggerParameterHints": true,
+    "intelephense.completion.fullyQualifyGlobalConstantsAndFunctions": true,
+    "intelephense.completion.insertUseDeclaration": true,
+    "intelephense.trace.server": "messages",
+*/
+
+2. PHP Namespace Resolver
+
+
+
+
