@@ -12,6 +12,21 @@ Edito: word wrap = on
 -- Extenções
 1. Rainbow Brackets
 2. Material Icon Theme
+3. Error Guters
+4. Error Lens
+5. GitLens
+/*
+    "gitlens.codeLens.recentChange.enabled": false,
+    "gitlens.codeLens.authors.enabled": false,
+    "gitlens.codeLens.enabled": false,
+    "gitlens.currentLine.enabled": false,
+*/
+6. Inline Parameters for VSCode
+7. Live Server
+8. Path Intellisense
+
+__________________________________
+
 
 -- settings.json
 /*
@@ -42,6 +57,7 @@ PHP
 */
 
 2. PHP Namespace Resolver
+3. PHP snippets
 
 
 
