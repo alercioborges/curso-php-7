@@ -201,4 +201,43 @@ function exibe($cargos){
 
 echo exibe($hierarquia);
 
+____________________________________________________________________
+
+//Documentação de função
+
+/**
+ * Descrição breve da função.
+ *
+ * Descrição detalhada opcional explicando o propósito da função.
+ *
+ * @param tipo $nomeParâmetro Descrição do parâmetro.
+ * @param tipo $nomeParâmetro2 Descrição do segundo parâmetro (se houver).
+ * @return tipo Descrição do que a função retorna.
+ */
+function minhaFuncao(string $nome, int $idade): string {
+    return "Nome: $nome, Idade: $idade";
+}
+
+// Exemplo completo
+
+/**
+ * Gera uma mensagem de boas-vindas personalizada.
+ *
+ * Essa função recebe um nome e uma idade e retorna uma string formatada.
+ *
+ * @param string $nome Nome da pessoa.
+ * @param int $idade Idade da pessoa.
+ * @return string Mensagem de boas-vindas.
+ */
+function gerarMensagem(string $nome, int $idade): string {
+    return "Bem-vindo, $nome! Você tem $idade anos.";
+}
+
+_______________________________________________________________________
+
+
+
+
+
+
 ?>
