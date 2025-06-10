@@ -1,0 +1,111 @@
+### 🧠 O que é um Design Pattern?
+
+Um **Design Pattern** é uma **solução reutilizável** para problemas comuns que surgem durante o desenvolvimento de software. Eles são **modelos de arquitetura** que ajudam a escrever código mais organizado, reutilizável, flexível e de fácil manutenção.
+
+---
+
+### 🎯 Para que serve?
+
+Serve para:
+
+* **Resolver problemas recorrentes** de design de software.
+* **Padronizar soluções**, facilitando a comunicação entre desenvolvedores.
+* **Reduzir complexidade**, usando estratégias já testadas.
+* **Aumentar a manutenibilidade** e clareza do código.
+
+---
+
+### ⚙️ Como funciona?
+
+Os Design Patterns funcionam como **estruturas abstratas**, ou seja:
+
+* Eles **não são código pronto**, mas sim **modelos conceituais**.
+* Você **adapta o padrão ao seu contexto**, conforme o problema que está resolvendo.
+
+---
+
+### 🧱 Tipos de Design Patterns
+
+Existem 3 categorias principais:
+
+1. **Criacionais** – tratam da criação de objetos.
+   Ex: Singleton, Factory, Abstract Factory, Builder.
+
+2. **Estruturais** – lidam com a composição de classes e objetos.
+   Ex: Adapter, Decorator, Facade.
+
+3. **Comportamentais** – lidam com comunicação entre objetos.
+   Ex: Observer, Strategy, State.
+
+---
+
+### 💡 Exemplo prático: **Padrão Strategy** com PHP
+
+**Problema:** você quer aplicar diferentes formas de cálculo de frete (Sedex, PAC, Motoboy), e quer que isso seja flexível sem alterar o código principal.
+
+#### 1. Interface comum:
+
+```php
+interface FreteStrategy {
+    public function calcular($peso);
+}
+```
+
+#### 2. Estratégias específicas:
+
+```php
+class FreteSedex implements FreteStrategy {
+    public function calcular($peso) {
+        return $peso * 10;
+    }
+}
+
+class FretePAC implements FreteStrategy {
+    public function calcular($peso) {
+        return $peso * 5;
+    }
+}
+
+class FreteMotoboy implements FreteStrategy {
+    public function calcular($peso) {
+        return 30; // preço fixo
+    }
+}
+```
+
+#### 3. Contexto que usa a estratégia:
+
+```php
+class CalculadoraFrete {
+    private $strategy;
+
+    public function __construct(FreteStrategy $strategy) {
+        $this->strategy = $strategy;
+    }
+
+    public function calcularFrete($peso) {
+        return $this->strategy->calcular($peso);
+    }
+}
+```
+
+#### 4. Utilizando:
+
+```php
+$frete = new CalculadoraFrete(new FreteSedex());
+echo "Frete SEDEX: R$ " . $frete->calcularFrete(2) . "<br>";
+
+$frete = new CalculadoraFrete(new FretePAC());
+echo "Frete PAC: R$ " . $frete->calcularFrete(2) . "<br>";
+
+$frete = new CalculadoraFrete(new FreteMotoboy());
+echo "Frete Motoboy: R$ " . $frete->calcularFrete(2) . "<br>";
+```
+
+---
+
+### ✅ Vantagens do uso de Design Patterns:
+
+* Você pode **mudar comportamentos** sem alterar a lógica principal.
+* **Código aberto a extensões**, mas fechado para modificações (princípio OCP).
+* **Testável e modular**.

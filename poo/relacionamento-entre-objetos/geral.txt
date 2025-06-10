@@ -1,0 +1,155 @@
+
+Na programação orientada a objetos (POO), **associação**, **agregação** e **composição** representam **relacionamentos entre classes**. Esses conceitos ajudam a organizar o código de forma mais clara, reutilizável e modular.
+
+Vamos explicar cada um de forma didática, com exemplos em **PHP**:
+
+---
+
+### 🧩 1. **Associação**
+
+#### ✅ O que é:
+
+É um relacionamento genérico entre duas classes. Uma classe **usa** outra, mas **não é dona dela**. A relação pode ser de um para um, um para muitos, muitos para muitos.
+
+#### 💡 Para que serve:
+
+Serve para representar que um objeto está **relacionado** com outro, sem responsabilidade de gerenciamento.
+
+#### 🔧 Como funciona:
+
+Os objetos se conhecem, mas um **não controla** a existência do outro.
+
+#### 📌 Exemplo:
+
+```php
+class Professor {
+    public string $nome;
+
+    public function __construct(string $nome) {
+        $this->nome = $nome;
+    }
+}
+
+class Disciplina {
+    public string $nome;
+    public Professor $professor;
+
+    public function __construct(string $nome, Professor $professor) {
+        $this->nome = $nome;
+        $this->professor = $professor;
+    }
+}
+
+// Associação: Disciplina conhece Professor, mas não é dona dele
+$professor = new Professor("Maria");
+$disciplina = new Disciplina("Matemática", $professor);
+```
+
+---
+
+### 🧺 2. **Agregação**
+
+#### ✅ O que é:
+
+É um tipo especial de associação onde uma classe **possui** outra, mas **não é responsável por sua existência**. Ou seja, os objetos agregados **podem existir independentemente**.
+
+#### 💡 Para que serve:
+
+Modela uma relação "tem um", mas com **baixa dependência**.
+
+#### 🔧 Como funciona:
+
+Se o objeto "todo" for destruído, os "componentes" **continuam existindo**.
+
+#### 📌 Exemplo:
+
+```php
+class Aluno {
+    public string $nome;
+
+    public function __construct(string $nome) {
+        $this->nome = $nome;
+    }
+}
+
+class Sala {
+    public string $numero;
+    public array $alunos = [];
+
+    public function __construct(string $numero) {
+        $this->numero = $numero;
+    }
+
+    public function adicionarAluno(Aluno $aluno) {
+        $this->alunos[] = $aluno;
+    }
+}
+
+// Agregação: Sala tem alunos, mas não é dona deles
+$aluno1 = new Aluno("João");
+$aluno2 = new Aluno("Ana");
+
+$sala = new Sala("101");
+$sala->adicionarAluno($aluno1);
+$sala->adicionarAluno($aluno2);
+```
+
+Mesmo que a sala seja destruída, os alunos continuam existindo.
+
+---
+
+### 🧱 3. **Composição**
+
+#### ✅ O que é:
+
+É uma relação mais forte que agregação. A classe "todo" é **dona exclusiva** da parte. Se o objeto principal for destruído, os objetos compostos também são.
+
+#### 💡 Para que serve:
+
+Serve para modelar relacionamentos onde os objetos **não fazem sentido existir fora da classe que os criou**.
+
+#### 🔧 Como funciona:
+
+O ciclo de vida dos componentes é **controlado** pela classe "dona".
+
+#### 📌 Exemplo:
+
+```php
+class Endereco {
+    public string $rua;
+    public string $cidade;
+
+    public function __construct(string $rua, string $cidade) {
+        $this->rua = $rua;
+        $this->cidade = $cidade;
+    }
+}
+
+class Cliente {
+    public string $nome;
+    public Endereco $endereco;
+
+    public function __construct(string $nome, string $rua, string $cidade) {
+        $this->nome = $nome;
+        // Criação do endereço é feita dentro da classe Cliente
+        $this->endereco = new Endereco($rua, $cidade);
+    }
+}
+
+// Composição: Cliente é dono do Endereço, que não vive sozinho
+$cliente = new Cliente("Carlos", "Rua A", "São Paulo");
+```
+
+Se o objeto `Cliente` for destruído, o `Endereco` também é.
+
+---
+
+### 🧠 Resumo Comparativo
+
+| Conceito   | Ligação  | Independência do objeto ligado | Exemplo                |
+| ---------- | -------- | ------------------------------ | ---------------------- |
+| Associação | Fraca    | Sim                            | Disciplina → Professor |
+| Agregação  | Moderada | Sim                            | Sala → Alunos          |
+| Composição | Forte    | Não                            | Cliente → Endereço     |
+
+---

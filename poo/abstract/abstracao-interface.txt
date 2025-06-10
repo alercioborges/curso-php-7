@@ -1,0 +1,58 @@
+Ótima pergunta! Vamos explicar de forma **bem didática** e clara qual é a diferença entre **abstração (classe abstrata)** e **interface** na Programação Orientada a Objetos, especialmente pensando em PHP.
+
+---
+
+## 🧠 Resumo rápido:
+
+| Conceito        | **Classe Abstrata**                           | **Interface**                             |
+|-----------------|-----------------------------------------------|--------------------------------------------|
+| **O que é?**     | Um modelo base com métodos que **podem** ou **devem** ser implementados pelas subclasses. | Um **contrato** que obriga quem usa a implementar todos os métodos. |
+| **Métodos com código?** | ✅ Pode ter métodos com lógica (implementados) | ❌ Só declara os métodos, sem código. |
+| **Atributos (variáveis)?** | ✅ Pode ter atributos (variáveis)           | ❌ Não pode ter atributos comuns (só constantes). |
+| **Herança múltipla?** | ❌ Só pode herdar **uma** classe abstrata     | ✅ Pode implementar **várias** interfaces |
+| **Uso típico**   | Reutilizar código comum entre classes semelhantes | Garantir que várias classes diferentes **sigam o mesmo padrão** |
+
+---
+
+### 🎮 Analogia simples:
+
+- **Classe Abstrata** → como um **pai/mãe com herança e regras**. Te ensina como fazer, mas também te dá algumas coisas prontas.
+- **Interface** → como um **contrato de trabalho**. Você **tem que cumprir tudo o que está ali**, mas **não recebe nenhuma ajuda de como fazer**.
+
+---
+
+### 🧩 Exemplo comparativo em PHP
+
+#### Classe abstrata:
+
+```php
+abstract class Animal {
+    public function dormir() {
+        echo "O animal está dormindo.\n"; // método com lógica já pronta
+    }
+
+    abstract public function emitirSom(); // quem herdar precisa implementar
+}
+```
+
+#### Interface:
+
+```php
+interface Animal {
+    public function dormir();
+    public function emitirSom(); // apenas a assinatura, sem lógica
+}
+```
+
+---
+
+### 🤓 Quando usar cada um?
+
+- ✅ **Use classe abstrata** quando:
+  - Você quer compartilhar **código base** (ex: métodos já prontos).
+  - As classes têm relação direta (ex: todos são tipos de “Animal”).
+
+- ✅ **Use interface** quando:
+  - Você quer garantir que **várias classes diferentes** tenham os **mesmos métodos**, mesmo que não estejam diretamente relacionadas (ex: “Imprimível”, “Exportável”, “Autenticável”).
+
+---

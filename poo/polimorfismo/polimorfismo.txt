@@ -1,0 +1,187 @@
+Polimorfismo é um dos pilares da Programação Orientada a Objetos (POO)**, ao lado de **abstração, encapsulamento e herança.
+
+---
+
+## ✅ O que é Polimorfismo?
+
+A palavra polimorfismo vem do grego e significa "muitas formas".
+Na programação, *polimorfismo é a capacidade de um mesmo método ou interface se comportar de maneiras diferentes dependendo do contexto.
+
+Ou seja, diferentes classes podem implementar o mesmo método de formas diferentes.
+
+---
+
+## ✅ Para que serve?
+
+O polimorfismo serve para:
+
+* Tornar o código mais **flexível** e **extensível**;
+* Reduzir **acoplamento** entre as partes do código;
+* Facilitar a **manutenção** e a **reutilização** do código;
+* Permitir escrever **código genérico** que trabalha com objetos de diferentes classes.
+
+---
+
+## ✅ Tipos de Polimorfismo
+
+Existem dois tipos principais:
+
+1. **Polimorfismo de Sobrescrita (Override)**: uma subclasse redefine um método da superclasse.
+2. **Polimorfismo de Sobrecarga (Overload)**: o mesmo método com assinaturas diferentes (não é suportado diretamente em PHP).
+
+> ⚠️ Em PHP, o polimorfismo mais comum é o **de sobrescrita**, usando **interfaces** ou **herança**.
+
+---
+
+## ✅ Exemplo com PHP
+
+Vamos imaginar um sistema de envio de notificações.
+
+### Passo 1: Criar uma interface comum
+
+```php
+interface Notificacao {
+    public function enviar($mensagem);
+}
+```
+
+### Passo 2: Criar diferentes classes que implementam essa interface
+
+```php
+class Email implements Notificacao {
+    public function enviar($mensagem) {
+        echo "Enviando e-mail: $mensagem\n";
+    }
+}
+
+class SMS implements Notificacao {
+    public function enviar($mensagem) {
+        echo "Enviando SMS: $mensagem\n";
+    }
+}
+
+class PushNotification implements Notificacao {
+    public function enviar($mensagem) {
+        echo "Enviando notificação push: $mensagem\n";
+    }
+}
+```
+
+### Passo 3: Usar polimorfismo
+
+```php
+function notificarUsuario(Notificacao $notificacao, $mensagem) {
+    $notificacao->enviar($mensagem);
+}
+
+// Podemos passar qualquer objeto que implemente a interface Notificacao
+notificarUsuario(new Email(), "Bem-vindo ao sistema!");
+notificarUsuario(new SMS(), "Seu código é 1234");
+notificarUsuario(new PushNotification(), "Você tem uma nova mensagem!");
+```
+
+---
+
+## ✅ O que aconteceu aqui?
+
+* Criamos **várias classes** que **implementam a mesma interface**.
+* Todas têm o método `enviar()`, mas com **comportamentos diferentes**.
+* A função `notificarUsuario()` não precisa saber qual classe foi usada: ela confia que o objeto vai se comportar corretamente.
+  → Isso é **polimorfismo em ação**!
+
+---
+
+## ✅ Conclusão
+
+* Polimorfismo é essencial para trabalhar com **abstrações**.
+* Ele permite tratar **objetos diferentes de forma uniforme**.
+* Em PHP, você usa **interfaces**, **herança** e **métodos sobrescritos** para aplicá-lo.
+
+-------------------------------------------------
+
+Sim, **é possível usar polimorfismo em PHP sem implementar uma interface**.
+Isso pode ser feito por meio de **herança de classes** ou até mesmo com **duck typing** (tipagem dinâmica, estilo "se age como um pato, é um pato").
+
+---
+
+## ✅ 1. Polimorfismo com **herança** (sem interface)
+
+Você pode definir uma **classe base** com um método e **sobrescrevê-lo** nas classes filhas.
+
+### Exemplo:
+
+```php
+class Notificacao {
+    public function enviar($mensagem) {
+        echo "Enviando notificação genérica: $mensagem\n";
+    }
+}
+
+class Email extends Notificacao {
+    public function enviar($mensagem) {
+        echo "Enviando e-mail: $mensagem\n";
+    }
+}
+
+class SMS extends Notificacao {
+    public function enviar($mensagem) {
+        echo "Enviando SMS: $mensagem\n";
+    }
+}
+
+function notificarUsuario(Notificacao $notificacao, $mensagem) {
+    $notificacao->enviar($mensagem);
+}
+
+notificarUsuario(new Email(), "Mensagem por e-mail");
+notificarUsuario(new SMS(), "Mensagem por SMS");
+```
+
+👉 Aqui usamos **polimorfismo via herança**: todas as subclasses sobrescrevem o método `enviar()` da classe mãe `Notificacao`.
+
+---
+
+## ✅ 2. Polimorfismo com **duck typing** (sem interface nem herança)
+
+PHP é **linguagem fracamente tipada** e **dinâmica**, então você pode ter uma função que aceita qualquer objeto, desde que ele tenha o método esperado.
+
+### Exemplo:
+
+```php
+class Email {
+    public function enviar($mensagem) {
+        echo "Enviando e-mail: $mensagem\n";
+    }
+}
+
+class SMS {
+    public function enviar($mensagem) {
+        echo "Enviando SMS: $mensagem\n";
+    }
+}
+
+function notificarUsuario($objeto, $mensagem) {
+    if (method_exists($objeto, 'enviar')) {
+        $objeto->enviar($mensagem);
+    } else {
+        echo "O objeto não pode enviar mensagens.\n";
+    }
+}
+
+notificarUsuario(new Email(), "Olá por e-mail");
+notificarUsuario(new SMS(), "Olá por SMS");
+```
+
+👉 Aqui, **não usamos interface nem herança**, mas o método `enviar()` existe em ambos os objetos. Isso é um tipo de polimorfismo chamado **polimorfismo por comportamento**, ou **duck typing**.
+
+---
+
+## ✅ Conclusão
+
+| Forma de polimorfismo em PHP | Requer interface? | Requer herança? | Seguro em tempo de compilação? |
+| ---------------------------- | ----------------- | --------------- | ------------------------------ |
+| Interface                    | ✅ Sim             | ❌ Não           | ✅ Sim                          |
+| Herança                      | ❌ Não             | ✅ Sim           | ✅ Sim                          |
+| Duck typing                  | ❌ Não             | ❌ Não           | ❌ Não (verificado em runtime)  |
+
+Você pode usar **qualquer uma das formas**, mas **interfaces e herança** oferecem mais **segurança de tipo** e **clareza** no código.

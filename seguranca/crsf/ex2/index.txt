@@ -1,0 +1,73 @@
+O ataque CSRF (Cross-Site Request Forgery) é um tipo de ataque onde um usuário autenticado é induzido a executar uma ação indesejada em um site no qual está autenticado, sem o seu consentimento. Isso pode ser feito, por exemplo, com um simples link ou formulário malicioso em outro site.
+
+---
+
+### 🔍 **O que é o CSRF?**
+
+Imagine que você está logado no seu banco online. Se um site malicioso induzir você a clicar em um link que faz uma transferência (sem que você veja), o navegador enviará automaticamente os cookies da sessão do banco, o que pode completar a ação como se fosse legítima.
+
+---
+
+### ⚙️ **Como funciona o ataque CSRF**
+
+1. O usuário está **autenticado** em um site (ex: `banco.com`).
+2. O usuário visita um **site malicioso**.
+3. Esse site envia uma **requisição** para `banco.com` (como um POST para `/transferir.php`), usando **os cookies** da sessão do usuário.
+4. O site do banco recebe a requisição achando que foi legítima, pois os cookies de autenticação foram enviados pelo navegador automaticamente.
+
+---
+
+### 🛡️ **Como prevenir CSRF em PHP**
+
+A forma mais comum é usar **tokens CSRF**. A ideia é gerar um token único por sessão ou por formulário, e validá-lo no backend.
+
+---
+
+### ✅ **Exemplo simples de proteção CSRF em PHP**
+
+#### 1. Gerar o token e salvar na sessão:
+
+```php
+session_start();
+
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+```
+
+#### 2. Adicionar o token no formulário HTML:
+
+```html
+<form method="POST" action="processa.php">
+    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+    <input type="text" name="dado">
+    <input type="submit" value="Enviar">
+</form>
+```
+
+#### 3. Verificar o token ao processar o formulário:
+
+```php
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("CSRF token inválido!");
+    }
+
+    // Token válido. Continue o processamento...
+    echo "Formulário processado com sucesso!";
+}
+```
+
+---
+
+### 🧠 **Boas práticas adicionais**
+
+- Regenerar o token periodicamente.
+- Invalide o token após o uso (opcional, mas aumenta a segurança).
+- Combine com **verificações adicionais**, como cabeçalhos `Origin` ou `Referer`, quando possível.
+
+---
+
+Se quiser, posso te ajudar a implementar isso em um projeto específico ou framework como Laravel, CodeIgniter, etc. Quer seguir por esse caminho?

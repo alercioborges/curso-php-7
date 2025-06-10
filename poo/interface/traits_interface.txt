@@ -1,0 +1,120 @@
+Em Programação Orientada a Objetos (POO), **traits** e **interfaces** são dois recursos importantes do PHP, mas com propósitos e comportamentos diferentes. Vamos explicar de forma didática:
+
+---
+
+## 🔷 **Interface**
+
+### 📌 O que é?
+
+Uma **interface** define **um contrato**: ela especifica **quais métodos** uma classe deve implementar, mas **não fornece a implementação** desses métodos.
+
+### ✅ Para que serve?
+
+* **Forçar consistência**: garante que diferentes classes implementem os mesmos métodos.
+* **Permitir polimorfismo**: podemos tratar objetos diferentes da mesma forma se seguirem a mesma interface.
+
+### 🧱 Estrutura:
+
+```php
+interface Animal {
+    public function fazerSom();
+}
+
+class Cachorro implements Animal {
+    public function fazerSom() {
+        echo "Au au!";
+    }
+}
+
+class Gato implements Animal {
+    public function fazerSom() {
+        echo "Miau!";
+    }
+}
+```
+
+> 🗣️ **Resumo**: Interface define "o que deve ser feito", mas não "como".
+
+---
+
+## 🔷 **Trait**
+
+### 📌 O que é?
+
+Uma **trait** é um recurso para **reutilização de código**. Ela permite escrever métodos que podem ser incluídos em várias classes.
+
+### ✅ Para que serve?
+
+* **Evitar duplicação de código**
+* **Compartilhar métodos comuns** entre classes que **não têm relação entre si**
+
+### 🧱 Estrutura:
+
+```php
+trait Saudacao {
+    public function dizerOla() {
+        echo "Olá!";
+    }
+}
+
+class Pessoa {
+    use Saudacao;
+}
+
+class Robo {
+    use Saudacao;
+}
+
+$p1 = new Pessoa();
+$p1->dizerOla(); // Olá!
+
+$r1 = new Robo();
+$r1->dizerOla(); // Olá!
+```
+
+> 🗣️ **Resumo**: Trait define "como algo é feito", permitindo **reutilização direta de código**.
+
+---
+
+## ✅ Diferenças principais
+
+| Característica              | Interface                    | Trait                                      |
+| --------------------------- | ---------------------------- | ------------------------------------------ |
+| Define comportamento?       | **Sim (assinatura)**         | **Sim (implementação)**                    |
+| Fornece código?             | ❌ Não                        | ✅ Sim                                      |
+| Múltiplas podem ser usadas? | ✅ Sim (implementa várias)    | ✅ Sim (usa várias)                         |
+| Relação entre classes?      | Sim, para **contrato comum** | Não, pode ser usada **em qualquer classe** |
+| Serve para polimorfismo?    | ✅ Sim                        | ❌ Não diretamente                          |
+
+---
+
+## 🧠 Exemplo combinado
+
+```php
+interface Logavel {
+    public function logar($mensagem);
+}
+
+trait Logger {
+    public function logar($mensagem) {
+        echo "Log: " . $mensagem;
+    }
+}
+
+class Usuario implements Logavel {
+    use Logger;
+}
+
+$u = new Usuario();
+$u->logar("Usuário logado."); // Log: Usuário logado.
+```
+
+Aqui:
+
+* `Logavel` define o **contrato**.
+* `Logger` fornece a **implementação reutilizável**.
+* `Usuario` usa os dois.
+
+---
+
+Se quiser, posso gerar um diagrama visual comparando os dois conceitos. Deseja isso?

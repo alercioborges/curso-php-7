@@ -66,12 +66,4 @@ $string = "5 3 4 5 3 4 f d g 6  5  4 gsdf &¨% ter";
 $stringAlt =  preg_replace('/\s+/', '', $string);
 echo "string alterada: ".$stringAlt;
 
-
-
-
-
-
-
-
-
 ?>

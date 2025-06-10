@@ -1,0 +1,135 @@
+O **operador de coalescência nula** (null coalescing operator) em **PHP** é representado por `??` e foi introduzido na versão **PHP 7**.
+
+---
+
+### ✅ O que é o operador de coalescência nula (`??`)?
+
+É um **operador lógico** que retorna o **primeiro operando que não seja `null`**.
+
+---
+
+### ✅ Para que serve?
+
+Ele serve para **verificar se uma variável está definida e não é `null`**. Se estiver, retorna o valor da variável; caso contrário, retorna um valor padrão.
+
+É muito usado, por exemplo, para:
+
+* Atribuir valores padrões a variáveis;
+* Evitar erros ao acessar chaves inexistentes em arrays (`$_GET`, `$_POST`, etc.);
+* Tornar o código mais limpo e legível do que usando `isset()`.
+
+---
+
+### ✅ Como funciona?
+
+A expressão:
+
+```php
+$valor = $a ?? $b;
+```
+
+É **equivalente** a:
+
+```php
+$valor = isset($a) ? $a : $b;
+```
+
+Ou seja:
+
+* Se `$a` **está definida e não é `null`**, então `$valor = $a`;
+* Senão, `$valor = $b`.
+
+---
+
+### ✅ Exemplos Didáticos
+
+#### 🟢 Exemplo 1: Atribuir valor padrão
+
+```php
+$nome = $_GET['nome'] ?? 'Visitante';
+
+echo "Olá, $nome!";
+```
+
+Se a URL for `pagina.php?nome=Maria`, a saída será:
+
+```
+Olá, Maria!
+```
+
+Se não houver parâmetro `nome` na URL, a saída será:
+
+```
+Olá, Visitante!
+```
+
+---
+
+#### 🟢 Exemplo 2: Com múltiplas variáveis
+
+```php
+$usuario = $usuarioDoBanco ?? $usuarioDoCookie ?? 'Convidado';
+
+echo "Bem-vindo, $usuario!";
+```
+
+Esse código vai verificar:
+
+1. Se `$usuarioDoBanco` está definido e não é `null`;
+2. Se não, verifica `$usuarioDoCookie`;
+3. Se nenhum deles estiver definido, usa `'Convidado'`.
+
+---
+
+#### 🟢 Exemplo 3: Comparação com `isset()`
+
+Forma antiga (antes do PHP 7):
+
+```php
+$idade = isset($_POST['idade']) ? $_POST['idade'] : 18;
+```
+
+Forma moderna com `??`:
+
+```php
+$idade = $_POST['idade'] ?? 18;
+```
+
+Ambas atribuem o valor de `$_POST['idade']`, se existir, ou `18`, se não existir.
+
+---
+
+### ⚠️ Observação importante
+
+O operador `??` **só verifica se a variável é `null` ou não está definida**.
+**Não** verifica se o valor é vazio (`''`, `0`, `false`, etc.).
+
+---
+
+### 🛑 Exemplo de diferença entre `??` e `||`
+
+```php
+$valor1 = null;
+$valor2 = 0;
+
+$resultado1 = $valor1 ?? $valor2;  // resultado: 0
+$resultado2 = $valor1 || $valor2;  // resultado: false
+```
+
+Aqui:
+
+* `??` retorna `0` porque `null` é ignorado e `0` é retornado;
+* `||` retorna `false` porque `null` é falso e `0` também é considerado falso.
+
+---
+
+### ✅ Conclusão
+
+O operador `??` em PHP:
+
+* **Simplifica a verificação de valores nulos**;
+* **Substitui o uso de `isset()` com operador ternário**;
+* **Torna o código mais limpo e legível**;
+* É **ideal para fornecer valores padrões** ao acessar variáveis que podem não estar definidas.
+
+Se quiser, posso gerar um exemplo mais complexo, como um formulário com valor padrão. Deseja isso?

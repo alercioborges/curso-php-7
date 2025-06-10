@@ -1,0 +1,131 @@
+# CSRF em PHP: O que é, Como Funciona e Como Prevenir
+
+CSRF (Cross-Site Request Forgery), ou Falsificação de Solicitação entre Sites, é um tipo de ataque onde um site malicioso engana o navegador de um usuário autenticado a enviar solicitações para outro site sem o consentimento do usuário.
+
+## Como funciona um ataque CSRF
+
+1. O usuário faz login em um site legítimo (por exemplo, seu banco online)
+2. O site armazena um cookie de autenticação no navegador do usuário
+3. Sem encerrar a sessão, o usuário visita um site malicioso
+4. O site malicioso contém código que envia automaticamente uma solicitação ao site legítimo
+5. Como o navegador do usuário ainda tem o cookie de autenticação, a solicitação é processada como legítima
+
+## Como prevenir ataques CSRF em PHP
+
+### 1. Tokens CSRF
+
+A solução mais comum é implementar tokens CSRF:
+
+```php
+<?php
+// No início da sessão
+session_start();
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// Em um formulário HTML
+function csrf_field() {
+    return '<input type="hidden" name="csrf_token" value="' . $_SESSION['csrf_token'] . '">';
+}
+?>
+
+<!-- No seu HTML -->
+<form method="post" action="processar.php">
+    <?php echo csrf_field(); ?>
+    <!-- Outros campos do formulário -->
+    <button type="submit">Enviar</button>
+</form>
+```
+
+E na página que processa o formulário:
+
+```php
+<?php
+session_start();
+
+// Verificar o token CSRF
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    die('Erro de validação CSRF');
+}
+
+// Continuar com o processamento do formulário
+// ...
+?>
+```
+
+### 2. Cabeçalhos SameSite para cookies
+
+Configure seus cookies com o atributo SameSite:
+
+```php
+<?php
+session_start();
+$params = session_get_cookie_params();
+setcookie(
+    session_name(),
+    session_id(),
+    $params["lifetime"] + time(),
+    $params["path"],
+    $params["domain"],
+    $params["secure"],
+    $params["httponly"]
+);
+session_set_cookie_params([
+    'samesite' => 'Strict',
+    'secure' => true,
+    'httponly' => true
+]);
+?>
+```
+
+### 3. Verificar o cabeçalho Referer
+
+```php
+<?php
+$referer = $_SERVER['HTTP_REFERER'] ?? '';
+$allowed_domains = ['seusite.com', 'www.seusite.com'];
+$referer_host = parse_url($referer, PHP_URL_HOST);
+
+if (!in_array($referer_host, $allowed_domains)) {
+    die('Possível ataque CSRF detectado');
+}
+?>
+```
+
+### 4. Usar frameworks que já implementam proteção CSRF
+
+Frameworks PHP modernos como Laravel, Symfony e CodeIgniter já incluem proteção CSRF integrada.
+
+Por exemplo, no Laravel:
+
+```php
+// No formulário HTML
+@csrf
+
+// No controlador, a verificação é automática com o middleware 'web'
+```
+
+### 5. Double Submit Cookie
+
+```php
+<?php
+// Ao gerar o formulário
+$csrf_token = bin2hex(random_bytes(32));
+setcookie('csrf_cookie', $csrf_token, time() + 3600, '/', '', true, true);
+?>
+
+<form method="post">
+    <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+    <!-- resto do formulário -->
+</form>
+
+<?php
+// Na validação
+if (!isset($_COOKIE['csrf_cookie']) || !isset($_POST['csrf_token']) || $_COOKIE['csrf_cookie'] !== $_POST['csrf_token']) {
+    die('Erro de validação CSRF');
+}
+?>
+```
+
+A implementação da proteção CSRF é essencial para qualquer aplicação PHP que processe dados sensíveis ou permita alterações no sistema através de formulários.

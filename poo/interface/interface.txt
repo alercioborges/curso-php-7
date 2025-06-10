@@ -1,0 +1,103 @@
+Claro! Vamos entender de forma **bem didática** o que é uma **interface** em Programação Orientada a Objetos com PHP.
+
+---
+
+## 🧩 O que é uma Interface em PHP?
+
+Uma **interface** define **um conjunto de métodos que uma classe deve implementar**.  
+Ela **não tem lógica interna**, apenas diz:  
+👉 “**Quem quiser me usar, tem que implementar estes métodos!**”
+
+---
+
+### 🎮 Analogia rápida:
+
+Pense em um **controle de videogame**.  
+Ele diz: “Tem que ter um botão A, um botão B e uma alavanca”.  
+**Como esses botões funcionam** depende do **console** (PlayStation, Xbox etc).  
+👉 Isso é o papel da **interface**.
+
+---
+
+## 📘 Exemplo didático: Interface `Animal`
+
+```php
+<?php
+
+// Criando a interface
+interface Animal {
+    public function emitirSom();
+    public function mover();
+}
+
+// Gato implementando a interface
+class Gato implements Animal {
+    public function emitirSom() {
+        echo "O gato mia: Miau!\n";
+    }
+
+    public function mover() {
+        echo "O gato anda sorrateiramente.\n";
+    }
+}
+
+// Pássaro implementando a interface
+class Passaro implements Animal {
+    public function emitirSom() {
+        echo "O pássaro canta: Piu-piu!\n";
+    }
+
+    public function mover() {
+        echo "O pássaro voa pelos céus.\n";
+    }
+}
+
+// Usando as classes
+$gato = new Gato();
+$gato->emitirSom();
+$gato->mover();
+
+$passaro = new Passaro();
+$passaro->emitirSom();
+$passaro->mover();
+?>
+```
+
+---
+
+### ✅ O que esse exemplo ensina?
+
+- A interface `Animal` **obriga** quem a implementa a ter os métodos `emitirSom()` e `mover()`.
+- Cada classe (Gato e Pássaro) **tem sua própria forma** de fazer isso.
+- O código fica **organizado, padronizado e flexível**.
+
+---
+
+### 📘 Exemplo extra: Pagamentos
+
+```php
+<?php
+
+interface MetodoPagamento {
+    public function pagar($valor);
+}
+
+class CartaoCredito implements MetodoPagamento {
+    public function pagar($valor) {
+        echo "Pagando R$ $valor com cartão de crédito.\n";
+    }
+}
+
+class BoletoBancario implements MetodoPagamento {
+    public function pagar($valor) {
+        echo "Gerando boleto de R$ $valor.\n";
+    }
+}
+
+// Usando os métodos
+$p1 = new CartaoCredito();
+$p1->pagar(100);
+
+$p2 = new BoletoBancario();
+$p2->pagar(50);
+?>
