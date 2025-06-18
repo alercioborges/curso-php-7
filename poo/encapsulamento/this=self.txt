@@ -1,0 +1,93 @@
+Em programação orientada a objetos (POO) em **PHP**, tanto `self` quanto `this` são usados para acessar membros (métodos ou propriedades) da classe, **mas cada um tem um propósito diferente**. Vamos entender isso de forma **didática**:
+
+---
+
+## ✅ Diferença entre `this` e `self` em PHP
+
+### 🔹 `this`
+
+* Refere-se **à instância atual do objeto**.
+* Usado para acessar **propriedades e métodos de instância**.
+* Só pode ser usado **dentro de métodos não estáticos**.
+
+> Em resumo: `this` é usado quando estamos trabalhando com o **objeto** que foi criado a partir da classe.
+
+### 🔹 `self`
+
+* Refere-se **à própria classe**, e não à instância.
+* Usado para acessar **propriedades e métodos estáticos** (ou seja, que pertencem à classe, e não ao objeto).
+* Pode ser usado **em métodos estáticos e não estáticos**.
+
+> Em resumo: `self` é usado quando queremos acessar **algo que pertence à classe**, e não a um objeto específico.
+
+---
+
+## 🧠 Analogia simples
+
+Pense em uma **classe** como uma **receita de bolo**, e os **objetos** como os **bolos prontos**.
+
+* `this` → é como dizer: “**este bolo aqui**”.
+* `self` → é como dizer: “**a receita em si**”.
+
+---
+
+## 📌 Exemplo com PHP
+
+```php
+class Exemplo {
+    public $nome = "João"; // propriedade de instância
+
+    public static $contador = 0; // propriedade estática
+
+    public function __construct() {
+        // Acessando propriedade de instância com $this
+        echo "Nome: " . $this->nome . PHP_EOL;
+
+        // Acessando propriedade estática com self
+        self::$contador++;
+        echo "Contador (self): " . self::$contador . PHP_EOL;
+    }
+
+    public static function metodoEstatico() {
+        // Não é possível usar $this aqui
+        echo "Método estático chamou contador: " . self::$contador . PHP_EOL;
+    }
+
+    public function metodoDeInstancia() {
+        echo "Método de instância chamou nome: " . $this->nome . PHP_EOL;
+        echo "Método de instância chamou contador: " . self::$contador . PHP_EOL;
+    }
+}
+
+// Criando dois objetos
+$obj1 = new Exemplo();
+$obj2 = new Exemplo();
+
+// Chamando métodos
+$obj1->metodoDeInstancia();
+Exemplo::metodoEstatico();
+```
+
+---
+
+## 🧪 Saída esperada:
+
+```
+Nome: João
+Contador (self): 1
+Nome: João
+Contador (self): 2
+Método de instância chamou nome: João
+Método de instância chamou contador: 2
+Método estático chamou contador: 2
+```
+
+---
+
+## ✅ Resumo
+
+| Palavra-chave | Acessa o quê?      | Onde pode ser usada        | Exemplo              |
+| ------------- | ------------------ | -------------------------- | -------------------- |
+| `$this`       | Instância (objeto) | Métodos não estáticos      | `$this->propriedade` |
+| `self`        | Classe (estática)  | Métodos estáticos e comuns | `self::$propriedade` |
+

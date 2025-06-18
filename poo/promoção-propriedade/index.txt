@@ -1,0 +1,103 @@
+A **promoção de propriedades** em PHP é um recurso introduzido no PHP 8.0 que permite declarar e inicializar propriedades de uma classe diretamente no construtor, de forma mais compacta e legível.
+
+---
+
+### ✅ O que é Promoção de Propriedades?
+
+É uma forma **sintática** de declarar propriedades e seus valores no **construtor da classe**, economizando linhas de código e tornando o código mais claro.
+
+---
+
+### 🎯 Para que serve?
+
+* Reduz **boilerplate** (código repetitivo).
+* Melhora a legibilidade.
+* Torna o código mais conciso e direto.
+
+---
+
+### 🔧 Como funciona?
+
+Ao usar **modificadores de visibilidade** (`public`, `protected`, `private`) diretamente nos parâmetros do construtor, o PHP automaticamente:
+
+* Declara a propriedade na classe.
+* Inicializa a propriedade com o valor passado.
+* Atribui o valor ao objeto no momento da criação.
+
+---
+
+### 🧱 Exemplo sem promoção de propriedades (PHP < 8):
+
+```php
+class Produto {
+    private string $nome;
+    private float $preco;
+
+    public function __construct(string $nome, float $preco) {
+        $this->nome = $nome;
+        $this->preco = $preco;
+    }
+}
+```
+
+---
+
+### 🧱 Exemplo com promoção de propriedades (PHP 8+):
+
+```php
+class Produto {
+    public function __construct(
+        private string $nome,
+        private float $preco
+    ) {}
+}
+```
+
+🚀 Isso faz exatamente o mesmo que o exemplo anterior, mas com menos código!
+
+---
+
+### 📥 Acessando as propriedades:
+
+```php
+$produto = new Produto("Celular", 1500.00);
+
+// Acesso direto só se a propriedade for pública
+// echo $produto->nome; ❌ (se for private)
+
+// Para acessar, você pode criar métodos:
+class Produto {
+    public function __construct(
+        private string $nome,
+        private float $preco
+    ) {}
+
+    public function getNome(): string {
+        return $this->nome;
+    }
+}
+```
+
+---
+
+### 🔍 Regras importantes:
+
+* Só funciona no **construtor** (`__construct`).
+* Precisa declarar o **modificador de visibilidade** (`public`, `protected`, `private`).
+* Pode incluir **valores padrão**, **tipagem**, e **nullables** (`?`).
+
+---
+
+### ⚠️ Quando não usar?
+
+Evite promoção se:
+
+* Precisa lógica de validação no `__construct`.
+* Vai usar a propriedade fora do construtor, mas com regras complexas de acesso.
+
+---
+
+### ✅ Quando usar?
+
+* Objetos de dados simples (DTOs, entidades básicas).
+* Classes onde as propriedades são somente lidas no futuro.
