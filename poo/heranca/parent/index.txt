@@ -1,0 +1,130 @@
+A palavra-chave `parent` em **PHP** é usada para **acessar membros (métodos ou construtores) da classe pai** a partir de uma **classe filha**, dentro de um contexto de **herança**.
+
+---
+
+### ✅ **O que é `parent`?**
+
+`parent` é uma **palavra-chave especial** que se refere à **classe pai** de onde a classe atual herdou.
+
+---
+
+### ✅ **Para que serve `parent`?**
+
+Ela serve para:
+
+1. **Chamar o construtor da classe pai**.
+2. **Acessar métodos da classe pai** que foram sobrescritos (override) na classe filha.
+3. **Acessar métodos públicos ou protegidos da classe pai**, mesmo que tenham sido redefinidos na filha.
+
+---
+
+### ✅ **Como funciona `parent`?**
+
+Quando você cria uma classe que **estende** outra (herança), a classe filha pode sobrescrever métodos da pai. Mas, se ainda assim quiser executar o método original da classe pai, você pode fazer isso com `parent::nomeDoMetodo()`.
+
+---
+
+### ✅ **Exemplo prático 1: Usando `parent` no construtor**
+
+```php
+class Animal {
+    public function __construct() {
+        echo "Animal criado\n";
+    }
+}
+
+class Cachorro extends Animal {
+    public function __construct() {
+        parent::__construct(); // chama o construtor da classe Animal
+        echo "Cachorro criado\n";
+    }
+}
+
+$dog = new Cachorro();
+```
+
+**Saída:**
+
+```
+Animal criado
+Cachorro criado
+```
+
+---
+
+### ✅ **Exemplo prático 2: Usando `parent` para chamar método sobrescrito**
+
+```php
+class Pessoa {
+    public function saudacao() {
+        echo "Olá! Eu sou uma pessoa.\n";
+    }
+}
+
+class Professor extends Pessoa {
+    public function saudacao() {
+        parent::saudacao(); // chama o método da classe Pessoa
+        echo "E também sou um professor.\n";
+    }
+}
+
+$prof = new Professor();
+$prof->saudacao();
+```
+
+**Saída:**
+
+```
+Olá! Eu sou uma pessoa.
+E também sou um professor.
+```
+
+---
+
+### ✅ **Exemplo prático 3: `parent` com métodos protegidos**
+
+```php
+class Base {
+    protected function falar() {
+        echo "Base falando...\n";
+    }
+
+    public function acao() {
+        $this->falar();
+    }
+}
+
+class Derivada extends Base {
+    protected function falar() {
+        echo "Derivada falando...\n";
+        parent::falar(); // chama a versão protegida da classe Base
+    }
+}
+
+$obj = new Derivada();
+$obj->acao();
+```
+
+**Saída:**
+
+```
+Derivada falando...
+Base falando...
+```
+
+---
+
+### ⚠️ **Atenção**
+
+* Você **só pode usar `parent` se a classe atual tiver uma classe pai**.
+* O método ou construtor chamado com `parent::` precisa ser **visível** (isto é, `public` ou `protected`).
+
+---
+
+### ✅ **Resumo**
+
+| Situação                                | Uso                                             |
+| --------------------------------------- | ----------------------------------------------- |
+| Chamar o construtor da classe pai       | `parent::__construct()`                         |
+| Chamar método sobrescrito da classe pai | `parent::nomeDoMetodo()`                        |
+| Reutilizar comportamento da superclasse | `parent::metodo()` dentro do método sobrescrito |
