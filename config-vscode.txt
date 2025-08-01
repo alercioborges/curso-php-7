@@ -59,6 +59,37 @@ PHP
 2. PHP Namespace Resolver
 3. PHP snippets
 
+______________________________________
+
+{
+    "editor.wordWrap": "on",
+    "window.zoomLevel": 1,
+    "editor.fontSize": 18,
+    "editor.mouseWheelZoom": true,
+    "editor.minimap.enabled": false,
+    "editor.hover.enabled": false,
+
+
+    "editor.letterSpacing": 0.1,
+    "editor.lineHeight": 22,
+    "editor.autoIndent": "advanced",
+    "editor.snippetSuggestions": "bottom",
+    
+    "intelephense.format.enable":true,
+    "intelephense.completion.triggerParameterHints": true,
+    "intelephense.completion.fullyQualifyGlobalConstantsAndFunctions": true,
+    "intelephense.completion.insertUseDeclaration": true,
+    "intelephense.trace.server": "messages",
+
+    "gitlens.codeLens.recentChange.enabled": false,
+    "gitlens.codeLens.authors.enabled": false,
+    "gitlens.codeLens.enabled": false,
+    "gitlens.currentLine.enabled": false,
+    "RainbowBrackets.depreciation-notice": false,
+    "git.openRepositoryInParentFolders": "never"
+}
+
+
 
 
 
